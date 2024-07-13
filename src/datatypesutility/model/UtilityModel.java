@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class UtilityModel {
     private int statisticsCode;
 
+    private String[] inputFilesNames;
     private String integerFileName = "Integers.txt";
     private String doubleFileName = "Floats.txt";
     private String stringFileName = "Strings.txt";
@@ -34,6 +35,14 @@ public class UtilityModel {
 
     private int maxString;
     private int minString;
+
+    public void setInputFilesNames(String[] inputFilesNames){
+        this.inputFilesNames = inputFilesNames;
+    }
+
+    public String[] getInputFilesNames(){
+        return inputFilesNames;
+    }
 
     public void setStatisticsCode(int statisticsCode){
         this.statisticsCode = statisticsCode;
