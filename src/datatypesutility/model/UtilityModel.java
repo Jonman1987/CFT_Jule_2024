@@ -1,5 +1,7 @@
 package datatypesutility.model;
 
+import java.util.Scanner;
+
 public class UtilityModel {
     private int statisticsCode;
 
@@ -111,5 +113,17 @@ public class UtilityModel {
 
     public boolean getOptionA(){
         return hasOptionA;
+    }
+
+    public boolean startFilesSort(Scanner scanner){
+        return true;
+    }
+
+    private void fileWriter(Scanner scanner){
+
+    }
+
+    public Number[] getStatistic(int statisticsCode){
+        return new Number[]{};
     }
 }
