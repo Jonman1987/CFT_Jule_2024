@@ -1,4 +1,6 @@
-public class Main {
+package datatypesutility;
+
+public class DataTypesUtilityMain {
     public static void main(String[] args) {
         System.out.println("Hello world!");
     }
