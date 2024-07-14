@@ -138,11 +138,25 @@ public class UtilityModel implements Model {
         String writeFile = ""; // TODO: Не понятно как будет работать пере присваивание файлов
         String readFile = "";
 
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(readFile));
+        BufferedReader[] bufferedReader = new BufferedReader[inputFilesNames.size()];
 
-        try (FileWriter fileWriter = new FileWriter(writeFile)) {
+        for(int i = 0; i < bufferedReader.length; i++){
+            bufferedReader[i] = new BufferedReader(new FileReader(inputFilesNames.get(i + 1)));
+        }
 
-        };
+        /*String line;
+
+        while (true){
+            for (int i = 0; i < bufferedReader.length; i++){
+                line = bufferedReader[i].readLine();
+
+                //if(Integer.parseInt(line))
+            }
+        }
+
+        try(FileWriter fileWriter = new FileWriter(writeFile)) {
+
+        };*/
 
         return true;
     }
