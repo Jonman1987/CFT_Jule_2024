@@ -146,14 +146,14 @@ public class UtilityModel implements Model {
 
         String line;
 
-        while (true){
+        /*while (true){
             for (int i = 0; i < bufferedReader.length; i++){
                 line = bufferedReader[i].readLine();
 
                 int number;
 
             }
-        }
+        }*/
 
         /*try(FileWriter fileWriter = new FileWriter(writeFile)) {
 
