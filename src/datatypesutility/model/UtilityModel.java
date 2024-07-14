@@ -150,15 +150,34 @@ public class UtilityModel implements Model {
     }
 
     public Number[] getStatistic(int statisticsCode) {
+        Number[] array = null;
+
         if(statisticsCode == 1){
-            return new Number[]{integerFileElementsCount, doubleFileElementsCount, stringFileElementsCount};
+            array = new Number[]{
+                    integerFileElementsCount,
+                    doubleFileElementsCount,
+                    stringFileElementsCount
+            };
         }
 
         if(statisticsCode == 2){
-
+            array =  new Number[]{
+                    integerFileElementsCount,
+                    integersElementsSum,
+                    integersElementsAverage,
+                    minInteger,
+                    maxInteger,
+                    doubleFileElementsCount,
+                    doublesElementsSum,
+                    doublesElementsAverage,
+                    minDouble,
+                    maxDouble,
+                    stringFileElementsCount,
+                    minString,
+                    maxString
+            };
         }
 
-
-        return new Number[]{};
+        return array;
     }
 }
