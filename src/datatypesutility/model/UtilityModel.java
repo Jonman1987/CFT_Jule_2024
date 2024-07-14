@@ -21,6 +21,10 @@ public class UtilityModel implements Model {
     private boolean hasOptionP = false;
     private boolean hasOptionA = false;
 
+    private boolean hasIntegerOutputFile = false; // TODO: Если не нужно, то удалить
+    private boolean hasDoubleOutputFile = false;
+    private boolean hasStringOutputFile = false;
+
     private int integerFileElementsCount = 0;
     private int doubleFileElementsCount = 0;
     private int stringFileElementsCount = 0;
@@ -146,6 +150,15 @@ public class UtilityModel implements Model {
     }
 
     public Number[] getStatistic(int statisticsCode) {
+        if(statisticsCode == 1){
+            return new Number[]{integerFileElementsCount, doubleFileElementsCount, stringFileElementsCount};
+        }
+
+        if(statisticsCode == 2){
+
+        }
+
+
         return new Number[]{};
     }
 }

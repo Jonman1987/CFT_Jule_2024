@@ -131,6 +131,13 @@ public class UtilityController implements Controller { // TODO: заменить
                 }
             }
         }
+
+
+        // TODO: Уточнить что выдается если не задан ключ статистики.
+        /*if(model.getStatisticsCode() == 0){
+            view.printMessage("Вы не указали параметр статистики. По умолчанию задан параметр -s.");
+            model.setStatisticsCode(1);
+        }*/
     }
 
     private boolean setOptionA(){

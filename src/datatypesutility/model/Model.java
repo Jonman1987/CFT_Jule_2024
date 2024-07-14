@@ -16,6 +16,6 @@ public interface Model {
 
     void setFilesPrefix(String filesPrefix);
     void setHasOptionO(boolean hasOptionO);
-    public void setHasOptionP(boolean hasOptionP);
+    void setHasOptionP(boolean hasOptionP);
     void setHasOptionA(boolean hasOptionA);
 }
