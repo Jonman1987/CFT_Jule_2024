@@ -3,7 +3,9 @@ package datatypesutility.controller;
 import datatypesutility.model.Model;
 import datatypesutility.view.View;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class UtilityController implements Controller { // TODO: заменить массивы LinkedList и итератором
     private String[] inputArgs;
@@ -160,5 +162,15 @@ public class UtilityController implements Controller { // TODO: заменить
         }
 
         return false;
+    }
+
+    private void printStatistics(HashMap<String, Number> map){
+        if(model.getStatisticsCode() == 1){
+
+        }
+
+        if(model.getStatisticsCode() == 2){
+
+        }
     }
 }

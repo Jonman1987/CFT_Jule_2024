@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class UtilityModel implements Model {
     private int statisticsCode = 0;
@@ -149,35 +151,31 @@ public class UtilityModel implements Model {
 
     }
 
-    public Number[] getStatistic(int statisticsCode) {
-        Number[] array = null;
+    public Map<String, Number> getStatistic(int statisticsCode) {
+        HashMap<String, Number> map = new HashMap<>();
 
         if(statisticsCode == 1){
-            array = new Number[]{
-                    integerFileElementsCount,
-                    doubleFileElementsCount,
-                    stringFileElementsCount
-            };
+            map.put(integerFileName, integerFileElementsCount);
+            map.put(doubleFileName, doubleFileElementsCount);
+            map.put(stringFileName, stringFileElementsCount);
         }
 
         if(statisticsCode == 2){
-            array =  new Number[]{
-                    integerFileElementsCount,
-                    integersElementsSum,
-                    integersElementsAverage,
-                    minInteger,
-                    maxInteger,
-                    doubleFileElementsCount,
-                    doublesElementsSum,
-                    doublesElementsAverage,
-                    minDouble,
-                    maxDouble,
-                    stringFileElementsCount,
-                    minString,
-                    maxString
-            };
+            map.put(integerFileName, integerFileElementsCount);
+            map.put(integerFileName, integersElementsSum);
+            map.put(integerFileName, integersElementsAverage);
+            map.put(integerFileName, minInteger);
+            map.put(integerFileName, maxInteger);
+            map.put(doubleFileName, doubleFileElementsCount);
+            map.put(doubleFileName, doublesElementsSum);
+            map.put(doubleFileName, doublesElementsAverage);
+            map.put(doubleFileName, minDouble);
+            map.put(doubleFileName, maxDouble);
+            map.put(stringFileName, stringFileElementsCount);
+            map.put(stringFileName, minString);
+            map.put(stringFileName, maxString);
         }
 
-        return array;
+        return map;
     }
 }
