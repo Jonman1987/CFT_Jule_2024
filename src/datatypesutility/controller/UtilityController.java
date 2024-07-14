@@ -37,7 +37,7 @@ public class UtilityController implements Controller {
         return isFileFound() && isFileParametersFound() && isPrefixAfterPFound() && isPathAfterOFound();
     }
 
-    private boolean isFileFound() {
+    private boolean isFileFound() { // TODO: Совместить с isFileParametersFound()
         return true;
     }
 
