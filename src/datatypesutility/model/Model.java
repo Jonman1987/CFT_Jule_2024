@@ -8,20 +8,14 @@ public interface Model {
 
     void setOutputPath(String outputPath);
 
-    void setIntegerFilename(String integerFilename);
-
-    String getIntegerFileName();
-
-    void setDoubleFileName(String doubleFileName);
-
-    String getDoubleFileName();
-
-    void setStringFileName(String stringFileName);
-
-    String getStringFileName();
-
     void setInputFilesNames(LinkedList<String> inputFilesNames);
+
     void setStatisticsCode(int statisticsCode);
+
     int getStatisticsCode();
 
+    void setFilesPrefix(String filesPrefix);
+    void setHasOptionO(boolean hasOptionO);
+    public void setHasOptionP(boolean hasOptionP);
+    void setHasOptionA(boolean hasOptionA);
 }

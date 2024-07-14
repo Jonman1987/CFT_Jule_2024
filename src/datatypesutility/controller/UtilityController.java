@@ -5,7 +5,7 @@ import datatypesutility.view.View;
 
 import java.util.LinkedList;
 
-public class UtilityController implements Controller {
+public class UtilityController implements Controller { // TODO: заменить массивы LinkedList и итератором
     private String[] inputArgs;
     private final View view;
     private final Model model;
@@ -74,9 +74,7 @@ public class UtilityController implements Controller {
                         || inputArgs[i + 1].toLowerCase().contains("\"") || inputArgs[i + 1].toLowerCase().contains("<") || inputArgs[i + 1].toLowerCase().contains(">")) {
                     view.printMessage("Внимание: Вы указали префикс названия файла с использованием спецсимвола. Файлы сохранены с именем по умолчанию\n");
                 } else {
-                    model.setIntegerFilename(model.getIntegerFileName() + inputArgs[i + 1]);
-                    model.setDoubleFileName(model.getDoubleFileName() + inputArgs[i + 1]);
-                    model.setStringFileName(model.getStringFileName() + inputArgs[i + 1]);
+                    model.setFilesPrefix(inputArgs[i + 1]);
                 }
             }
         }
@@ -131,6 +129,18 @@ public class UtilityController implements Controller {
                 }
             }
         }
+    }
+
+    private boolean setOptionA(){
+        for (int i = 0; i < inputArgs.length; i++) {
+            if (inputArgs[i].equals("-a") || inputArgs[i].equals("-A")) {
+                model.setHasOptionA(true);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public boolean isModelWorkResult() {
