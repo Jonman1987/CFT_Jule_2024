@@ -2,7 +2,7 @@ package datatypesutility.model;
 
 import java.util.Scanner;
 
-public class UtilityModel {
+public class UtilityModel implements Model {
     private int statisticsCode;
 
     private String[] inputFilesNames;
@@ -124,7 +124,7 @@ public class UtilityModel {
         return hasOptionA;
     }
 
-    public boolean startFilesSort(Scanner scanner){
+    public boolean startFilesSort(){
         return true;
     }
 
