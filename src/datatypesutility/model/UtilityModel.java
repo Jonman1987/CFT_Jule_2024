@@ -1,7 +1,10 @@
 package datatypesutility.model;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 public class UtilityModel implements Model {
     private int statisticsCode;
@@ -125,11 +128,20 @@ public class UtilityModel implements Model {
         return hasOptionA;
     }
 
-    public boolean startFilesSort(){
+    public boolean startFilesSort() throws IOException {
+        String writeFile = ""; // TODO: Не понятно как будет работать пере присваивание файлов
+        String readFile = "";
+
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(readFile));
+
+        try(FileWriter fileWriter = new FileWriter(writeFile)){
+
+        };
+
         return true;
     }
 
-    private void fileWriter(Scanner scanner){
+    private void fileWriter(FileWriter fileWriter){
 
     }
 

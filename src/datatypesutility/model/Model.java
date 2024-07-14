@@ -1,9 +1,10 @@
 package datatypesutility.model;
 
+import java.io.IOException;
 import java.util.LinkedList;
 
 public interface Model {
-    boolean startFilesSort();
+    boolean startFilesSort() throws IOException;
     void setOutputPath(String outputPath);
 
     void setIntegerFilename(String integerFilename);
