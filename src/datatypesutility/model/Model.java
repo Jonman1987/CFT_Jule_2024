@@ -1,5 +1,7 @@
 package datatypesutility.model;
 
+import java.util.LinkedList;
+
 public interface Model {
     boolean startFilesSort();
     void setOutputPath(String outputPath);
@@ -12,4 +14,6 @@ public interface Model {
 
     void setStringFileName(String stringFileName);
     String getStringFileName();
+
+    void setInputFilesNames(LinkedList<String> inputFilesNames);
 }

@@ -1,11 +1,12 @@
 package datatypesutility.model;
 
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class UtilityModel implements Model {
     private int statisticsCode;
 
-    private String[] inputFilesNames;
+    private LinkedList<String> inputFilesNames;
     private String integerFileName = "Integers.txt";
     private String doubleFileName = "Floats.txt";
     private String stringFileName = "Strings.txt";
@@ -36,11 +37,11 @@ public class UtilityModel implements Model {
     private int maxString;
     private int minString;
 
-    public void setInputFilesNames(String[] inputFilesNames){
+    public void setInputFilesNames(LinkedList<String> inputFilesNames){
         this.inputFilesNames = inputFilesNames;
     }
 
-    public String[] getInputFilesNames(){
+    public LinkedList<String> getInputFilesNames(){
         return inputFilesNames;
     }
 

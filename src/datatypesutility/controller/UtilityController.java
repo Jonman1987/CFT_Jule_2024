@@ -3,7 +3,7 @@ package datatypesutility.controller;
 import datatypesutility.model.Model;
 import datatypesutility.view.View;
 
-import java.util.Scanner;
+import java.util.LinkedList;
 
 public class UtilityController implements Controller {
     private String[] inputArgs;
@@ -42,19 +42,36 @@ public class UtilityController implements Controller {
     }
 
     private boolean isFileParametersFound(){
+        LinkedList<String> inputFilesNames = new LinkedList<>();
+
+        for (String arg : inputArgs) {
+            if (arg.toLowerCase().contains(".txt")) {
+                inputFilesNames.add(arg);
+            }
+        }
+
+        if(inputFilesNames.isEmpty()){ // TODO: Пересмотреть как ошибку
+            view.printMessage("Внимание: Вы не указали ни одного имени исходного файла в формате .txt");
+
+            return false;
+        }
+
+        model.setInputFilesNames(inputFilesNames);
+
         return true;
     }
 
     private boolean isPrefixAfterPFound(){ // TODO: Отработать ситуацию, когда i+1 превышает length
+        // TODO: Пересмотреть алгоритмы проверки
         for(int i = 0; i < inputArgs.length; i++){
             if (inputArgs[i + 1].charAt(0) == '-') {
-                System.out.println("Внимание: Вы не указали префикс названия файла после команды -p. Файлы сохранены с именем по умолчанию\n");
+                view.printMessage("Внимание: Вы не указали префикс названия файла после команды -p. Файлы сохранены с именем по умолчанию\n");
             } else if (inputArgs[i + 1].toLowerCase().contains(".txt")) {
-                System.out.println("Внимание: Вы указали название файла вместо префикса. Файлы сохранены с именем по умолчанию\n");
+                view.printMessage("Внимание: Вы указали название файла вместо префикса. Файлы сохранены с именем по умолчанию\n");
             } else if (inputArgs[i + 1].toLowerCase().contains(".") || inputArgs[i + 1].toLowerCase().contains("*") || inputArgs[i + 1].toLowerCase().contains("/")
                     || inputArgs[i + 1].toLowerCase().contains("?") || inputArgs[i + 1].toLowerCase().contains(":") || inputArgs[i + 1].toLowerCase().contains("|")
                     || inputArgs[i + 1].toLowerCase().contains("\"") || inputArgs[i + 1].toLowerCase().contains("<") || inputArgs[i + 1].toLowerCase().contains(">")) {
-                System.out.println("Внимание: Вы указали префикс названия файла с использованием спецсимвола. Файлы сохранены с именем по умолчанию\n");
+                view.printMessage("Внимание: Вы указали префикс названия файла с использованием спецсимвола. Файлы сохранены с именем по умолчанию\n");
             } else {
                 model.setIntegerFilename(model.getIntegerFileName() + inputArgs[i + 1]);
                 model.setDoubleFileName(model.getDoubleFileName() + inputArgs[i + 1]);
@@ -66,6 +83,7 @@ public class UtilityController implements Controller {
     }
 
     private boolean isPathAfterOFound(){ // TODO: Отработать ситуацию, когда i+1 превышает length
+        // TODO: Пересмотреть алгоритмы проверки
         String outputPath;
 
         for(int i = 0; i < inputArgs.length; i++){
