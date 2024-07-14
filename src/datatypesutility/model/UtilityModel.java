@@ -144,17 +144,18 @@ public class UtilityModel implements Model {
             bufferedReader[i] = new BufferedReader(new FileReader(inputFilesNames.get(i + 1)));
         }
 
-        /*String line;
+        String line;
 
         while (true){
             for (int i = 0; i < bufferedReader.length; i++){
                 line = bufferedReader[i].readLine();
 
-                //if(Integer.parseInt(line))
+                int number;
+
             }
         }
 
-        try(FileWriter fileWriter = new FileWriter(writeFile)) {
+        /*try(FileWriter fileWriter = new FileWriter(writeFile)) {
 
         };*/
 
