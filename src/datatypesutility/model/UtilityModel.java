@@ -13,32 +13,32 @@ public class UtilityModel implements Model {
     private String integerFileName = "Integers.txt";
     private String doubleFileName = "Floats.txt";
     private String stringFileName = "Strings.txt";
-    private String inputPath;
-    private String outputPath;
-    private String filesPrefix;
+    private String inputPath = "";
+    private String outputPath = "";
+    private String filesPrefix = "";
 
-    private boolean hasOptionO;
-    private boolean hasOptionP;
-    private boolean hasOptionA;
+    private boolean hasOptionO = false;
+    private boolean hasOptionP = false;
+    private boolean hasOptionA = false;
 
-    private int integerFileElementsCount;
-    private int doubleFileElementsCount;
-    private int stringFileElementsCount;
+    private int integerFileElementsCount = 0;
+    private int doubleFileElementsCount = 0;
+    private int stringFileElementsCount = 0;
 
-    private int integersElementsSum;
-    private double doublesElementsSum;
+    private int integersElementsSum = 0;
+    private double doublesElementsSum = 0.0;
 
-    private int integersElementsAverage;
-    private double doublesElementsAverage;
+    private int integersElementsAverage = 0;
+    private double doublesElementsAverage = 0.0;
 
-    private int maxInteger;
-    private double maxDouble;
+    private int maxInteger = Integer.MIN_VALUE;
+    private double maxDouble = Double.MIN_VALUE;
 
-    private int minInteger;
-    private double minDouble;
+    private int minInteger = Integer.MAX_VALUE;
+    private double minDouble = Double.MAX_VALUE;
 
-    private int maxString;
-    private int minString;
+    private int maxString = 0;
+    private int minString = Integer.MAX_VALUE;
 
     public void setInputFilesNames(LinkedList<String> inputFilesNames) {
         this.inputFilesNames = inputFilesNames;

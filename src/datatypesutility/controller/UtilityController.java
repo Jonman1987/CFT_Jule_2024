@@ -75,6 +75,7 @@ public class UtilityController implements Controller { // TODO: заменить
                     view.printMessage("Внимание: Вы указали префикс названия файла с использованием спецсимвола. Файлы сохранены с именем по умолчанию\n");
                 } else {
                     model.setFilesPrefix(inputArgs[i + 1]);
+                    model.setHasOptionP(true);
                 }
             }
         }
@@ -105,6 +106,7 @@ public class UtilityController implements Controller { // TODO: заменить
                 }
 
                 model.setOutputPath(outputPath);
+                model.setHasOptionO(true);
 
                 return true;
             }
