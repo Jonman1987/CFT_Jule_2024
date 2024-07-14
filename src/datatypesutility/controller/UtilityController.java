@@ -10,38 +10,38 @@ public class UtilityController implements Controller {
     private final View view;
     private final Model model;
 
-    public UtilityController(Model model, View view, String[] inputArgs){
+    public UtilityController(Model model, View view, String[] inputArgs) {
         this.model = model;
         this.view = view;
         this.inputArgs = inputArgs;
         view.setController(this);
     }
 
-    public void setInputArgs(String[] inputArgs){
+    public void setInputArgs(String[] inputArgs) {
         this.inputArgs = inputArgs;
     }
 
-    public String[] getInputArgs(){
+    public String[] getInputArgs() {
         return inputArgs;
     }
 
-    public View getView(){
+    public View getView() {
         return view;
     }
 
-    public Model getModel(){
+    public Model getModel() {
         return model;
     }
 
-    public boolean isInputArgsChecked(){
+    public boolean isInputArgsChecked() {
         return isFileFound() && isFileParametersFound() && isPrefixAfterPFound() && isPathAfterOFound();
     }
 
-    private boolean isFileFound(){
+    private boolean isFileFound() {
         return true;
     }
 
-    private boolean isFileParametersFound(){
+    private boolean isFileParametersFound() {
         LinkedList<String> inputFilesNames = new LinkedList<>();
 
         for (String arg : inputArgs) {
@@ -50,7 +50,7 @@ public class UtilityController implements Controller {
             }
         }
 
-        if(inputFilesNames.isEmpty()){ // TODO: Пересмотреть как ошибку
+        if (inputFilesNames.isEmpty()) { // TODO: Пересмотреть как ошибку
             view.printMessage("Внимание: Вы не указали ни одного имени исходного файла в формате .txt");
 
             return false;
@@ -61,32 +61,34 @@ public class UtilityController implements Controller {
         return true;
     }
 
-    private boolean isPrefixAfterPFound(){ // TODO: Отработать ситуацию, когда i+1 превышает length
+    private boolean isPrefixAfterPFound() { // TODO: Отработать ситуацию, когда i+1 превышает length
         // TODO: Пересмотреть алгоритмы проверки
-        for(int i = 0; i < inputArgs.length; i++){
-            if (inputArgs[i + 1].charAt(0) == '-') {
-                view.printMessage("Внимание: Вы не указали префикс названия файла после команды -p. Файлы сохранены с именем по умолчанию\n");
-            } else if (inputArgs[i + 1].toLowerCase().contains(".txt")) {
-                view.printMessage("Внимание: Вы указали название файла вместо префикса. Файлы сохранены с именем по умолчанию\n");
-            } else if (inputArgs[i + 1].toLowerCase().contains(".") || inputArgs[i + 1].toLowerCase().contains("*") || inputArgs[i + 1].toLowerCase().contains("/")
-                    || inputArgs[i + 1].toLowerCase().contains("?") || inputArgs[i + 1].toLowerCase().contains(":") || inputArgs[i + 1].toLowerCase().contains("|")
-                    || inputArgs[i + 1].toLowerCase().contains("\"") || inputArgs[i + 1].toLowerCase().contains("<") || inputArgs[i + 1].toLowerCase().contains(">")) {
-                view.printMessage("Внимание: Вы указали префикс названия файла с использованием спецсимвола. Файлы сохранены с именем по умолчанию\n");
-            } else {
-                model.setIntegerFilename(model.getIntegerFileName() + inputArgs[i + 1]);
-                model.setDoubleFileName(model.getDoubleFileName() + inputArgs[i + 1]);
-                model.setStringFileName(model.getStringFileName() + inputArgs[i + 1]);
+        for (int i = 0; i < inputArgs.length; i++) {
+            if (inputArgs[i].equals("-p") || inputArgs[i].equals("-P")) {
+                if (inputArgs[i + 1].charAt(0) == '-') {
+                    view.printMessage("Внимание: Вы не указали префикс названия файла после команды -p. Файлы сохранены с именем по умолчанию\n");
+                } else if (inputArgs[i + 1].toLowerCase().contains(".txt")) {
+                    view.printMessage("Внимание: Вы указали название файла вместо префикса. Файлы сохранены с именем по умолчанию\n");
+                } else if (inputArgs[i + 1].toLowerCase().contains(".") || inputArgs[i + 1].toLowerCase().contains("*") || inputArgs[i + 1].toLowerCase().contains("/")
+                        || inputArgs[i + 1].toLowerCase().contains("?") || inputArgs[i + 1].toLowerCase().contains(":") || inputArgs[i + 1].toLowerCase().contains("|")
+                        || inputArgs[i + 1].toLowerCase().contains("\"") || inputArgs[i + 1].toLowerCase().contains("<") || inputArgs[i + 1].toLowerCase().contains(">")) {
+                    view.printMessage("Внимание: Вы указали префикс названия файла с использованием спецсимвола. Файлы сохранены с именем по умолчанию\n");
+                } else {
+                    model.setIntegerFilename(model.getIntegerFileName() + inputArgs[i + 1]);
+                    model.setDoubleFileName(model.getDoubleFileName() + inputArgs[i + 1]);
+                    model.setStringFileName(model.getStringFileName() + inputArgs[i + 1]);
+                }
             }
         }
 
         return true;
     }
 
-    private boolean isPathAfterOFound(){ // TODO: Отработать ситуацию, когда i+1 превышает length
+    private boolean isPathAfterOFound() { // TODO: Отработать ситуацию, когда i+1 превышает length
         // TODO: Пересмотреть алгоритмы проверки
         String outputPath;
 
-        for(int i = 0; i < inputArgs.length; i++){
+        for (int i = 0; i < inputArgs.length; i++) {
             if (inputArgs[i].equals("-o") || inputArgs[i].equals("-O")) {
                 outputPath = inputArgs[i + 1];
 
@@ -113,7 +115,31 @@ public class UtilityController implements Controller {
         return false;
     }
 
-    public boolean isModelWorkResult(){
-        return isInputArgsChecked() && model.startFilesSort();
+    private void setStatisticParameter(){
+        for (int i = 0; i < inputArgs.length; i++) { // TODO: Возможно нужен рефакторинг, так как есть повтор сообщения
+            if (inputArgs[i].equals("-f") || inputArgs[i].equals("-F")) {
+                if(model.getStatisticsCode() == 0){
+                    model.setStatisticsCode(2);
+                } else {
+                    view.printMessage("Вы указали конфликтующие друг с другом параметры статистики."); // TODO: Оформить как ошибку
+                }
+            } else if (inputArgs[i].equals("-s") || inputArgs[i].equals("-S")) {
+                if(model.getStatisticsCode() == 0){
+                    model.setStatisticsCode(1);
+                } else {
+                    view.printMessage("Вы указали конфликтующие друг с другом параметры статистики."); // TODO: Оформить как ошибку
+                }
+            }
+        }
+    }
+
+    public boolean isModelWorkResult() {
+        try {
+            return isInputArgsChecked() && model.startFilesSort();
+        } catch (Exception e) {
+            view.printMessage("Ошибка."); // TODO: Переделать
+        }
+
+        return false;
     }
 }

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 public class UtilityModel implements Model {
-    private int statisticsCode;
+    private int statisticsCode = 0;
 
     private LinkedList<String> inputFilesNames;
     private String integerFileName = "Integers.txt";
@@ -40,91 +40,91 @@ public class UtilityModel implements Model {
     private int maxString;
     private int minString;
 
-    public void setInputFilesNames(LinkedList<String> inputFilesNames){
+    public void setInputFilesNames(LinkedList<String> inputFilesNames) {
         this.inputFilesNames = inputFilesNames;
     }
 
-    public LinkedList<String> getInputFilesNames(){
+    public LinkedList<String> getInputFilesNames() {
         return inputFilesNames;
     }
 
-    public void setStatisticsCode(int statisticsCode){
+    public void setStatisticsCode(int statisticsCode) {
         this.statisticsCode = statisticsCode;
     }
 
-    public int getStatisticsCode(){
+    public int getStatisticsCode() {
         return statisticsCode;
     }
 
-    public void setIntegerFilename(String integerFilename){
+    public void setIntegerFilename(String integerFilename) {
         this.integerFileName = integerFilename;
     }
 
-    public String getIntegerFileName(){
+    public String getIntegerFileName() {
         return integerFileName;
     }
 
-    public void setDoubleFileName(String doubleFileName){
+    public void setDoubleFileName(String doubleFileName) {
         this.doubleFileName = doubleFileName;
     }
 
-    public String getDoubleFileName(){
+    public String getDoubleFileName() {
         return doubleFileName;
     }
 
-    public void setStringFileName(String stringFileName){
+    public void setStringFileName(String stringFileName) {
         this.stringFileName = stringFileName;
     }
 
-    public String getStringFileName(){
+    public String getStringFileName() {
         return stringFileName;
     }
 
-    public void setInputPath(String inputPath){
+    public void setInputPath(String inputPath) {
         this.inputPath = inputPath;
     }
 
-    public String getInputPath(){
+    public String getInputPath() {
         return inputPath;
     }
 
-    public void setOutputPath(String outputPath){
+    public void setOutputPath(String outputPath) {
         this.outputPath = outputPath;
     }
 
-    public String getOutputPath(){
+    public String getOutputPath() {
         return outputPath;
     }
 
-    public void setFilesPrefix(String filesPrefix){
+    public void setFilesPrefix(String filesPrefix) {
         this.filesPrefix = filesPrefix;
     }
 
-    public String getFilesPrefix(){
+    public String getFilesPrefix() {
         return filesPrefix;
     }
 
-    public void setHasOptionO(boolean hasOptionO){
+    public void setHasOptionO(boolean hasOptionO) {
         this.hasOptionO = hasOptionO;
     }
 
-    public boolean getOptionO(){
+    public boolean getOptionO() {
         return hasOptionO;
     }
 
-    public void setHasOptionP(boolean hasOptionP){
+    public void setHasOptionP(boolean hasOptionP) {
         this.hasOptionP = hasOptionP;
     }
 
-    public boolean getOptionP(){
+    public boolean getOptionP() {
         return hasOptionP;
     }
 
-    public void setHasOptionA(boolean hasOptionA){
+    public void setHasOptionA(boolean hasOptionA) {
         this.hasOptionA = hasOptionA;
     }
 
-    public boolean getOptionA(){
+    public boolean getOptionA() {
         return hasOptionA;
     }
 
@@ -134,18 +134,18 @@ public class UtilityModel implements Model {
 
         BufferedReader bufferedReader = new BufferedReader(new FileReader(readFile));
 
-        try(FileWriter fileWriter = new FileWriter(writeFile)){
+        try (FileWriter fileWriter = new FileWriter(writeFile)) {
 
         };
 
         return true;
     }
 
-    private void fileWriter(FileWriter fileWriter){
+    private void fileWriter(FileWriter fileWriter) {
 
     }
 
-    public Number[] getStatistic(int statisticsCode){
+    public Number[] getStatistic(int statisticsCode) {
         return new Number[]{};
     }
 }
