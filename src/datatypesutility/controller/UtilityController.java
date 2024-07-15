@@ -5,7 +5,6 @@ import datatypesutility.view.View;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 public class UtilityController implements Controller { // TODO: заменить массивы LinkedList и итератором
     private String[] inputArgs;
@@ -36,7 +35,15 @@ public class UtilityController implements Controller { // TODO: заменить
     }
 
     public boolean isInputArgsChecked() {
-        return isFileFound() && isFileParametersFound() && isPrefixAfterPFound() && isPathAfterOFound();
+        isPrefixAfterPFound();
+
+        setOptionA();
+
+        if(!setStatisticParameter()){
+            return false;
+        }
+
+        return isFileFound() && isFileParametersFound() && isPathAfterOFound();
     }
 
     private boolean isFileFound() { // TODO: Совместить с isFileParametersFound()
@@ -63,34 +70,48 @@ public class UtilityController implements Controller { // TODO: заменить
         return true;
     }
 
-    private boolean isPrefixAfterPFound() { // TODO: Отработать ситуацию, когда i+1 превышает length
+    private void isPrefixAfterPFound() { // TODO: Отработать ситуацию, когда i+1 превышает length
         // TODO: Пересмотреть алгоритмы проверки
         for (int i = 0; i < inputArgs.length; i++) {
             if (inputArgs[i].equals("-p") || inputArgs[i].equals("-P")) {
-                if (inputArgs[i + 1].charAt(0) == '-') {
+                if(i == (inputArgs.length - 1)){
+                    view.printMessage("Внимание: Вы не указали префикс названия файла после команды -p. Файлы сохранены с именем по умолчанию\n"); // TODO: Вывести сообщения в отдельный класс
+                    return;
+                }
+
+                if (inputArgs[i + 1].charAt(0) == '-') { // TODO: Сделать через или
                     view.printMessage("Внимание: Вы не указали префикс названия файла после команды -p. Файлы сохранены с именем по умолчанию\n");
+                    return;
                 } else if (inputArgs[i + 1].toLowerCase().contains(".txt")) {
                     view.printMessage("Внимание: Вы указали название файла вместо префикса. Файлы сохранены с именем по умолчанию\n");
+                    return;
                 } else if (inputArgs[i + 1].toLowerCase().contains(".") || inputArgs[i + 1].toLowerCase().contains("*") || inputArgs[i + 1].toLowerCase().contains("/")
                         || inputArgs[i + 1].toLowerCase().contains("?") || inputArgs[i + 1].toLowerCase().contains(":") || inputArgs[i + 1].toLowerCase().contains("|")
                         || inputArgs[i + 1].toLowerCase().contains("\"") || inputArgs[i + 1].toLowerCase().contains("<") || inputArgs[i + 1].toLowerCase().contains(">")) {
                     view.printMessage("Внимание: Вы указали префикс названия файла с использованием спецсимвола. Файлы сохранены с именем по умолчанию\n");
+                    return;
                 } else {
                     model.setFilesPrefix(inputArgs[i + 1]);
                     model.setHasOptionP(true);
                 }
             }
         }
-
-        return true;
     }
 
     private boolean isPathAfterOFound() { // TODO: Отработать ситуацию, когда i+1 превышает length
         // TODO: Пересмотреть алгоритмы проверки
-        String outputPath;
+        String outputPath = "";
 
         for (int i = 0; i < inputArgs.length; i++) {
             if (inputArgs[i].equals("-o") || inputArgs[i].equals("-O")) {
+                if(i == (inputArgs.length - 1)){
+                    view.printMessage("Внимание: Вы не указали путь после команды -o. Файлы сохранены в текущую папку.");
+                    model.setOutputPath(outputPath);
+                    model.setHasOptionO(true);
+
+                    return true;
+                }
+
                 outputPath = inputArgs[i + 1];
 
                 if (outputPath.charAt(0) != '-') {
@@ -117,23 +138,28 @@ public class UtilityController implements Controller { // TODO: заменить
         return false;
     }
 
-    private void setStatisticParameter(){
+    private boolean setStatisticParameter(){
         for (int i = 0; i < inputArgs.length; i++) { // TODO: Возможно нужен рефакторинг, так как есть повтор сообщения
             if (inputArgs[i].equals("-f") || inputArgs[i].equals("-F")) {
                 if(model.getStatisticsCode() == 0){
                     model.setStatisticsCode(2);
                 } else {
                     view.printMessage("Вы указали конфликтующие друг с другом параметры статистики."); // TODO: Оформить как ошибку
+
+                    return false;
                 }
             } else if (inputArgs[i].equals("-s") || inputArgs[i].equals("-S")) {
                 if(model.getStatisticsCode() == 0){
                     model.setStatisticsCode(1);
                 } else {
                     view.printMessage("Вы указали конфликтующие друг с другом параметры статистики."); // TODO: Оформить как ошибку
+
+                    return false;
                 }
             }
         }
 
+        return true;
 
         // TODO: Уточнить что выдается если не задан ключ статистики.
         /*if(model.getStatisticsCode() == 0){
@@ -142,16 +168,12 @@ public class UtilityController implements Controller { // TODO: заменить
         }*/
     }
 
-    private boolean setOptionA(){
+    private void setOptionA(){
         for (int i = 0; i < inputArgs.length; i++) {
             if (inputArgs[i].equals("-a") || inputArgs[i].equals("-A")) {
                 model.setHasOptionA(true);
-
-                return true;
             }
         }
-
-        return false;
     }
 
     public boolean isModelWorkResult() {

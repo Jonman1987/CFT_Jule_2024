@@ -15,7 +15,7 @@ public class UtilityModel implements Model {
     private String integerFileName = "Integers.txt";
     private String doubleFileName = "Floats.txt";
     private String stringFileName = "Strings.txt";
-    private String inputPath = "";
+    //private String inputPath = "";
     private String outputPath = "";
     private String filesPrefix = "";
 
@@ -86,13 +86,13 @@ public class UtilityModel implements Model {
         return stringFileName;
     }
 
-    public void setInputPath(String inputPath) {
-        this.inputPath = inputPath;
-    }
+    //public void setInputPath(String inputPath) {
+        //this.inputPath = inputPath;
+    //}
 
-    public String getInputPath() {
-        return inputPath;
-    }
+    //public String getInputPath() {
+        //return inputPath;
+    //}
 
     public void setOutputPath(String outputPath) {
         this.outputPath = outputPath;
