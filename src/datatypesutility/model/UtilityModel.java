@@ -144,7 +144,7 @@ public class UtilityModel implements Model {
             bufferedReader[i] = new BufferedReader(new FileReader(inputFilesNames.get(i + 1)));
         }*/
 
-        String line = "привет";
+        String line = "1111111111111111111111111111";
         BigDecimal bigDecimal = new BigDecimal(line);
         //System.out.println(bigDecimal);
         //int number = Integer.parseInt(line);
