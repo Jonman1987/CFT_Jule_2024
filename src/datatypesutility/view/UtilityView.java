@@ -17,6 +17,6 @@ public class UtilityView implements View {
 
     @Override
     public void runApplication() {
-        controller.isInputArgsChecked();
+        controller.isModelWorkResult();
     }
 }

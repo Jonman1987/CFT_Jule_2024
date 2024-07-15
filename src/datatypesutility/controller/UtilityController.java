@@ -178,8 +178,11 @@ public class UtilityController implements Controller { // TODO: заменить
 
     public boolean isModelWorkResult() {
         try {
-            return isInputArgsChecked() && model.startFilesSort();
+            isInputArgsChecked();
+            model.startFilesSort();
+            return true;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             view.printMessage("Ошибка."); // TODO: Переделать
         }
 

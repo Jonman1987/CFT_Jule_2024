@@ -1,9 +1,7 @@
 package datatypesutility.model;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -138,13 +136,23 @@ public class UtilityModel implements Model {
         String writeFile = ""; // TODO: Не понятно как будет работать пере присваивание файлов
         String readFile = "";
 
-        BufferedReader[] bufferedReader = new BufferedReader[inputFilesNames.size()];
+        /*BufferedReader[] bufferedReader = new BufferedReader[inputFilesNames.size()];
+        bufferedReader[0] = new BufferedReader(new FileReader(inputFilesNames.getFirst()));
+        BigDecimal bigDecimal = BigDecimal.valueOf(Long.parseLong(bufferedReader[0].readLine()));*/
 
-        for(int i = 0; i < bufferedReader.length; i++){
+        /*for(int i = 0; i < bufferedReader.length; i++){
             bufferedReader[i] = new BufferedReader(new FileReader(inputFilesNames.get(i + 1)));
-        }
+        }*/
 
-        String line;
+        String line = "привет";
+        BigDecimal bigDecimal = new BigDecimal(line);
+        //System.out.println(bigDecimal);
+        //int number = Integer.parseInt(line);
+
+        try (FileWriter fileWriter = new FileWriter("out.txt", true)) {
+            fileWriter.write(String.valueOf(bigDecimal));
+            //fileWriter.write(number);
+        }
 
         /*while (true){
             for (int i = 0; i < bufferedReader.length; i++){
