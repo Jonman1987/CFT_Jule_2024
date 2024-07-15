@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class DataTypesUtilityMain {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); // TODO: Определиться Scanner или BufferReader
         Model model = new UtilityModel();
         View view = new UtilityView();
 
