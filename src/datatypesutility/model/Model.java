@@ -2,9 +2,10 @@ package datatypesutility.model;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public interface Model {
-    boolean startFilesSort() throws IOException;
+    boolean startFilesSort(Scanner scanner) throws IOException;
 
     void setOutputPath(String outputPath);
 

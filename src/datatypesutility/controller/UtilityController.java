@@ -5,17 +5,20 @@ import datatypesutility.view.View;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class UtilityController implements Controller { // TODO: заменить массивы LinkedList и итератором
     private String[] inputArgs;
     private final View view;
     private final Model model;
+    Scanner scanner;
 
-    public UtilityController(Model model, View view, String[] inputArgs) {
+    public UtilityController(Model model, View view, String[] inputArgs, Scanner scanner) {
         this.model = model;
         this.view = view;
         this.inputArgs = inputArgs;
         view.setController(this);
+        this.scanner = scanner;
     }
 
     public void setInputArgs(String[] inputArgs) {
@@ -178,8 +181,8 @@ public class UtilityController implements Controller { // TODO: заменить
 
     public boolean isModelWorkResult() {
         try {
-            isInputArgsChecked();
-            model.startFilesSort();
+           // isInputArgsChecked();
+            model.startFilesSort(scanner);
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
