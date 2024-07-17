@@ -2,7 +2,6 @@ package datatypesutility.model;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 public interface Model {
     boolean startFilesSort() throws IOException;
@@ -10,6 +9,7 @@ public interface Model {
     void setOutputPath(String outputPath);
 
     void setInputFilesNames(LinkedList<String> inputFilesNames);
+    //LinkedList<String> getInputFilesNames();
 
     void setStatisticsCode(int statisticsCode);
 
@@ -19,4 +19,12 @@ public interface Model {
     void setHasOptionO(boolean hasOptionO);
     void setHasOptionP(boolean hasOptionP);
     void setHasOptionA(boolean hasOptionA);
+    LinkedList<Number> getStatistic();
+    boolean getHasIntegersFile();
+    boolean getHasDoublesFile();
+    boolean getHasStringsFile();
+    String getIntegerFileName();
+    String getDoubleFileName();
+    String getStringFileName();
+
 }

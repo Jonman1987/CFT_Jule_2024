@@ -3,9 +3,7 @@ package datatypesutility.controller;
 import datatypesutility.model.Model;
 import datatypesutility.view.View;
 
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 public class UtilityController implements Controller { // TODO: заменить массивы LinkedList и итератором
     private String[] inputArgs;
@@ -181,6 +179,7 @@ public class UtilityController implements Controller { // TODO: заменить
         try {
            // isInputArgsChecked();
             model.startFilesSort();
+            printStatistics();
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -190,13 +189,49 @@ public class UtilityController implements Controller { // TODO: заменить
         return false;
     }
 
-    private void printStatistics(HashMap<String, Number> map){
-        if(model.getStatisticsCode() == 1){
+    private void printStatistics(){
+        LinkedList<Number> statisticList = model.getStatistic();
 
+        // TODO: сделать рефакторинг - вынести первое сообщение статистики оно применяется везде где есть статистика
+
+        if(model.getHasIntegersFile()){
+            if(model.getStatisticsCode() == 1){
+                view.printMessage("Количество записанных элементов в файл" + model.getIntegerFileName() + " : " + statisticList.getFirst() + ".\n");
+            }
+
+            if(model.getStatisticsCode() == 2){
+                view.printMessage("Количество записанных элементов в файл " + model.getIntegerFileName() + " : " + statisticList.getFirst() + ".");
+                view.printMessage("Сумма записанных элементов в файл " + model.getIntegerFileName() + " : " + statisticList.get(1) + ".");
+                view.printMessage("Среднее значение записанных элементов в файл " + model.getIntegerFileName() + " : " + statisticList.get(2) + ".");
+                view.printMessage("Минимальное записанное значение элемента в файл " + model.getIntegerFileName() + " : " + statisticList.get(3) + ".");
+                view.printMessage("Максимальное записанное значение элемента в файл " + model.getIntegerFileName() + " : " + statisticList.get(4) + ".\n");
+            }
         }
 
-        if(model.getStatisticsCode() == 2){
+        if(model.getHasDoublesFile()){
+            if(model.getStatisticsCode() == 1){
+                view.printMessage("Количество записанных элементов в файл " + model.getDoubleFileName() + " : " + statisticList.get(5) + ".\n");
+            }
 
+            if(model.getStatisticsCode() == 2){
+                view.printMessage("Количество записанных элементов в файл " + model.getDoubleFileName() + " : " + statisticList.get(5) + ".");
+                view.printMessage("Сумма записанных элементов в файл " + model.getDoubleFileName() + " : " + statisticList.get(6) + ".");
+                view.printMessage("Среднее значение записанных элементов в файл " + model.getDoubleFileName() + " : " + statisticList.get(7) + ".");
+                view.printMessage("Минимальное записанное значение элемента в файл " + model.getDoubleFileName() + " : " + statisticList.get(8) + ".");
+                view.printMessage("Максимальное записанное значение элемента в файл " + model.getDoubleFileName() + " : " + statisticList.get(9) + ".\n");
+            }
+        }
+
+        if(model.getHasStringsFile()){
+            if(model.getStatisticsCode() == 1){
+                view.printMessage("Количество записанных элементов в файл " + model.getStringFileName() + " : " + statisticList.get(10) + ".\n");
+            }
+
+            if(model.getStatisticsCode() == 2){
+                view.printMessage("Количество записанных элементов в файл " + model.getStringFileName() + " : " + statisticList.get(10) + ".");
+                view.printMessage("Длина минимальной строки записанной в файл " + model.getStringFileName() + " : " + statisticList.get(11) + ".");
+                view.printMessage("Длина максимальной строки записанной в файл " + model.getStringFileName() + " : " + statisticList.get(12) + ".\n");
+            }
         }
     }
 }

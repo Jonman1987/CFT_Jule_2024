@@ -19,6 +19,10 @@ public class UtilityModel implements Model {
     private boolean hasOptionP = false;
     private boolean hasOptionA = false;
 
+    private boolean hasIntegersFile = false;
+    private boolean hasDoublesFile = false;
+    private boolean hasStringsFile = false;
+
     private int integerFileElementsCount = 0;
     private int doubleFileElementsCount = 0;
     private int stringFileElementsCount = 0;
@@ -118,6 +122,30 @@ public class UtilityModel implements Model {
         return hasOptionA;
     }
 
+    public void setHasIntegersFile(boolean hasIntegersFile){
+        this.hasIntegersFile = hasIntegersFile;
+    }
+
+    public boolean getHasIntegersFile(){
+        return hasIntegersFile;
+    }
+
+    public void setHasDoublesFile(boolean hasDoublesFile){
+        this.hasDoublesFile = hasDoublesFile;
+    }
+
+    public boolean getHasDoublesFile(){
+        return hasDoublesFile;
+    }
+
+    public void setHasStringsFile(boolean hasStringsFile){
+        this.hasStringsFile = hasStringsFile;
+    }
+
+    public boolean getHasStringsFile(){
+        return hasStringsFile;
+    }
+
     public boolean startFilesSort() throws IOException {
         inputFilesNames = new LinkedList<>();
         inputFilesNames.add("file1.txt");
@@ -144,6 +172,11 @@ public class UtilityModel implements Model {
                     try (FileWriter integersWriter = new FileWriter("integers.txt", true)) {
                         integersWriter.write(String.valueOf(bigInteger));
                         integersWriter.write("\n");
+
+                        if(!hasIntegersFile){
+                            hasIntegersFile = true;
+                        }
+
                         integerFileElementsCount++;
                         integersElementsSum = integersElementsSum.add(bigInteger);
                         // TODO: Доделать среднее
@@ -170,6 +203,11 @@ public class UtilityModel implements Model {
                     try (FileWriter doublesWriter = new FileWriter("floats.txt", true)) {
                         doublesWriter.write(String.valueOf(bigDecimal));
                         doublesWriter.write("\n");
+
+                        if(!hasDoublesFile){
+                            hasDoublesFile = true;
+                        }
+
                         doubleFileElementsCount++;
                         doublesElementsSum = doublesElementsSum.add(bigDecimal);
                         doublesElementsAverage = doublesElementsSum.divide(new BigDecimal(doubleFileElementsCount));
@@ -194,6 +232,10 @@ public class UtilityModel implements Model {
                     try (FileWriter stringsWriter = new FileWriter("strings.txt", true)) {
                         stringsWriter.write(string);
                         stringsWriter.write("\n");
+
+                        if(!hasStringsFile){
+                            hasStringsFile = true;
+                        }
 
                         stringFileElementsCount++;
 
@@ -222,31 +264,25 @@ public class UtilityModel implements Model {
 
     }
 
-    public Map<String, Number> getStatistic(int statisticsCode) {
-        HashMap<String, Number> map = new HashMap<>();
+    public LinkedList<Number> getStatistic() {
+        LinkedList<Number> statisticList = new LinkedList<>();
 
-        if (statisticsCode == 1) {
-            map.put(integerFileName, integerFileElementsCount);
-            map.put(doubleFileName, doubleFileElementsCount);
-            map.put(stringFileName, stringFileElementsCount);
-        }
+        statisticList.add(integerFileElementsCount);
+        statisticList.add(integersElementsSum);
+        statisticList.add(integersElementsAverage);
+        statisticList.add(minInteger);
+        statisticList.add(maxInteger);
 
-        if (statisticsCode == 2) {
-            map.put(integerFileName, integerFileElementsCount);
-            map.put(integerFileName, integersElementsSum);
-            map.put(integerFileName, integersElementsAverage);
-            map.put(integerFileName, minInteger);
-            map.put(integerFileName, maxInteger);
-            map.put(doubleFileName, doubleFileElementsCount);
-            map.put(doubleFileName, doublesElementsSum);
-            map.put(doubleFileName, doublesElementsAverage);
-            map.put(doubleFileName, minDouble);
-            map.put(doubleFileName, maxDouble);
-            map.put(stringFileName, stringFileElementsCount);
-            map.put(stringFileName, minString);
-            map.put(stringFileName, maxString);
-        }
+        statisticList.add(doubleFileElementsCount);
+        statisticList.add(doublesElementsSum);
+        statisticList.add(doublesElementsAverage);
+        statisticList.add(minDouble);
+        statisticList.add(maxDouble);
 
-        return map;
+        statisticList.add(stringFileElementsCount);
+        statisticList.add(minString);
+        statisticList.add(maxString);
+
+        return statisticList;
     }
 }
