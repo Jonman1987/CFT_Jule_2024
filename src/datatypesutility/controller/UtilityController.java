@@ -38,7 +38,7 @@ public class UtilityController implements Controller { // TODO: заменить
 
         setOptionA();
 
-        if(!setStatisticParameter()){
+        if (!setStatisticParameter()) {
             return false;
         }
 
@@ -73,7 +73,7 @@ public class UtilityController implements Controller { // TODO: заменить
         // TODO: Пересмотреть алгоритмы проверки
         for (int i = 0; i < inputArgs.length; i++) {
             if (inputArgs[i].equals("-p") || inputArgs[i].equals("-P")) {
-                if(i == (inputArgs.length - 1)){
+                if (i == (inputArgs.length - 1)) {
                     view.printMessage("Внимание: Вы не указали префикс названия файла после команды -p. Файлы сохранены с именем по умолчанию\n"); // TODO: Вывести сообщения в отдельный класс
                     return;
                 }
@@ -103,7 +103,7 @@ public class UtilityController implements Controller { // TODO: заменить
 
         for (int i = 0; i < inputArgs.length; i++) {
             if (inputArgs[i].equals("-o") || inputArgs[i].equals("-O")) {
-                if(i == (inputArgs.length - 1)){
+                if (i == (inputArgs.length - 1)) {
                     view.printMessage("Внимание: Вы не указали путь после команды -o. Файлы сохранены в текущую папку.");
                     model.setOutputPath(outputPath);
                     model.setHasOptionO(true);
@@ -137,10 +137,10 @@ public class UtilityController implements Controller { // TODO: заменить
         return false;
     }
 
-    private boolean setStatisticParameter(){
+    private boolean setStatisticParameter() {
         for (int i = 0; i < inputArgs.length; i++) { // TODO: Возможно нужен рефакторинг, так как есть повтор сообщения
             if (inputArgs[i].equals("-f") || inputArgs[i].equals("-F")) {
-                if(model.getStatisticsCode() == 0){
+                if (model.getStatisticsCode() == 0) {
                     model.setStatisticsCode(2);
                 } else {
                     view.printMessage("Вы указали конфликтующие друг с другом параметры статистики."); // TODO: Оформить как ошибку
@@ -148,7 +148,7 @@ public class UtilityController implements Controller { // TODO: заменить
                     return false;
                 }
             } else if (inputArgs[i].equals("-s") || inputArgs[i].equals("-S")) {
-                if(model.getStatisticsCode() == 0){
+                if (model.getStatisticsCode() == 0) {
                     model.setStatisticsCode(1);
                 } else {
                     view.printMessage("Вы указали конфликтующие друг с другом параметры статистики."); // TODO: Оформить как ошибку
@@ -167,7 +167,7 @@ public class UtilityController implements Controller { // TODO: заменить
         }*/
     }
 
-    private void setOptionA(){
+    private void setOptionA() {
         for (int i = 0; i < inputArgs.length; i++) {
             if (inputArgs[i].equals("-a") || inputArgs[i].equals("-A")) {
                 model.setHasOptionA(true);
@@ -177,9 +177,14 @@ public class UtilityController implements Controller { // TODO: заменить
 
     public boolean isModelWorkResult() {
         try {
-           // isInputArgsChecked();
+            // isInputArgsChecked();
+
             model.startFilesSort();
-            printStatistics();
+
+            if (model.getStatisticsCode() != 0) {
+                printStatistics();
+            }
+
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -189,17 +194,17 @@ public class UtilityController implements Controller { // TODO: заменить
         return false;
     }
 
-    private void printStatistics(){
+    private void printStatistics() {
         LinkedList<Number> statisticList = model.getStatistic();
 
         // TODO: сделать рефакторинг - вынести первое сообщение статистики оно применяется везде где есть статистика
 
-        if(model.getHasIntegersFile()){
-            if(model.getStatisticsCode() == 1){
+        if (model.getHasIntegersFile()) {
+            if (model.getStatisticsCode() == 1) {
                 view.printMessage("Количество записанных элементов в файл" + model.getIntegerFileName() + " : " + statisticList.getFirst() + ".\n");
             }
 
-            if(model.getStatisticsCode() == 2){
+            if (model.getStatisticsCode() == 2) {
                 view.printMessage("Количество записанных элементов в файл " + model.getIntegerFileName() + " : " + statisticList.getFirst() + ".");
                 view.printMessage("Сумма записанных элементов в файл " + model.getIntegerFileName() + " : " + statisticList.get(1) + ".");
                 view.printMessage("Среднее значение записанных элементов в файл " + model.getIntegerFileName() + " : " + statisticList.get(2) + ".");
@@ -208,12 +213,12 @@ public class UtilityController implements Controller { // TODO: заменить
             }
         }
 
-        if(model.getHasDoublesFile()){
-            if(model.getStatisticsCode() == 1){
+        if (model.getHasDoublesFile()) {
+            if (model.getStatisticsCode() == 1) {
                 view.printMessage("Количество записанных элементов в файл " + model.getDoubleFileName() + " : " + statisticList.get(5) + ".\n");
             }
 
-            if(model.getStatisticsCode() == 2){
+            if (model.getStatisticsCode() == 2) {
                 view.printMessage("Количество записанных элементов в файл " + model.getDoubleFileName() + " : " + statisticList.get(5) + ".");
                 view.printMessage("Сумма записанных элементов в файл " + model.getDoubleFileName() + " : " + statisticList.get(6) + ".");
                 view.printMessage("Среднее значение записанных элементов в файл " + model.getDoubleFileName() + " : " + statisticList.get(7) + ".");
@@ -222,12 +227,12 @@ public class UtilityController implements Controller { // TODO: заменить
             }
         }
 
-        if(model.getHasStringsFile()){
-            if(model.getStatisticsCode() == 1){
+        if (model.getHasStringsFile()) {
+            if (model.getStatisticsCode() == 1) {
                 view.printMessage("Количество записанных элементов в файл " + model.getStringFileName() + " : " + statisticList.get(10) + ".\n");
             }
 
-            if(model.getStatisticsCode() == 2){
+            if (model.getStatisticsCode() == 2) {
                 view.printMessage("Количество записанных элементов в файл " + model.getStringFileName() + " : " + statisticList.get(10) + ".");
                 view.printMessage("Длина минимальной строки записанной в файл " + model.getStringFileName() + " : " + statisticList.get(11) + ".");
                 view.printMessage("Длина максимальной строки записанной в файл " + model.getStringFileName() + " : " + statisticList.get(12) + ".\n");

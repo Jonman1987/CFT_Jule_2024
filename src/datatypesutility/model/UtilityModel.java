@@ -122,27 +122,27 @@ public class UtilityModel implements Model {
         return hasOptionA;
     }
 
-    public void setHasIntegersFile(boolean hasIntegersFile){
+    public void setHasIntegersFile(boolean hasIntegersFile) {
         this.hasIntegersFile = hasIntegersFile;
     }
 
-    public boolean getHasIntegersFile(){
+    public boolean getHasIntegersFile() {
         return hasIntegersFile;
     }
 
-    public void setHasDoublesFile(boolean hasDoublesFile){
+    public void setHasDoublesFile(boolean hasDoublesFile) {
         this.hasDoublesFile = hasDoublesFile;
     }
 
-    public boolean getHasDoublesFile(){
+    public boolean getHasDoublesFile() {
         return hasDoublesFile;
     }
 
-    public void setHasStringsFile(boolean hasStringsFile){
+    public void setHasStringsFile(boolean hasStringsFile) {
         this.hasStringsFile = hasStringsFile;
     }
 
-    public boolean getHasStringsFile(){
+    public boolean getHasStringsFile() {
         return hasStringsFile;
     }
 
@@ -157,7 +157,7 @@ public class UtilityModel implements Model {
             bufferedReaders[i] = new BufferedReader(new FileReader(inputFilesNames.get(i)));
         }
 
-        String string;
+        String string = "";
         BigInteger bigInteger;
         BigDecimal bigDecimal;
 
@@ -165,7 +165,13 @@ public class UtilityModel implements Model {
 
         while (g < 14) { // TODO: Сделать проверку по файлам
             for (int i = 0; i < bufferedReaders.length; i++) {
-                string = bufferedReaders[i].readLine();
+                try {
+                    string = bufferedReaders[i].readLine();
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+
+                    throw new IOException("Ошибка считывания строки из файла " + inputFilesNames.get(i));
+                }
 
                 try {
                     bigInteger = new BigInteger(string);
@@ -173,7 +179,7 @@ public class UtilityModel implements Model {
                         integersWriter.write(String.valueOf(bigInteger));
                         integersWriter.write("\n");
 
-                        if(!hasIntegersFile){
+                        if (!hasIntegersFile) {
                             hasIntegersFile = true;
                         }
 
@@ -182,16 +188,18 @@ public class UtilityModel implements Model {
                         // TODO: Доделать среднее
                         //integersElementsAverage = integersElementsSum.divide(new BigInteger(String.valueOf(integerFileElementsCount)));
 
-                        if(bigInteger.compareTo(maxInteger) > 0){
+                        if (bigInteger.compareTo(maxInteger) > 0) {
                             maxInteger = bigInteger;
                         }
 
-                        if(bigInteger.compareTo(minInteger) < 0){
+                        if (bigInteger.compareTo(minInteger) < 0) {
                             minInteger = bigInteger;
                         }
 
                         continue;
-                    }catch (IOException e){
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+
                         throw new IOException("Ошибка записи в файл " + inputFilesNames.getFirst());
                     }
                 } catch (Exception e) {
@@ -204,7 +212,7 @@ public class UtilityModel implements Model {
                         doublesWriter.write(String.valueOf(bigDecimal));
                         doublesWriter.write("\n");
 
-                        if(!hasDoublesFile){
+                        if (!hasDoublesFile) {
                             hasDoublesFile = true;
                         }
 
@@ -212,16 +220,18 @@ public class UtilityModel implements Model {
                         doublesElementsSum = doublesElementsSum.add(bigDecimal);
                         doublesElementsAverage = doublesElementsSum.divide(new BigDecimal(doubleFileElementsCount));
 
-                        if(bigDecimal.compareTo(maxDouble) > 0){
+                        if (bigDecimal.compareTo(maxDouble) > 0) {
                             maxDouble = bigDecimal;
                         }
 
-                        if(bigDecimal.compareTo(minDouble) < 0){
+                        if (bigDecimal.compareTo(minDouble) < 0) {
                             minDouble = bigDecimal;
                         }
 
                         continue;
-                    } catch (IOException e){
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+
                         throw new IOException("Ошибка записи в файл " + inputFilesNames.get(1));
                     }
                 } catch (Exception e) {
@@ -233,20 +243,22 @@ public class UtilityModel implements Model {
                         stringsWriter.write(string);
                         stringsWriter.write("\n");
 
-                        if(!hasStringsFile){
+                        if (!hasStringsFile) {
                             hasStringsFile = true;
                         }
 
                         stringFileElementsCount++;
 
-                        if(string.length() > maxString){
+                        if (string.length() > maxString) {
                             maxString = string.length();
                         }
 
-                        if(string.length() < minString){
+                        if (string.length() < minString) {
                             minString = string.length();
                         }
-                    } catch (IOException e){
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+
                         throw new IOException("Ошибка записи в файл " + inputFilesNames.get(2));
                     }
                 } catch (Exception e) {
@@ -265,6 +277,7 @@ public class UtilityModel implements Model {
     }
 
     public LinkedList<Number> getStatistic() {
+        // TODO: Подумать как упростить выборку статистики
         LinkedList<Number> statisticList = new LinkedList<>();
 
         statisticList.add(integerFileElementsCount);

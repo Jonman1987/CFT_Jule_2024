@@ -50,3 +50,16 @@ consectetur adipiscing
 1.528535047E-25
 Long
 Long
+Lorem ipsum dolor sit amet1
+Lorem ipsum dolor sit amet1
+Пример
+Пример
+consectetur adipiscing
+consectetur adipiscing
+тестовое задание
+тестовое задание
+Нормальная форма числа с плавающей запятой
+Нормальная форма числа с плавающей запятой
+1.528535047E-25
+Long
+Long
