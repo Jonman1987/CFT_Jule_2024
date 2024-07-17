@@ -19,7 +19,7 @@ public class DataTypesUtilityMain {
         Model model = new UtilityModel();
         View view = new UtilityView();
 
-        new UtilityController(model, view, args, scanner);
+        new UtilityController(model, view, args);
 
         view.runApplication();
     }

@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public interface Model {
-    boolean startFilesSort(Scanner scanner) throws IOException;
+    boolean startFilesSort() throws IOException;
 
     void setOutputPath(String outputPath);
 

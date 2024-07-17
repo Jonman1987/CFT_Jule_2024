@@ -12,7 +12,6 @@ public class UtilityModel implements Model {
     private String integerFileName = "Integers.txt";
     private String doubleFileName = "Floats.txt";
     private String stringFileName = "Strings.txt";
-    //private String inputPath = "";
     private String outputPath = "";
     private String filesPrefix = "";
 
@@ -20,25 +19,21 @@ public class UtilityModel implements Model {
     private boolean hasOptionP = false;
     private boolean hasOptionA = false;
 
-    private boolean hasIntegerOutputFile = false; // TODO: Если не нужно, то удалить
-    private boolean hasDoubleOutputFile = false;
-    private boolean hasStringOutputFile = false;
-
     private int integerFileElementsCount = 0;
     private int doubleFileElementsCount = 0;
     private int stringFileElementsCount = 0;
 
-    private int integersElementsSum = 0;
-    private double doublesElementsSum = 0.0;
+    private BigInteger integersElementsSum = new BigInteger(String.valueOf(0));
+    private BigDecimal doublesElementsSum = new BigDecimal(0);
 
-    private int integersElementsAverage = 0;
-    private double doublesElementsAverage = 0.0;
+    private BigDecimal integersElementsAverage = new BigDecimal(0);
+    private BigDecimal doublesElementsAverage = new BigDecimal(0);
 
-    private int maxInteger = Integer.MIN_VALUE;
-    private double maxDouble = Double.MIN_VALUE;
+    private BigInteger maxInteger = new BigInteger(String.valueOf(Integer.MIN_VALUE));
+    private BigDecimal maxDouble = new BigDecimal(Double.MIN_VALUE);
 
-    private int minInteger = Integer.MAX_VALUE;
-    private double minDouble = Double.MAX_VALUE;
+    private BigInteger minInteger = new BigInteger(String.valueOf(Integer.MAX_VALUE));
+    private BigDecimal minDouble = new BigDecimal(Double.MAX_VALUE);
 
     private int maxString = 0;
     private int minString = Integer.MAX_VALUE;
@@ -83,14 +78,6 @@ public class UtilityModel implements Model {
         return stringFileName;
     }
 
-    //public void setInputPath(String inputPath) {
-        //this.inputPath = inputPath;
-    //}
-
-    //public String getInputPath() {
-        //return inputPath;
-    //}
-
     public void setOutputPath(String outputPath) {
         this.outputPath = outputPath;
     }
@@ -131,62 +118,99 @@ public class UtilityModel implements Model {
         return hasOptionA;
     }
 
-    public boolean startFilesSort(Scanner scanner) throws IOException {
+    public boolean startFilesSort() throws IOException {
         inputFilesNames = new LinkedList<>();
         inputFilesNames.add("file1.txt");
         inputFilesNames.add("file2.txt");
-        scanner.useLocale(Locale.US);
 
-        Scanner[] scanners = new Scanner[inputFilesNames.size()];
+        BufferedReader[] bufferedReaders = new BufferedReader[inputFilesNames.size()];
 
-        for(int i = 0; i < inputFilesNames.size(); i++){
-            scanners[i] = new Scanner(new FileInputStream(inputFilesNames.get(i)));
+        for (int i = 0; i < inputFilesNames.size(); i++) {
+            bufferedReaders[i] = new BufferedReader(new FileReader(inputFilesNames.get(i)));
         }
 
-        String string = "";
+        String string;
         BigInteger bigInteger;
         BigDecimal bigDecimal;
 
         int g = 0;
 
-        while (g <= 9){
-         //   for(int i = 0; i < scanners.length; i++){
-                string = scanner.nextLine();
+        while (g < 14) { // TODO: Сделать проверку по файлам
+            for (int i = 0; i < bufferedReaders.length; i++) {
+                string = bufferedReaders[i].readLine();
 
-                    try {
-                        bigInteger = new BigInteger(string);
-                        try (FileWriter fileWriter1 = new FileWriter("integer.txt", true)) {
-                            fileWriter1.write(String.valueOf(bigInteger));
-                            fileWriter1.write("\n");
-                            continue;
+                try {
+                    bigInteger = new BigInteger(string);
+                    try (FileWriter integersWriter = new FileWriter("integers.txt", true)) {
+                        integersWriter.write(String.valueOf(bigInteger));
+                        integersWriter.write("\n");
+                        integerFileElementsCount++;
+                        integersElementsSum = integersElementsSum.add(bigInteger);
+                        // TODO: Доделать среднее
+                        //integersElementsAverage = integersElementsSum.divide(new BigInteger(String.valueOf(integerFileElementsCount)));
+
+                        if(bigInteger.compareTo(maxInteger) > 0){
+                            maxInteger = bigInteger;
                         }
-                    }catch (Exception e){
 
-                    }
-
-                    try {
-                        bigDecimal = new BigDecimal(string);
-                        try (FileWriter fileWriter1 = new FileWriter("decimal.txt", true)) {
-                            fileWriter1.write(String.valueOf(bigDecimal));
-                            fileWriter1.write("\n");
-                            continue;
+                        if(bigInteger.compareTo(minInteger) < 0){
+                            minInteger = bigInteger;
                         }
-                    }catch (Exception e){
 
+                        continue;
+                    }catch (IOException e){
+                        throw new IOException("Ошибка записи в файл " + inputFilesNames.getFirst());
                     }
+                } catch (Exception e) {
+                    // Строка не является int
+                }
 
-                   try {
-                       try (FileWriter fileWriter3 = new FileWriter("string.txt", true)) {
-                           fileWriter3.write(string);
-                           fileWriter3.write("\n");
-                       }
-                   }catch (Exception e){
+                try {
+                    bigDecimal = new BigDecimal(string);
+                    try (FileWriter doublesWriter = new FileWriter("floats.txt", true)) {
+                        doublesWriter.write(String.valueOf(bigDecimal));
+                        doublesWriter.write("\n");
+                        doubleFileElementsCount++;
+                        doublesElementsSum = doublesElementsSum.add(bigDecimal);
+                        doublesElementsAverage = doublesElementsSum.divide(new BigDecimal(doubleFileElementsCount));
 
-                   }
+                        if(bigDecimal.compareTo(maxDouble) > 0){
+                            maxDouble = bigDecimal;
+                        }
 
+                        if(bigDecimal.compareTo(minDouble) < 0){
+                            minDouble = bigDecimal;
+                        }
 
+                        continue;
+                    } catch (IOException e){
+                        throw new IOException("Ошибка записи в файл " + inputFilesNames.get(1));
+                    }
+                } catch (Exception e) {
+                    // Строка не является double
+                }
 
-           // }
+                try {
+                    try (FileWriter stringsWriter = new FileWriter("strings.txt", true)) {
+                        stringsWriter.write(string);
+                        stringsWriter.write("\n");
+
+                        stringFileElementsCount++;
+
+                        if(string.length() > maxString){
+                            maxString = string.length();
+                        }
+
+                        if(string.length() < minString){
+                            minString = string.length();
+                        }
+                    } catch (IOException e){
+                        throw new IOException("Ошибка записи в файл " + inputFilesNames.get(2));
+                    }
+                } catch (Exception e) {
+
+                }
+            }
 
             g++;
         }
@@ -201,13 +225,13 @@ public class UtilityModel implements Model {
     public Map<String, Number> getStatistic(int statisticsCode) {
         HashMap<String, Number> map = new HashMap<>();
 
-        if(statisticsCode == 1){
+        if (statisticsCode == 1) {
             map.put(integerFileName, integerFileElementsCount);
             map.put(doubleFileName, doubleFileElementsCount);
             map.put(stringFileName, stringFileElementsCount);
         }
 
-        if(statisticsCode == 2){
+        if (statisticsCode == 2) {
             map.put(integerFileName, integerFileElementsCount);
             map.put(integerFileName, integersElementsSum);
             map.put(integerFileName, integersElementsAverage);

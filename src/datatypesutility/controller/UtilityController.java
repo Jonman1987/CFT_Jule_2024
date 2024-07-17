@@ -11,14 +11,12 @@ public class UtilityController implements Controller { // TODO: заменить
     private String[] inputArgs;
     private final View view;
     private final Model model;
-    Scanner scanner;
 
-    public UtilityController(Model model, View view, String[] inputArgs, Scanner scanner) {
+    public UtilityController(Model model, View view, String[] inputArgs) {
         this.model = model;
         this.view = view;
         this.inputArgs = inputArgs;
         view.setController(this);
-        this.scanner = scanner;
     }
 
     public void setInputArgs(String[] inputArgs) {
@@ -182,7 +180,7 @@ public class UtilityController implements Controller { // TODO: заменить
     public boolean isModelWorkResult() {
         try {
            // isInputArgsChecked();
-            model.startFilesSort(scanner);
+            model.startFilesSort();
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
