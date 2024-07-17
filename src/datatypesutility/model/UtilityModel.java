@@ -4,6 +4,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class UtilityModel implements Model {
@@ -161,14 +162,14 @@ public class UtilityModel implements Model {
         }
 
         for (int i = 0; i < inputFilesNames.size(); i++) {
-            bufferedReaders[i] = new BufferedReader(new FileReader(inputFilesNames.get(i)));
+            bufferedReaders[i] = new BufferedReader(new FileReader(inputFilesNames.get(i), StandardCharsets.UTF_8));
         }
 
-        String string = "";
+        String string;
         BigInteger bigInteger;
         BigDecimal bigDecimal;
 
-        do { // TODO: Сделать проверку по файлам и сделать рефакторинг повторяющихся частей кода
+        do { // TODO: сделать рефакторинг повторяющихся частей кода
             for (int i = 0; i < bufferedReaders.length; i++) {
                 try {
                     string = bufferedReaders[i].readLine();
