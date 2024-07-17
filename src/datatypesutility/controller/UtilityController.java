@@ -34,16 +34,25 @@ public class UtilityController implements Controller { // TODO: заменить
         return model;
     }
 
-    public boolean isInputArgsChecked() {
-        isPrefixAfterPFound();
-
-        setOptionA();
-
-        if (!setStatisticParameter()) {
+    public boolean isInputArgsChecked() { // TODO: переименовать в Initialization
+        if(isFileParametersFound()){
             return false;
         }
 
-        return isFileFound() && isFileParametersFound() && isPathAfterOFound();
+
+      //  isPrefixAfterPFound();
+
+        // setOptionA();
+
+       // if (!setStatisticParameter()) {
+        //    return false;
+       // }
+
+
+
+        //isPathAfterOFound();
+
+        return isFileFound();
     }
 
     private boolean isFileFound() { // TODO: Совместить с isFileParametersFound()
@@ -185,7 +194,9 @@ public class UtilityController implements Controller { // TODO: заменить
 
     public boolean isModelWorkResult() {
         try {
-            // isInputArgsChecked();
+            if(isInputArgsChecked()){
+                return false;
+            }
 
             model.startFilesSort();
 

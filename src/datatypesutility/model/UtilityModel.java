@@ -149,10 +149,6 @@ public class UtilityModel implements Model {
     }
 
     public boolean startFilesSort() throws IOException {
-        inputFilesNames = new LinkedList<>();
-        inputFilesNames.add("file1.txt"); // TODO: поменять зависимости
-        inputFilesNames.add("file2.txt");
-
         BufferedReader[] bufferedReaders = new BufferedReader[inputFilesNames.size()];
 
         LinkedList<Boolean> endOfFiles = new LinkedList<>();
@@ -186,7 +182,7 @@ public class UtilityModel implements Model {
 
                 try {
                     bigInteger = new BigInteger(string);
-                    try (FileWriter integersWriter = new FileWriter(outputPath + filesPrefix + integerFileName, true)) {
+                    try (FileWriter integersWriter = new FileWriter(outputPath + filesPrefix + integerFileName, true)) { // TODO: не сделана перезапись
                         integersWriter.write(String.valueOf(bigInteger));
                         integersWriter.write("\n");
 
