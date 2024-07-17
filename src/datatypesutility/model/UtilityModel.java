@@ -150,9 +150,15 @@ public class UtilityModel implements Model {
     public boolean startFilesSort() throws IOException {
         inputFilesNames = new LinkedList<>();
         inputFilesNames.add("file1.txt"); // TODO: поменять зависимости
-        //inputFilesNames.add("file2.txt");
+        inputFilesNames.add("file2.txt");
 
         BufferedReader[] bufferedReaders = new BufferedReader[inputFilesNames.size()];
+
+        LinkedList<Boolean> endOfFiles = new LinkedList<>();
+
+        for (int i = 0; i < bufferedReaders.length; i++) {
+            endOfFiles.add(false);
+        }
 
         for (int i = 0; i < inputFilesNames.size(); i++) {
             bufferedReaders[i] = new BufferedReader(new FileReader(inputFilesNames.get(i)));
@@ -162,12 +168,15 @@ public class UtilityModel implements Model {
         BigInteger bigInteger;
         BigDecimal bigDecimal;
 
-        int g = 0;
-
-        while (g < 14) { // TODO: Сделать проверку по файлам
+        do { // TODO: Сделать проверку по файлам
             for (int i = 0; i < bufferedReaders.length; i++) {
                 try {
                     string = bufferedReaders[i].readLine();
+
+                    if (string == null) {
+                        endOfFiles.set(i, true);
+                        continue;
+                    }
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
 
@@ -176,7 +185,7 @@ public class UtilityModel implements Model {
 
                 try {
                     bigInteger = new BigInteger(string);
-                    try (FileWriter integersWriter = new FileWriter("integers.txt", true)) {
+                    try (FileWriter integersWriter = new FileWriter(outputPath + filesPrefix + integerFileName, true)) {
                         integersWriter.write(String.valueOf(bigInteger));
                         integersWriter.write("\n");
 
@@ -187,7 +196,8 @@ public class UtilityModel implements Model {
                         integerFileElementsCount++;
                         integersElementsSum = integersElementsSum.add(bigInteger);
                         // TODO: Доделать среднее
-                        integersElementsAverage = new BigDecimal(integersElementsSum).divide(new BigDecimal(integerFileElementsCount), MathContext.DECIMAL128);
+                        integersElementsAverage = new BigDecimal(integersElementsSum)
+                                .divide(new BigDecimal(integerFileElementsCount), MathContext.DECIMAL128);
 
                         if (bigInteger.compareTo(maxInteger) > 0) {
                             maxInteger = bigInteger;
@@ -201,7 +211,7 @@ public class UtilityModel implements Model {
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
 
-                        throw new IOException("Ошибка записи в файл " + inputFilesNames.getFirst());
+                        throw new IOException("Ошибка записи в файл " + filesPrefix + inputFilesNames);
                     }
                 } catch (Exception e) {
                     // Строка не является int
@@ -209,7 +219,7 @@ public class UtilityModel implements Model {
 
                 try {
                     bigDecimal = new BigDecimal(string);
-                    try (FileWriter doublesWriter = new FileWriter("floats.txt", true)) {
+                    try (FileWriter doublesWriter = new FileWriter(outputPath + filesPrefix + doubleFileName, true)) {
                         doublesWriter.write(String.valueOf(bigDecimal));
                         doublesWriter.write("\n");
 
@@ -220,7 +230,8 @@ public class UtilityModel implements Model {
                         doubleFileElementsCount++;
                         doublesElementsSum = doublesElementsSum.add(bigDecimal);
                         // TODO: Доделать среднее 1.528535047E-25 проскакивает
-                        doublesElementsAverage = doublesElementsSum.divide(new BigDecimal(doubleFileElementsCount), MathContext.DECIMAL128);
+                        doublesElementsAverage = doublesElementsSum
+                                .divide(new BigDecimal(doubleFileElementsCount), MathContext.DECIMAL128);
 
                         if (bigDecimal.compareTo(maxDouble) > 0) {
                             maxDouble = bigDecimal;
@@ -234,14 +245,14 @@ public class UtilityModel implements Model {
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
 
-                        throw new IOException("Ошибка записи в файл " + inputFilesNames.get(1));
+                        throw new IOException("Ошибка записи в файл " + filesPrefix + doubleFileName);
                     }
                 } catch (Exception e) {
                     // Строка не является double
                 }
 
                 try {
-                    try (FileWriter stringsWriter = new FileWriter("strings.txt", true)) {
+                    try (FileWriter stringsWriter = new FileWriter(outputPath + filesPrefix + stringFileName, true)) {
                         stringsWriter.write(string);
                         stringsWriter.write("\n");
 
@@ -261,15 +272,14 @@ public class UtilityModel implements Model {
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
 
-                        throw new IOException("Ошибка записи в файл " + inputFilesNames.get(2));
+                        throw new IOException("Ошибка записи в файл " + filesPrefix + stringFileName);
                     }
                 } catch (Exception e) {
                     // TODO: Подумать оставлять ли эти места пустыми
+                    return false;
                 }
             }
-
-            g++;
-        }
+        } while (endOfFiles.contains(false));
 
         return true;
     }

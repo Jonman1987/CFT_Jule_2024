@@ -167,6 +167,7 @@ public class UtilityController implements Controller { // TODO: заменить
         }*/
     }
 
+    // TODO: проверка наличия фалов в которые идет запись при наличии опции
     private void setOptionA() {
         for (int i = 0; i < inputArgs.length; i++) {
             if (inputArgs[i].equals("-a") || inputArgs[i].equals("-A")) {
