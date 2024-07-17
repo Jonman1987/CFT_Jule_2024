@@ -5,6 +5,8 @@ import datatypesutility.model.Model;
 import datatypesutility.view.View;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.LinkedList;
 
 public class UtilityController implements Controller { // TODO: заменить массивы LinkedList и итератором
@@ -36,23 +38,25 @@ public class UtilityController implements Controller { // TODO: заменить
     }
 
     public boolean isInputArgsChecked() { // TODO: переименовать в Initialization
-        if(!isFileParametersFound()){
+        if (!isFileParametersFound()) {
             return false;
         }
 
-        if(!isFileFound()){
+        if (!isFileFound()) {
             return false;
         }
 
+        isPrefixAfterPFound();
 
-      //  isPrefixAfterPFound();
+        if (!isPathAfterOFound()) {
+            return false;
+        }
 
         // setOptionA();
 
-       // if (!setStatisticParameter()) {
+        // if (!setStatisticParameter()) {
         //    return false;
-       // }
-
+        // }
 
 
         //isPathAfterOFound();
@@ -64,11 +68,12 @@ public class UtilityController implements Controller { // TODO: заменить
         LinkedList<String> filesNamesList = model.getInputFilesNames();
         File[] filesArray = new File[filesNamesList.size()];
 
-        for(int i = 0; i < filesArray.length; i++){
+        for (int i = 0; i < filesArray.length; i++) {
             filesArray[i] = new File(filesNamesList.get(i));
 
-            if(!filesArray[i].exists() && !filesArray[i].isDirectory()) {
+            if (!filesArray[i].exists() && !filesArray[i].isDirectory()) {
                 view.printMessage("Ошибка. Файл " + filesNamesList.get(i) + " не найден!");
+
                 return false;
             }
         }
@@ -109,10 +114,14 @@ public class UtilityController implements Controller { // TODO: заменить
                 if (inputArgs[i + 1].charAt(0) == '-') { // TODO: Сделать через или
                     view.printMessage("Внимание: Вы не указали префикс названия файла после команды -p. Файлы сохранены с именем по умолчанию\n");
                     return;
-                } else if (inputArgs[i + 1].toLowerCase().contains(".txt")) {
+                }
+
+                if (inputArgs[i + 1].toLowerCase().contains(".txt")) {
                     view.printMessage("Внимание: Вы указали название файла вместо префикса. Файлы сохранены с именем по умолчанию\n");
                     return;
-                } else if (inputArgs[i + 1].toLowerCase().contains(".")
+                }
+
+                if (inputArgs[i + 1].toLowerCase().contains(".")
                         || inputArgs[i + 1].toLowerCase().contains("*")
                         || inputArgs[i + 1].toLowerCase().contains("/")
                         || inputArgs[i + 1].toLowerCase().contains("?")
@@ -123,16 +132,17 @@ public class UtilityController implements Controller { // TODO: заменить
                         || inputArgs[i + 1].toLowerCase().contains(">")) {
                     view.printMessage("Внимание: Вы указали префикс названия файла с использованием спецсимвола. Файлы сохранены с именем по умолчанию\n");
                     return;
-                } else {
-                    model.setFilesPrefix(inputArgs[i + 1]);
-                    model.setHasOptionP(true);
                 }
+
+                model.setFilesPrefix(inputArgs[i + 1]);
+                model.setHasOptionP(true);
             }
         }
     }
 
     private boolean isPathAfterOFound() { // TODO: Отработать ситуацию, когда i+1 превышает length
         // TODO: Пересмотреть алгоритмы проверки
+        // TODO: file1.txt file2.txt -o -p file Плохо работает
         String outputPath = "";
 
         for (int i = 0; i < inputArgs.length; i++) {
@@ -140,7 +150,7 @@ public class UtilityController implements Controller { // TODO: заменить
                 if (i == (inputArgs.length - 1)) {
                     view.printMessage("Внимание: Вы не указали путь после команды -o. Файлы сохранены в текущую папку.");
                     model.setOutputPath(outputPath);
-                    model.setHasOptionO(true);
+                   // model.setHasOptionO(true);
 
                     return true;
                 }
@@ -148,17 +158,25 @@ public class UtilityController implements Controller { // TODO: заменить
                 outputPath = inputArgs[i + 1];
 
                 if (outputPath.charAt(0) != '-') {
-                    if (outputPath.charAt(0) == '/') {
+                    /*if (outputPath.charAt(0) == '/') {
                         StringBuilder stringBuilder = new StringBuilder(outputPath);
                         stringBuilder.deleteCharAt(0);
                         outputPath = stringBuilder.toString();
-                    }
+                    }*/
+
+                    // TODO: Подумать о проверке на спецсимволы file1.txt -o file2.txt -p file
 
                     if (outputPath.charAt(outputPath.length() - 1) != '/') {
                         outputPath += '/';
                     }
+
+                    if(!Files.exists(Path.of(outputPath))){
+                        new File(outputPath).mkdirs();
+                    }
                 } else {
                     view.printMessage("Внимание: Вы не указали путь после команды -o. Файлы сохранены в текущую папку.");
+
+                    return true;
                 }
 
                 model.setOutputPath(outputPath);
@@ -169,6 +187,12 @@ public class UtilityController implements Controller { // TODO: заменить
         }
 
         return false;
+    }
+
+    private boolean createDirectory(String path){
+
+
+        return true;
     }
 
     private boolean setStatisticParameter() {
@@ -212,7 +236,7 @@ public class UtilityController implements Controller { // TODO: заменить
 
     public boolean isModelWorkResult() {
         try {
-            if(!isInputArgsChecked()){
+            if (!isInputArgsChecked()) {
                 return false;
             }
 
