@@ -52,14 +52,11 @@ public class UtilityController implements Controller { // TODO: заменить
             return false;
         }
 
-        // setOptionA();
+        setOptionA();
 
         // if (!setStatisticParameter()) {
         //    return false;
         // }
-
-
-        //isPathAfterOFound();
 
         return true;
     }

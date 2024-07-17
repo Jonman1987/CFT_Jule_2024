@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class UtilityModel implements Model {
@@ -148,8 +150,11 @@ public class UtilityModel implements Model {
         return hasStringsFile;
     }
 
-    public boolean startFilesSort() throws IOException {
+    public boolean startFilesSort() throws Exception { // TODO: Вернуть IOEXCEPTION
         BufferedReader[] bufferedReaders = new BufferedReader[inputFilesNames.size()];
+        boolean appendIntegerStatus = false;
+        boolean appendDoubleStatus = false;
+        boolean appendStringStatus = false;
 
         LinkedList<Boolean> endOfFiles = new LinkedList<>();
 
@@ -159,6 +164,12 @@ public class UtilityModel implements Model {
 
         for (int i = 0; i < inputFilesNames.size(); i++) {
             bufferedReaders[i] = new BufferedReader(new FileReader(inputFilesNames.get(i), StandardCharsets.UTF_8));
+        }
+
+        if(hasOptionA){
+            appendIntegerStatus = true;
+            appendDoubleStatus = true;
+            appendStringStatus = true;
         }
 
         String string;
@@ -177,12 +188,21 @@ public class UtilityModel implements Model {
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
 
-                    throw new IOException("Ошибка считывания строки из файла " + inputFilesNames.get(i));
+                    throw new Exception("Ошибка считывания строки из файла " + inputFilesNames.get(i));
                 }
 
                 try {
                     bigInteger = new BigInteger(string);
-                    try (FileWriter integersWriter = new FileWriter(outputPath + filesPrefix + integerFileName, true)) { // TODO: не сделана перезапись
+                    try (FileWriter integersWriter = new FileWriter(outputPath + filesPrefix + integerFileName, appendIntegerStatus)) { // TODO: не сделана перезапись
+                        if(hasOptionA && appendIntegerStatus){
+                            File file = new File(outputPath + filesPrefix + integerFileName);
+                            if(!file.exists() && !file.isDirectory()) { // TODO: Переписать красиво
+                                throw new IOException("Ошибка добавления записи в файл " + integerFileName + ". Файл не существует!");
+                            }
+                        }else if(!appendIntegerStatus){
+                            appendIntegerStatus = true;
+                        }
+
                         integersWriter.write(String.valueOf(bigInteger));
                         integersWriter.write("\n");
 
@@ -216,7 +236,21 @@ public class UtilityModel implements Model {
 
                 try {
                     bigDecimal = new BigDecimal(string);
-                    try (FileWriter doublesWriter = new FileWriter(outputPath + filesPrefix + doubleFileName, true)) {
+                    try (FileWriter doublesWriter = new FileWriter(outputPath + filesPrefix + doubleFileName, appendDoubleStatus)) {
+                        if(hasOptionA && appendDoubleStatus){
+                            File file = new File(outputPath + filesPrefix + doubleFileName);
+                                if(!file.exists() && !file.isDirectory()) { // TODO: Переписать красиво
+                                    throw new IOException("Ошибка добавления записи в файл " + doubleFileName + ". Файл не существует!");
+                                }
+
+
+                            /*if(!Files.exists(Path.of(outputPath + filesPrefix + doubleFileName))){
+                                throw new IOException("Ошибка добавления записи в файл " + doubleFileName + ". Файл не существует!");
+                            }*/
+                        }else if(!appendDoubleStatus){
+                            appendDoubleStatus = true;
+                        }
+
                         doublesWriter.write(String.valueOf(bigDecimal));
                         doublesWriter.write("\n");
 
@@ -249,7 +283,16 @@ public class UtilityModel implements Model {
                 }
 
                 try {
-                    try (FileWriter stringsWriter = new FileWriter(outputPath + filesPrefix + stringFileName, true)) {
+                    try (FileWriter stringsWriter = new FileWriter(outputPath + filesPrefix + stringFileName, appendStringStatus)) {
+                        if(hasOptionA && appendStringStatus){
+                            File file = new File(outputPath + filesPrefix + stringFileName);
+                            if(!file.exists() && !file.isDirectory()) { // TODO: Переписать красиво
+                                throw new IOException("Ошибка добавления записи в файл " + stringFileName + ". Файл не существует!");
+                            }
+                        }else if(!appendStringStatus){
+                            appendStringStatus = true;
+                        }
+
                         stringsWriter.write(string);
                         stringsWriter.write("\n");
 

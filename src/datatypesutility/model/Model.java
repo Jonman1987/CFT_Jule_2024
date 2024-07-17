@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 public interface Model {
-    boolean startFilesSort() throws IOException;
+    boolean startFilesSort() throws Exception;
 
     void setOutputPath(String outputPath);
 
