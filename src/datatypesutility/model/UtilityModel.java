@@ -148,7 +148,7 @@ public class UtilityModel implements Model {
 
     public boolean startFilesSort() throws IOException {
         inputFilesNames = new LinkedList<>();
-        inputFilesNames.add("file1.txt");
+        inputFilesNames.add("file1.txt"); // TODO: поменять зависимости
         inputFilesNames.add("file2.txt");
 
         BufferedReader[] bufferedReaders = new BufferedReader[inputFilesNames.size()];
