@@ -4,6 +4,7 @@ import datatypesutility.controller.messages.StatisticMessages;
 import datatypesutility.model.Model;
 import datatypesutility.view.View;
 
+import java.io.File;
 import java.util.LinkedList;
 
 public class UtilityController implements Controller { // TODO: заменить массивы LinkedList и итератором
@@ -35,7 +36,11 @@ public class UtilityController implements Controller { // TODO: заменить
     }
 
     public boolean isInputArgsChecked() { // TODO: переименовать в Initialization
-        if(isFileParametersFound()){
+        if(!isFileParametersFound()){
+            return false;
+        }
+
+        if(!isFileFound()){
             return false;
         }
 
@@ -52,10 +57,22 @@ public class UtilityController implements Controller { // TODO: заменить
 
         //isPathAfterOFound();
 
-        return isFileFound();
+        return true;
     }
 
     private boolean isFileFound() { // TODO: Совместить с isFileParametersFound()
+        LinkedList<String> filesNamesList = model.getInputFilesNames();
+        File[] filesArray = new File[filesNamesList.size()];
+
+        for(int i = 0; i < filesArray.length; i++){
+            filesArray[i] = new File(filesNamesList.get(i));
+
+            if(!filesArray[i].exists() && !filesArray[i].isDirectory()) {
+                view.printMessage("Ошибка. Файл " + filesNamesList.get(i) + " не найден!");
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -81,6 +98,7 @@ public class UtilityController implements Controller { // TODO: заменить
 
     private void isPrefixAfterPFound() { // TODO: Отработать ситуацию, когда i+1 превышает length
         // TODO: Пересмотреть алгоритмы проверки
+        // TODO: Названия не очень
         for (int i = 0; i < inputArgs.length; i++) {
             if (inputArgs[i].equals("-p") || inputArgs[i].equals("-P")) {
                 if (i == (inputArgs.length - 1)) {
@@ -194,7 +212,7 @@ public class UtilityController implements Controller { // TODO: заменить
 
     public boolean isModelWorkResult() {
         try {
-            if(isInputArgsChecked()){
+            if(!isInputArgsChecked()){
                 return false;
             }
 
