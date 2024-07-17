@@ -3,6 +3,7 @@ package datatypesutility.model;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
 import java.util.*;
 
 public class UtilityModel implements Model {
@@ -186,7 +187,7 @@ public class UtilityModel implements Model {
                         integerFileElementsCount++;
                         integersElementsSum = integersElementsSum.add(bigInteger);
                         // TODO: Доделать среднее
-                        // integersElementsAverage = integersElementsSum.divide(new BigInteger(String.valueOf(integerFileElementsCount)));
+                        integersElementsAverage = new BigDecimal(integersElementsSum).divide(new BigDecimal(integerFileElementsCount), MathContext.DECIMAL128);
 
                         if (bigInteger.compareTo(maxInteger) > 0) {
                             maxInteger = bigInteger;
@@ -219,7 +220,7 @@ public class UtilityModel implements Model {
                         doubleFileElementsCount++;
                         doublesElementsSum = doublesElementsSum.add(bigDecimal);
                         // TODO: Доделать среднее 1.528535047E-25 проскакивает
-                        //doublesElementsAverage = doublesElementsSum.divide(new BigDecimal(doubleFileElementsCount));
+                        doublesElementsAverage = doublesElementsSum.divide(new BigDecimal(doubleFileElementsCount), MathContext.DECIMAL128);
 
                         if (bigDecimal.compareTo(maxDouble) > 0) {
                             maxDouble = bigDecimal;
