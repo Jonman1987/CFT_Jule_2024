@@ -149,7 +149,7 @@ public class UtilityModel implements Model {
     public boolean startFilesSort() throws IOException {
         inputFilesNames = new LinkedList<>();
         inputFilesNames.add("file1.txt"); // TODO: поменять зависимости
-        inputFilesNames.add("file2.txt");
+        //inputFilesNames.add("file2.txt");
 
         BufferedReader[] bufferedReaders = new BufferedReader[inputFilesNames.size()];
 
@@ -186,7 +186,7 @@ public class UtilityModel implements Model {
                         integerFileElementsCount++;
                         integersElementsSum = integersElementsSum.add(bigInteger);
                         // TODO: Доделать среднее
-                        //integersElementsAverage = integersElementsSum.divide(new BigInteger(String.valueOf(integerFileElementsCount)));
+                        // integersElementsAverage = integersElementsSum.divide(new BigInteger(String.valueOf(integerFileElementsCount)));
 
                         if (bigInteger.compareTo(maxInteger) > 0) {
                             maxInteger = bigInteger;
@@ -218,7 +218,8 @@ public class UtilityModel implements Model {
 
                         doubleFileElementsCount++;
                         doublesElementsSum = doublesElementsSum.add(bigDecimal);
-                        doublesElementsAverage = doublesElementsSum.divide(new BigDecimal(doubleFileElementsCount));
+                        // TODO: Доделать среднее 1.528535047E-25 проскакивает
+                        //doublesElementsAverage = doublesElementsSum.divide(new BigDecimal(doubleFileElementsCount));
 
                         if (bigDecimal.compareTo(maxDouble) > 0) {
                             maxDouble = bigDecimal;
@@ -262,7 +263,7 @@ public class UtilityModel implements Model {
                         throw new IOException("Ошибка записи в файл " + inputFilesNames.get(2));
                     }
                 } catch (Exception e) {
-
+                    // TODO: Подумать оставлять ли эти места пустыми
                 }
             }
 
