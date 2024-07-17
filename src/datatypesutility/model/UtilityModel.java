@@ -196,7 +196,7 @@ public class UtilityModel implements Model {
                     try (FileWriter integersWriter = new FileWriter(outputPath + filesPrefix + integerFileName, appendIntegerStatus)) { // TODO: не сделана перезапись
                         if(hasOptionA && appendIntegerStatus){
                             File file = new File(outputPath + filesPrefix + integerFileName);
-                            if(!file.exists() && !file.isDirectory()) { // TODO: Переписать красиво
+                            if(/*!file.exists()*/ !file.isDirectory()) { // TODO: Переписать красиво
                                 throw new IOException("Ошибка добавления записи в файл " + integerFileName + ". Файл не существует!");
                             }
                         }else if(!appendIntegerStatus){
@@ -230,7 +230,7 @@ public class UtilityModel implements Model {
 
                         throw new IOException("Ошибка записи в файл " + filesPrefix + inputFilesNames);
                     }
-                } catch (Exception e) {
+                } catch (Exception e) { // TODO: нужно вынести без вложения
                     // Строка не является int
                 }
 
