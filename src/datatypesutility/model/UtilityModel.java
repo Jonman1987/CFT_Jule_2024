@@ -168,7 +168,7 @@ public class UtilityModel implements Model {
         BigInteger bigInteger;
         BigDecimal bigDecimal;
 
-        do { // TODO: Сделать проверку по файлам
+        do { // TODO: Сделать проверку по файлам и сделать рефакторинг повторяющихся частей кода
             for (int i = 0; i < bufferedReaders.length; i++) {
                 try {
                     string = bufferedReaders[i].readLine();
