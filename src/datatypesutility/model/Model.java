@@ -9,7 +9,6 @@ public interface Model {
     void setOutputPath(String outputPath);
 
     void setInputFilesNames(LinkedList<String> inputFilesNames);
-    //LinkedList<String> getInputFilesNames();
 
     void setStatisticsCode(int statisticsCode);
 

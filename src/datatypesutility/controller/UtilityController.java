@@ -1,5 +1,6 @@
 package datatypesutility.controller;
 
+import datatypesutility.controller.messages.StatisticMessages;
 import datatypesutility.model.Model;
 import datatypesutility.view.View;
 
@@ -84,9 +85,15 @@ public class UtilityController implements Controller { // TODO: заменить
                 } else if (inputArgs[i + 1].toLowerCase().contains(".txt")) {
                     view.printMessage("Внимание: Вы указали название файла вместо префикса. Файлы сохранены с именем по умолчанию\n");
                     return;
-                } else if (inputArgs[i + 1].toLowerCase().contains(".") || inputArgs[i + 1].toLowerCase().contains("*") || inputArgs[i + 1].toLowerCase().contains("/")
-                        || inputArgs[i + 1].toLowerCase().contains("?") || inputArgs[i + 1].toLowerCase().contains(":") || inputArgs[i + 1].toLowerCase().contains("|")
-                        || inputArgs[i + 1].toLowerCase().contains("\"") || inputArgs[i + 1].toLowerCase().contains("<") || inputArgs[i + 1].toLowerCase().contains(">")) {
+                } else if (inputArgs[i + 1].toLowerCase().contains(".")
+                        || inputArgs[i + 1].toLowerCase().contains("*")
+                        || inputArgs[i + 1].toLowerCase().contains("/")
+                        || inputArgs[i + 1].toLowerCase().contains("?")
+                        || inputArgs[i + 1].toLowerCase().contains(":")
+                        || inputArgs[i + 1].toLowerCase().contains("|")
+                        || inputArgs[i + 1].toLowerCase().contains("\"")
+                        || inputArgs[i + 1].toLowerCase().contains("<")
+                        || inputArgs[i + 1].toLowerCase().contains(">")) {
                     view.printMessage("Внимание: Вы указали префикс названия файла с использованием спецсимвола. Файлы сохранены с именем по умолчанию\n");
                     return;
                 } else {
@@ -143,7 +150,7 @@ public class UtilityController implements Controller { // TODO: заменить
                 if (model.getStatisticsCode() == 0) {
                     model.setStatisticsCode(2);
                 } else {
-                    view.printMessage("Вы указали конфликтующие друг с другом параметры статистики."); // TODO: Оформить как ошибку
+                    view.printMessage("Ошибка: Вы указали конфликтующие друг с другом параметры статистики."); // TODO: Оформить как ошибку
 
                     return false;
                 }
@@ -202,41 +209,57 @@ public class UtilityController implements Controller { // TODO: заменить
 
         if (model.getHasIntegersFile()) {
             if (model.getStatisticsCode() == 1) {
-                view.printMessage("Количество записанных элементов в файл" + model.getIntegerFileName() + " : " + statisticList.getFirst() + ".\n");
+                view.printMessage(StatisticMessages.getStatisticElementsCountMessage()
+                        + model.getIntegerFileName() + " : " + statisticList.getFirst() + ".\n");
             }
 
             if (model.getStatisticsCode() == 2) {
-                view.printMessage("Количество записанных элементов в файл " + model.getIntegerFileName() + " : " + statisticList.getFirst() + ".");
-                view.printMessage("Сумма записанных элементов в файл " + model.getIntegerFileName() + " : " + statisticList.get(1) + ".");
-                view.printMessage("Среднее значение записанных элементов в файл " + model.getIntegerFileName() + " : " + statisticList.get(2) + ".");
-                view.printMessage("Минимальное записанное значение элемента в файл " + model.getIntegerFileName() + " : " + statisticList.get(3) + ".");
-                view.printMessage("Максимальное записанное значение элемента в файл " + model.getIntegerFileName() + " : " + statisticList.get(4) + ".\n");
+                view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getIntegerFileName()
+                        + " : " + statisticList.getFirst() + ".");
+                view.printMessage("Сумма записанных элементов в файл " + model.getIntegerFileName()
+                        + " : " + statisticList.get(1) + ".");
+                view.printMessage("Среднее значение записанных элементов в файл " + model.getIntegerFileName()
+                        + " : " + statisticList.get(2) + ".");
+                view.printMessage("Минимальное записанное значение элемента в файл " + model.getIntegerFileName()
+                        + " : " + statisticList.get(3) + ".");
+                view.printMessage("Максимальное записанное значение элемента в файл " + model.getIntegerFileName()
+                        + " : " + statisticList.get(4) + ".\n");
             }
         }
 
         if (model.getHasDoublesFile()) {
             if (model.getStatisticsCode() == 1) {
-                view.printMessage("Количество записанных элементов в файл " + model.getDoubleFileName() + " : " + statisticList.get(5) + ".\n");
+                view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getDoubleFileName()
+                        + " : " + statisticList.get(5) + ".\n");
             }
 
             if (model.getStatisticsCode() == 2) {
-                view.printMessage("Количество записанных элементов в файл " + model.getDoubleFileName() + " : " + statisticList.get(5) + ".");
-                view.printMessage("Сумма записанных элементов в файл " + model.getDoubleFileName() + " : " + statisticList.get(6) + ".");
-                view.printMessage("Среднее значение записанных элементов в файл " + model.getDoubleFileName() + " : " + statisticList.get(7) + ".");
-                view.printMessage("Минимальное записанное значение элемента в файл " + model.getDoubleFileName() + " : " + statisticList.get(8) + ".");
-                view.printMessage("Максимальное записанное значение элемента в файл " + model.getDoubleFileName() + " : " + statisticList.get(9) + ".\n");
+                view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getDoubleFileName()
+                        + " : " + statisticList.get(5) + ".");
+                view.printMessage("Сумма записанных элементов в файл " + model.getDoubleFileName()
+                        + " : " + statisticList.get(6) + ".");
+                view.printMessage("Среднее значение записанных элементов в файл " + model.getDoubleFileName()
+                        + " : " + statisticList.get(7) + ".");
+                view.printMessage("Минимальное записанное значение элемента в файл " + model.getDoubleFileName()
+                        + " : " + statisticList.get(8) + ".");
+                view.printMessage("Максимальное записанное значение элемента в файл " + model.getDoubleFileName()
+                        + " : " + statisticList.get(9) + ".\n");
             }
         }
 
         if (model.getHasStringsFile()) {
             if (model.getStatisticsCode() == 1) {
-                view.printMessage("Количество записанных элементов в файл " + model.getStringFileName() + " : " + statisticList.get(10) + ".\n");
+                view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getStringFileName()
+                        + " : " + statisticList.get(10) + ".\n");
             }
 
             if (model.getStatisticsCode() == 2) {
-                view.printMessage("Количество записанных элементов в файл " + model.getStringFileName() + " : " + statisticList.get(10) + ".");
-                view.printMessage("Длина минимальной строки записанной в файл " + model.getStringFileName() + " : " + statisticList.get(11) + ".");
-                view.printMessage("Длина максимальной строки записанной в файл " + model.getStringFileName() + " : " + statisticList.get(12) + ".\n");
+                view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getStringFileName()
+                        + " : " + statisticList.get(10) + ".");
+                view.printMessage("Длина минимальной строки записанной в файл " + model.getStringFileName()
+                        + " : " + statisticList.get(11) + ".");
+                view.printMessage("Длина максимальной строки записанной в файл " + model.getStringFileName()
+                        + " : " + statisticList.get(12) + ".\n");
             }
         }
     }
