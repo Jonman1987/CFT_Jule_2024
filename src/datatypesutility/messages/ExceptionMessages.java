@@ -1,4 +1,4 @@
-package datatypesutility.controller.messages;
+package datatypesutility.messages;
 
 public class ExceptionMessages {
     public static String getSetStatisticMessage(){

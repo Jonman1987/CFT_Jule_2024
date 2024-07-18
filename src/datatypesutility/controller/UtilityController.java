@@ -1,6 +1,6 @@
 package datatypesutility.controller;
 
-import datatypesutility.controller.messages.StatisticMessages;
+import datatypesutility.messages.StatisticMessages;
 import datatypesutility.model.Model;
 import datatypesutility.view.View;
 
@@ -246,7 +246,7 @@ public class UtilityController implements Controller { // TODO: заменить
         if (model.getHasIntegersFile()) {
             if (model.getStatisticsCode() == 1) {
                 view.printMessage(StatisticMessages.getStatisticElementsCountMessage()
-                        + model.getIntegerFileName() + " : " + statisticList.getFirst() + ".\n");
+                        + model.getIntegerFileName() + ": " + statisticList.getFirst() + ".\n");
             }
 
             if (model.getStatisticsCode() == 2) {

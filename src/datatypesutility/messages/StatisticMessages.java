@@ -1,4 +1,4 @@
-package datatypesutility.controller.messages;
+package datatypesutility.messages;
 
 public class StatisticMessages {
     public static String getStatisticElementsCountMessage(){
