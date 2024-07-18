@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.util.LinkedList;
 
-public class UtilityStatistics {
+public class UtilityStatistics { // TODO: Декомпозицию как в UtilityWriter
     private static int integerFileElementsCount = 0;
     private static int doubleFileElementsCount = 0;
     private static int stringFileElementsCount = 0;
