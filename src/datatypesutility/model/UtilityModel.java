@@ -1,15 +1,19 @@
 package datatypesutility.model;
 
+import datatypesutility.model.reader.UtilityReader;
+import datatypesutility.model.writer.UtilityWriter;
+
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
 public class UtilityModel implements Model {
+    UtilityReader[] reader;
+    UtilityWriter[] writer;
+
     private int statisticsCode = 0;
 
     private LinkedList<String> inputFilesNames;
@@ -150,11 +154,15 @@ public class UtilityModel implements Model {
         return hasStringsFile;
     }
 
-    public boolean startFilesSort() throws Exception { // TODO: Вернуть IOEXCEPTION
+    public boolean startFilesSort() throws IOException { // TODO: Вернуть IOEXCEPTION
         BufferedReader[] bufferedReaders = new BufferedReader[inputFilesNames.size()];
         boolean appendIntegerStatus = false;
         boolean appendDoubleStatus = false;
         boolean appendStringStatus = false;
+
+        boolean isInteger = false;
+        boolean isDouble = false;
+        boolean isString = false;
 
         LinkedList<Boolean> endOfFiles = new LinkedList<>();
 
@@ -173,8 +181,8 @@ public class UtilityModel implements Model {
         }
 
         String string;
-        BigInteger bigInteger;
-        BigDecimal bigDecimal;
+        BigInteger bigInteger = new BigInteger(String.valueOf(0));
+        BigDecimal bigDecimal = new BigDecimal(0);
 
         do { // TODO: сделать рефакторинг повторяющихся частей кода
             for (int i = 0; i < bufferedReaders.length; i++) {
@@ -188,18 +196,25 @@ public class UtilityModel implements Model {
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
 
-                    throw new Exception("Ошибка считывания строки из файла " + inputFilesNames.get(i));
+                    throw new IOException("Ошибка считывания строки из файла " + inputFilesNames.get(i));
                 }
 
                 try {
                     bigInteger = new BigInteger(string);
+                    isInteger = true;
+                }catch (Exception e) { // TODO: нужно вынести без вложения сделать через флаги
+                    // Строка не является int
+                }
+
+                if(isInteger) {
                     try (FileWriter integersWriter = new FileWriter(outputPath + filesPrefix + integerFileName, appendIntegerStatus)) { // TODO: не сделана перезапись
-                        if(hasOptionA && appendIntegerStatus){
+                        if (hasOptionA && appendIntegerStatus) {
                             File file = new File(outputPath + filesPrefix + integerFileName);
-                            if(/*!file.exists()*/ !file.isDirectory()) { // TODO: Переписать красиво
-                                throw new IOException("Ошибка добавления записи в файл " + integerFileName + ". Файл не существует!");
+
+                            if (!file.canWrite()) { // TODO: Переписать красиво
+                                throw new IOException("Ошибка добавления записи в файл " + filesPrefix + integerFileName + ". Файл не существует!");
                             }
-                        }else if(!appendIntegerStatus){
+                        } else if (!appendIntegerStatus) {
                             appendIntegerStatus = true;
                         }
 
@@ -224,30 +239,39 @@ public class UtilityModel implements Model {
                             minInteger = bigInteger;
                         }
 
+                        isInteger = false;
+
                         continue;
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
 
-                        throw new IOException("Ошибка записи в файл " + filesPrefix + inputFilesNames);
+                        throw new IOException("Ошибка записи в файл " + filesPrefix + integerFileName);
                     }
-                } catch (Exception e) { // TODO: нужно вынести без вложения
+                    // }
+            /*catch (Exception e) { // TODO: нужно вынести без вложения сделать через флаги
                     // Строка не является int
+                }*/
                 }
 
                 try {
                     bigDecimal = new BigDecimal(string);
+                    isDouble = true;
+                }catch (Exception e) {
+                    // Строка не является double
+                }
+                if(isDouble) {
                     try (FileWriter doublesWriter = new FileWriter(outputPath + filesPrefix + doubleFileName, appendDoubleStatus)) {
-                        if(hasOptionA && appendDoubleStatus){
+                        if (hasOptionA && appendDoubleStatus) {
                             File file = new File(outputPath + filesPrefix + doubleFileName);
-                                if(!file.exists() && !file.isDirectory()) { // TODO: Переписать красиво
-                                    throw new IOException("Ошибка добавления записи в файл " + doubleFileName + ". Файл не существует!");
-                                }
+                            if (!file.canWrite()) { // TODO: Переписать красиво
+                                throw new IOException("Ошибка добавления записи в файл " + filesPrefix + doubleFileName + ". Файл не существует!");
+                            }
 
 
                             /*if(!Files.exists(Path.of(outputPath + filesPrefix + doubleFileName))){
                                 throw new IOException("Ошибка добавления записи в файл " + doubleFileName + ". Файл не существует!");
                             }*/
-                        }else if(!appendDoubleStatus){
+                        } else if (!appendDoubleStatus) {
                             appendDoubleStatus = true;
                         }
 
@@ -272,22 +296,25 @@ public class UtilityModel implements Model {
                             minDouble = bigDecimal;
                         }
 
+                        isDouble = false;
+
                         continue;
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
 
                         throw new IOException("Ошибка записи в файл " + filesPrefix + doubleFileName);
                     }
-                } catch (Exception e) {
+               /* } catch (Exception e) {
                     // Строка не является double
+                }*/
                 }
 
-                try {
+
                     try (FileWriter stringsWriter = new FileWriter(outputPath + filesPrefix + stringFileName, appendStringStatus)) {
                         if(hasOptionA && appendStringStatus){
                             File file = new File(outputPath + filesPrefix + stringFileName);
-                            if(!file.exists() && !file.isDirectory()) { // TODO: Переписать красиво
-                                throw new IOException("Ошибка добавления записи в файл " + stringFileName + ". Файл не существует!");
+                            if(!file.canWrite()) { // TODO: Переписать красиво
+                                throw new IOException("Ошибка добавления записи в файл " + filesPrefix + stringFileName + ". Файл не существует!");
                             }
                         }else if(!appendStringStatus){
                             appendStringStatus = true;
@@ -314,10 +341,7 @@ public class UtilityModel implements Model {
 
                         throw new IOException("Ошибка записи в файл " + filesPrefix + stringFileName);
                     }
-                } catch (Exception e) {
-                    // TODO: Подумать оставлять ли эти места пустыми
-                    return false;
-                }
+
             }
         } while (endOfFiles.contains(false));
 

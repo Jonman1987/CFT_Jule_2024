@@ -54,9 +54,9 @@ public class UtilityController implements Controller { // TODO: заменить
 
         setOptionA();
 
-        // if (!setStatisticParameter()) {
-        //    return false;
-        // }
+        if (!setStatisticParameter()) {
+            return false;
+        }
 
         return true;
     }
@@ -183,7 +183,7 @@ public class UtilityController implements Controller { // TODO: заменить
             }
         }
 
-        return false;
+        return true;
     }
 
     private boolean createDirectory(String path){
@@ -246,7 +246,7 @@ public class UtilityController implements Controller { // TODO: заменить
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            view.printMessage("Ошибка."); // TODO: Переделать
+            view.printMessage("Ошибка. Работа программы принудительно завершена!"); // TODO: Переделать
         }
 
         return false;
@@ -256,6 +256,7 @@ public class UtilityController implements Controller { // TODO: заменить
         LinkedList<Number> statisticList = model.getStatistic();
 
         // TODO: сделать рефакторинг - вынести первое сообщение статистики оно применяется везде где есть статистика
+        // TODO: добавить префикс файла
 
         if (model.getHasIntegersFile()) {
             if (model.getStatisticsCode() == 1) {
