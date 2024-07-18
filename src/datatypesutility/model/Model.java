@@ -9,6 +9,7 @@ public interface Model {
     void setOutputPath(String outputPath);
 
     void setInputFilesNames(LinkedList<String> inputFilesNames);
+
     LinkedList<String> getInputFilesNames();
 
     void setStatisticsCode(int statisticsCode);
@@ -16,15 +17,24 @@ public interface Model {
     int getStatisticsCode();
 
     void setFilesPrefix(String filesPrefix);
-    void setHasOptionO(boolean hasOptionO);
-    void setHasOptionP(boolean hasOptionP);
-    void setHasOptionA(boolean hasOptionA);
-    LinkedList<Number> getStatistic();
-    boolean getHasIntegersFile();
-    boolean getHasDoublesFile();
-    boolean getHasStringsFile();
-    String getIntegerFileName();
-    String getDoubleFileName();
-    String getStringFileName();
 
+    void setHasOptionO(boolean hasOptionO);
+
+    void setHasOptionP(boolean hasOptionP);
+
+    void setHasOptionA(boolean hasOptionA);
+
+    LinkedList<Number> getStatistic();
+
+    boolean getHasIntegersFile();
+
+    boolean getHasDoublesFile();
+
+    boolean getHasStringsFile();
+
+    String getIntegerFileName();
+
+    String getDoubleFileName();
+
+    String getStringFileName();
 }
