@@ -138,7 +138,7 @@ public class UtilityModel implements Model {
         return hasStringsFile;
     }
 
-    public boolean startFilesSort() throws IOException {
+    public boolean startFilesSort() throws IOException { // TODO: Сделать декомпозицию по аналогии с UtilityWriter
         reader = new UtilityReader[inputFilesNames.size()];
 
         LinkedList<Boolean> endOfFiles = new LinkedList<>();
