@@ -10,14 +10,14 @@ public class UtilityWriter {
     private boolean doubleAppendStatus;
     private boolean stringAppendStatus;
 
-    private final UtilityStatistic utilityStatistic;
+    private final UtilityStatistics utilityStatistics;
 
     public UtilityWriter(boolean appendsStatus) {
         integerAppendStatus = appendsStatus;
         doubleAppendStatus = appendsStatus;
         stringAppendStatus = appendsStatus;
 
-        utilityStatistic = new UtilityStatistic();
+        utilityStatistics = new UtilityStatistics();
     }
 
     public void writeLine(String outputFileName, BigInteger data) throws IOException {
@@ -29,7 +29,7 @@ public class UtilityWriter {
             fileWriter.write(String.valueOf(data));
             fileWriter.write("\n");
 
-            utilityStatistic.addStatistic(data);
+            utilityStatistics.addStatistic(data);
         } catch (IOException e) {
             throw new IOException("Ошибка записи строки в файл " + outputFileName + ".");
         }
@@ -44,7 +44,7 @@ public class UtilityWriter {
             fileWriter.write(String.valueOf(data));
             fileWriter.write("\n");
 
-            utilityStatistic.addStatistic(data);
+            utilityStatistics.addStatistic(data);
         } catch (IOException e) {
             throw new IOException("Ошибка записи строки в файл " + outputFileName + ".");
         }
@@ -59,7 +59,7 @@ public class UtilityWriter {
             fileWriter.write(data);
             fileWriter.write("\n");
 
-            utilityStatistic.addStatistic(data);
+            utilityStatistics.addStatistic(data);
         } catch (IOException e) {
             throw new IOException("Ошибка записи строки в файл " + outputFileName + ".");
         }

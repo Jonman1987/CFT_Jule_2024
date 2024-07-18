@@ -240,7 +240,7 @@ public class UtilityController implements Controller { // TODO: заменить
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            view.printMessage("Ошибка. Работа программы принудительно завершена!"); // TODO: Переделать
+            view.printMessage("Внимание! Работа программы принудительно завершена!"); // TODO: Переделать
         }
 
         return false;

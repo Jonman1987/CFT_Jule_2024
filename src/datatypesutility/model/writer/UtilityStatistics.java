@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.util.LinkedList;
 
-public class UtilityStatistic {
+public class UtilityStatistics {
     private static int integerFileElementsCount = 0;
     private static int doubleFileElementsCount = 0;
     private static int stringFileElementsCount = 0;
@@ -25,10 +25,10 @@ public class UtilityStatistic {
     private static int maxString = 0;
     private static int minString = Integer.MAX_VALUE;
 
-    public void addStatistic(BigInteger bigInteger){
+    public void addStatistic(BigInteger bigInteger) {
         integerFileElementsCount++;
         integersElementsSum = integersElementsSum.add(bigInteger);
-        // TODO: Доделать среднее
+
         integersElementsAverage = new BigDecimal(integersElementsSum)
                 .divide(new BigDecimal(integerFileElementsCount), MathContext.DECIMAL128);
 
@@ -41,10 +41,10 @@ public class UtilityStatistic {
         }
     }
 
-    public void addStatistic(BigDecimal bigDecimal){
+    public void addStatistic(BigDecimal bigDecimal) {
         doubleFileElementsCount++;
         doublesElementsSum = doublesElementsSum.add(bigDecimal);
-        // TODO: Доделать среднее 1.528535047E-25 проскакивает
+
         doublesElementsAverage = doublesElementsSum
                 .divide(new BigDecimal(doubleFileElementsCount), MathContext.DECIMAL128);
 
@@ -57,7 +57,7 @@ public class UtilityStatistic {
         }
     }
 
-    public void addStatistic(String string){
+    public void addStatistic(String string) {
         stringFileElementsCount++;
 
         if (string.length() > maxString) {
