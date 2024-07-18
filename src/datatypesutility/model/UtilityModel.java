@@ -155,6 +155,7 @@ public class UtilityModel implements Model {
         boolean appendsStatus = hasOptionA; // TODO: Создавать переменные в местах их первого присваивания
         boolean isInteger = false;
         boolean isDouble = false;
+        boolean isString = false;
 
         String string;
 
@@ -217,6 +218,7 @@ public class UtilityModel implements Model {
                     isDouble = true;
                 } catch (Exception e) { // TODO: нужно вынести без вложения сделать через флаги
                     // Строка не является типом double. Нет необходимости в обработке.
+                    isString = true;
                 }
 
                 if (isDouble) {
@@ -247,27 +249,28 @@ public class UtilityModel implements Model {
                     }
                 }
 
-                try {
-                    if (hasOptionA) {
-                        File file = new File(outputPath + filesPrefix + stringFileName);
+                if(!string.isEmpty()) {
+                    try { // TODO: если данных нет, то файл создается
+                        if (hasOptionA) {
+                            File file = new File(outputPath + filesPrefix + stringFileName);
 
-                        if (!file.exists() && !file.isDirectory()) {
-                            throw new FileNotFoundException("Ошибка. Вы указали параметр -a, но файл "
-                                    + outputPath + filesPrefix + stringFileName
-                                    + ", в который нужно записать данные не найден!");
+                            if (!file.exists() && !file.isDirectory()) {
+                                throw new FileNotFoundException("Ошибка. Вы указали параметр -a, но файл "
+                                        + outputPath + filesPrefix + stringFileName
+                                        + ", в который нужно записать данные не найден!");
+                            }
                         }
+
+                        if (!hasStringsFile) {
+                            stringWriter = new UtilityWriter(appendsStatus);
+                            hasStringsFile = true;
+                        }
+
+                        stringWriter.writeLine(outputPath + filesPrefix + stringFileName, string);
+                    } catch (IOException e) { // TODO: нужно вынести без вложения сделать через флаги
+                        throw new IOException("Ошибка подготовки к записи данных.\n"
+                                + "Сообщение: " + e.getMessage() + ".");
                     }
-
-                    if (!hasStringsFile) {
-                        stringWriter = new UtilityWriter(appendsStatus);
-                        hasStringsFile = true;
-                    }
-
-                    stringWriter.writeLine(outputPath + filesPrefix + stringFileName, string);
-
-                } catch (IOException e) { // TODO: нужно вынести без вложения сделать через флаги
-                    throw new IOException("Ошибка подготовки к записи данных.\n"
-                            + "Сообщение: " + e.getMessage() + ".");
                 }
             }
         } while (endOfFiles.contains(false));
