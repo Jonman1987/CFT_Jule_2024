@@ -138,7 +138,7 @@ public class UtilityModel implements Model {
         return hasStringsFile;
     }
 
-    public boolean startFilesSort() throws IOException { // TODO: Вернуть IOEXCEPTION
+    public boolean startFilesSort() throws IOException {
         reader = new UtilityReader[inputFilesNames.size()];
 
         LinkedList<Boolean> endOfFiles = new LinkedList<>();
@@ -152,10 +152,9 @@ public class UtilityModel implements Model {
             reader[i].setBufferedReader(inputFilesNames.get(i));
         }
 
-        boolean appendsStatus = hasOptionA; // TODO: Создавать переменные в местах их первого присваивания
+        boolean appendsStatus = hasOptionA;
         boolean isInteger = false;
         boolean isDouble = false;
-        boolean isString = false;
 
         String string;
 
@@ -216,9 +215,8 @@ public class UtilityModel implements Model {
                 try {
                     bigDecimal = new BigDecimal(string);
                     isDouble = true;
-                } catch (Exception e) { // TODO: нужно вынести без вложения сделать через флаги
+                } catch (Exception e) {
                     // Строка не является типом double. Нет необходимости в обработке.
-                    isString = true;
                 }
 
                 if (isDouble) {
@@ -250,7 +248,7 @@ public class UtilityModel implements Model {
                 }
 
                 if(!string.isEmpty()) {
-                    try { // TODO: если данных нет, то файл создается
+                    try {
                         if (hasOptionA) {
                             File file = new File(outputPath + filesPrefix + stringFileName);
 
@@ -267,7 +265,7 @@ public class UtilityModel implements Model {
                         }
 
                         stringWriter.writeLine(outputPath + filesPrefix + stringFileName, string);
-                    } catch (IOException e) { // TODO: нужно вынести без вложения сделать через флаги
+                    } catch (IOException e) {
                         throw new IOException("Ошибка подготовки к записи данных.\n"
                                 + "Сообщение: " + e.getMessage() + ".");
                     }
