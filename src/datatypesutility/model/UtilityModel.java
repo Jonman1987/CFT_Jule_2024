@@ -161,7 +161,7 @@ public class UtilityModel implements Model {
         BigInteger bigInteger = new BigInteger(String.valueOf(0));
         BigDecimal bigDecimal = new BigDecimal(0);
 
-        do {
+        do { // TODO: прочитать про закрытие ресурсов BufferReader
             for (int i = 0; i < reader.length; i++) {
                 try {
                     string = reader[i].getLine();
