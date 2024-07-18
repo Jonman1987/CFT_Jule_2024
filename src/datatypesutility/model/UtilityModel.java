@@ -1,18 +1,19 @@
 package datatypesutility.model;
 
 import datatypesutility.model.reader.UtilityReader;
+import datatypesutility.model.writer.UtilityStatistic;
 import datatypesutility.model.writer.UtilityWriter;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.MathContext;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class UtilityModel implements Model {
     UtilityReader[] reader;
-    UtilityWriter[] writer;
+    UtilityWriter integerWriter;
+    UtilityWriter doubleWriter;
+    UtilityWriter stringWriter;
 
     private int statisticsCode = 0;
 
@@ -30,25 +31,6 @@ public class UtilityModel implements Model {
     private boolean hasIntegersFile = false;
     private boolean hasDoublesFile = false;
     private boolean hasStringsFile = false;
-
-    private int integerFileElementsCount = 0;
-    private int doubleFileElementsCount = 0;
-    private int stringFileElementsCount = 0;
-
-    private BigInteger integersElementsSum = new BigInteger(String.valueOf(0));
-    private BigDecimal doublesElementsSum = new BigDecimal(0);
-
-    private BigDecimal integersElementsAverage = new BigDecimal(0);
-    private BigDecimal doublesElementsAverage = new BigDecimal(0);
-
-    private BigInteger maxInteger = new BigInteger(String.valueOf(Integer.MIN_VALUE));
-    private BigDecimal maxDouble = new BigDecimal(Double.MIN_VALUE);
-
-    private BigInteger minInteger = new BigInteger(String.valueOf(Integer.MAX_VALUE));
-    private BigDecimal minDouble = new BigDecimal(Double.MAX_VALUE);
-
-    private int maxString = 0;
-    private int minString = Integer.MAX_VALUE;
 
     public void setInputFilesNames(LinkedList<String> inputFilesNames) {
         this.inputFilesNames = inputFilesNames;
@@ -155,10 +137,9 @@ public class UtilityModel implements Model {
     }
 
     public boolean startFilesSort() throws IOException { // TODO: Вернуть IOEXCEPTION
-        BufferedReader[] bufferedReaders = new BufferedReader[inputFilesNames.size()];
-        boolean appendIntegerStatus = false;
-        boolean appendDoubleStatus = false;
-        boolean appendStringStatus = false;
+        reader = new UtilityReader[inputFilesNames.size()];
+
+        boolean appendsStatus = false;
 
         boolean isInteger = false;
         boolean isDouble = false;
@@ -166,28 +147,27 @@ public class UtilityModel implements Model {
 
         LinkedList<Boolean> endOfFiles = new LinkedList<>();
 
-        for (int i = 0; i < bufferedReaders.length; i++) {
+        for (int i = 0; i < reader.length; i++) {
             endOfFiles.add(false);
         }
 
         for (int i = 0; i < inputFilesNames.size(); i++) {
-            bufferedReaders[i] = new BufferedReader(new FileReader(inputFilesNames.get(i), StandardCharsets.UTF_8));
+            reader[i] = new UtilityReader();
+            reader[i].setBufferedReader(inputFilesNames.get(i));
         }
 
-        if(hasOptionA){
-            appendIntegerStatus = true;
-            appendDoubleStatus = true;
-            appendStringStatus = true;
+        if (hasOptionA) {
+            appendsStatus = true;
         }
 
         String string;
         BigInteger bigInteger = new BigInteger(String.valueOf(0));
         BigDecimal bigDecimal = new BigDecimal(0);
 
-        do { // TODO: сделать рефакторинг повторяющихся частей кода
-            for (int i = 0; i < bufferedReaders.length; i++) {
+        do {
+            for (int i = 0; i < reader.length; i++) {
                 try {
-                    string = bufferedReaders[i].readLine();
+                    string = reader[i].getLine();
 
                     if (string == null) {
                         endOfFiles.set(i, true);
@@ -202,176 +182,77 @@ public class UtilityModel implements Model {
                 try {
                     bigInteger = new BigInteger(string);
                     isInteger = true;
-                }catch (Exception e) { // TODO: нужно вынести без вложения сделать через флаги
-                    // Строка не является int
+                } catch (Exception e) { // TODO: нужно вынести без вложения сделать через флаги
+
                 }
 
-                if(isInteger) {
-                    try (FileWriter integersWriter = new FileWriter(outputPath + filesPrefix + integerFileName, appendIntegerStatus)) { // TODO: не сделана перезапись
-                        if (hasOptionA && appendIntegerStatus) {
+                if (isInteger) {
+                    try {
+                        if(hasOptionA){
                             File file = new File(outputPath + filesPrefix + integerFileName);
 
-                            if (!file.canWrite()) { // TODO: Переписать красиво
-                                throw new IOException("Ошибка добавления записи в файл " + filesPrefix + integerFileName + ". Файл не существует!");
+                            if (!file.exists() && !file.isDirectory()) {
+                                throw new FileNotFoundException("Файл не найден"); // TODO: Подписать ошибки
                             }
-                        } else if (!appendIntegerStatus) {
-                            appendIntegerStatus = true;
                         }
 
-                        integersWriter.write(String.valueOf(bigInteger));
-                        integersWriter.write("\n");
-
-                        if (!hasIntegersFile) {
+                        if(!hasIntegersFile){
+                            integerWriter = new UtilityWriter(appendsStatus);
                             hasIntegersFile = true;
                         }
 
-                        integerFileElementsCount++;
-                        integersElementsSum = integersElementsSum.add(bigInteger);
-                        // TODO: Доделать среднее
-                        integersElementsAverage = new BigDecimal(integersElementsSum)
-                                .divide(new BigDecimal(integerFileElementsCount), MathContext.DECIMAL128);
-
-                        if (bigInteger.compareTo(maxInteger) > 0) {
-                            maxInteger = bigInteger;
-                        }
-
-                        if (bigInteger.compareTo(minInteger) < 0) {
-                            minInteger = bigInteger;
-                        }
+                        integerWriter.writeLine(outputPath + filesPrefix + integerFileName, bigInteger);
 
                         isInteger = false;
 
                         continue;
                     } catch (IOException e) {
-                        System.out.println(e.getMessage());
-
-                        throw new IOException("Ошибка записи в файл " + filesPrefix + integerFileName);
+                        throw new IOException(e.getMessage());
                     }
-                    // }
-            /*catch (Exception e) { // TODO: нужно вынести без вложения сделать через флаги
-                    // Строка не является int
-                }*/
                 }
 
                 try {
                     bigDecimal = new BigDecimal(string);
                     isDouble = true;
-                }catch (Exception e) {
-                    // Строка не является double
+                } catch (Exception e) { // TODO: нужно вынести без вложения сделать через флаги
+                    // Строка не является
                 }
-                if(isDouble) {
-                    try (FileWriter doublesWriter = new FileWriter(outputPath + filesPrefix + doubleFileName, appendDoubleStatus)) {
-                        if (hasOptionA && appendDoubleStatus) {
-                            File file = new File(outputPath + filesPrefix + doubleFileName);
-                            if (!file.canWrite()) { // TODO: Переписать красиво
-                                throw new IOException("Ошибка добавления записи в файл " + filesPrefix + doubleFileName + ". Файл не существует!");
-                            }
 
-
-                            /*if(!Files.exists(Path.of(outputPath + filesPrefix + doubleFileName))){
-                                throw new IOException("Ошибка добавления записи в файл " + doubleFileName + ". Файл не существует!");
-                            }*/
-                        } else if (!appendDoubleStatus) {
-                            appendDoubleStatus = true;
-                        }
-
-                        doublesWriter.write(String.valueOf(bigDecimal));
-                        doublesWriter.write("\n");
-
-                        if (!hasDoublesFile) {
+                if (isDouble) {
+                    try {
+                        if(!hasDoublesFile){
+                            doubleWriter = new UtilityWriter(appendsStatus);
                             hasDoublesFile = true;
                         }
 
-                        doubleFileElementsCount++;
-                        doublesElementsSum = doublesElementsSum.add(bigDecimal);
-                        // TODO: Доделать среднее 1.528535047E-25 проскакивает
-                        doublesElementsAverage = doublesElementsSum
-                                .divide(new BigDecimal(doubleFileElementsCount), MathContext.DECIMAL128);
-
-                        if (bigDecimal.compareTo(maxDouble) > 0) {
-                            maxDouble = bigDecimal;
-                        }
-
-                        if (bigDecimal.compareTo(minDouble) < 0) {
-                            minDouble = bigDecimal;
-                        }
+                        doubleWriter.writeLine(outputPath + filesPrefix + doubleFileName, bigDecimal);
 
                         isDouble = false;
-
                         continue;
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-
-                        throw new IOException("Ошибка записи в файл " + filesPrefix + doubleFileName);
+                    } catch (Exception e) {
+                        throw new IOException("Ошибка double");
                     }
-               /* } catch (Exception e) {
-                    // Строка не является double
-                }*/
                 }
 
-
-                    try (FileWriter stringsWriter = new FileWriter(outputPath + filesPrefix + stringFileName, appendStringStatus)) {
-                        if(hasOptionA && appendStringStatus){
-                            File file = new File(outputPath + filesPrefix + stringFileName);
-                            if(!file.canWrite()) { // TODO: Переписать красиво
-                                throw new IOException("Ошибка добавления записи в файл " + filesPrefix + stringFileName + ". Файл не существует!");
-                            }
-                        }else if(!appendStringStatus){
-                            appendStringStatus = true;
-                        }
-
-                        stringsWriter.write(string);
-                        stringsWriter.write("\n");
-
-                        if (!hasStringsFile) {
-                            hasStringsFile = true;
-                        }
-
-                        stringFileElementsCount++;
-
-                        if (string.length() > maxString) {
-                            maxString = string.length();
-                        }
-
-                        if (string.length() < minString) {
-                            minString = string.length();
-                        }
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-
-                        throw new IOException("Ошибка записи в файл " + filesPrefix + stringFileName);
+                try {
+                    if(!hasStringsFile){
+                        stringWriter = new UtilityWriter(appendsStatus);
+                        hasStringsFile = true;
                     }
 
+                    stringWriter.writeLine(outputPath + filesPrefix + stringFileName, string);
+
+                } catch (Exception e) { // TODO: нужно вынести без вложения сделать через флаги
+                    throw new IOException("Ошибка string");
+                }
             }
         } while (endOfFiles.contains(false));
 
         return true;
     }
 
-    private void fileWriter(FileWriter fileWriter) {
-
-    }
-
     public LinkedList<Number> getStatistic() {
         // TODO: Подумать как упростить выборку статистики
-        LinkedList<Number> statisticList = new LinkedList<>();
-
-        statisticList.add(integerFileElementsCount);
-        statisticList.add(integersElementsSum);
-        statisticList.add(integersElementsAverage);
-        statisticList.add(minInteger);
-        statisticList.add(maxInteger);
-
-        statisticList.add(doubleFileElementsCount);
-        statisticList.add(doublesElementsSum);
-        statisticList.add(doublesElementsAverage);
-        statisticList.add(minDouble);
-        statisticList.add(maxDouble);
-
-        statisticList.add(stringFileElementsCount);
-        statisticList.add(minString);
-        statisticList.add(maxString);
-
-        return statisticList;
+        return UtilityStatistic.getStatistic();
     }
 }
