@@ -14,5 +14,6 @@ public class UtilityReader {
 
     public String getLine() throws IOException {
         return bufferedReader.readLine();
+        // TODO: Тут нужно сделать закрытие ресурсов
     }
 }
