@@ -36,4 +36,8 @@ public class ExceptionMessages {
     public static String getStartFilesSortMessagePartTwo(){
         return "Сообщение: ";
     }
+
+    public static String getWriteLineMessage(){
+        return "Ошибка записи строки в файл ";
+    }
 }

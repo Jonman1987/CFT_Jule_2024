@@ -1,5 +1,7 @@
 package datatypesutility.model.writer;
 
+import datatypesutility.messages.ExceptionMessages;
+
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -40,7 +42,7 @@ public class UtilityWriter {
             utilityStatistics.addStatistic(fileCode, data);
 
         } catch (IOException e) {
-            throw new IOException("Ошибка записи строки в файл " + outputFileName + ".");
+            throw new IOException(ExceptionMessages.getWriteLineMessage() + outputFileName + ".");
         }
     }
 
