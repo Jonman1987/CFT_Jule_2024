@@ -206,7 +206,6 @@ public class UtilityController implements Controller { // TODO: заменить
         return true;
     }
 
-    // TODO: проверка наличия фалов в которые идет запись при наличии опции
     private void setOptionA() {
         for (int i = 0; i < inputArgs.length; i++) {
             if (inputArgs[i].equals("-a") || inputArgs[i].equals("-A")) {
@@ -216,6 +215,8 @@ public class UtilityController implements Controller { // TODO: заменить
     }
 
     public boolean isModelWorkResult() {
+        final int defaultStatisticCode = 0;
+
         try {
             if (!isInputArgsChecked()) {
                 return false;
@@ -223,13 +224,13 @@ public class UtilityController implements Controller { // TODO: заменить
 
             model.startFilesSort();
 
-            if (model.getStatisticsCode() != 0) {
+            if (model.getStatisticsCode() != defaultStatisticCode) {
                 printStatistics();
             }
 
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            view.printMessage(e.getMessage());
             view.printMessage("Внимание! Работа программы принудительно завершена!"); // TODO: Переделать
         }
 
@@ -237,20 +238,17 @@ public class UtilityController implements Controller { // TODO: заменить
     }
 
     private void printStatistics() {
+        final int fullStatisticCode = 2;
         LinkedList<Number> statisticList = model.getStatistic();
 
         // TODO: сделать рефакторинг - вынести первое сообщение статистики оно применяется везде где есть статистика
         // TODO: добавить префикс файла
 
         if (model.getHasIntegersFile()) { // TODO: многократный вызов
-            if (model.getStatisticsCode() == 1) {
-                view.printMessage(StatisticMessages.getStatisticElementsCountMessage()
-                        + model.getIntegerFileName() + ": " + statisticList.getFirst() + ".\n");
-            }
+            view.printMessage(StatisticMessages.getStatisticElementsCountMessage()
+                    + model.getIntegerFileName() + ": " + statisticList.getFirst() + ".");
 
-            if (model.getStatisticsCode() == 2) {
-                view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getIntegerFileName()
-                        + ": " + statisticList.getFirst() + ".");
+            if (model.getStatisticsCode() == fullStatisticCode) {
                 view.printMessage("Сумма записанных элементов в файл " + model.getIntegerFileName()
                         + ": " + statisticList.get(1) + ".");
                 view.printMessage("Среднее значение записанных элементов в файл " + model.getIntegerFileName()
@@ -258,19 +256,17 @@ public class UtilityController implements Controller { // TODO: заменить
                 view.printMessage("Минимальное записанное значение элемента в файл " + model.getIntegerFileName()
                         + ": " + statisticList.get(3) + ".");
                 view.printMessage("Максимальное записанное значение элемента в файл " + model.getIntegerFileName()
-                        + ": " + statisticList.get(4) + ".\n");
+                        + ": " + statisticList.get(4) + ".");
             }
+
+            view.printMessage("");
         }
 
         if (model.getHasDoublesFile()) {
-            if (model.getStatisticsCode() == 1) {
-                view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getDoubleFileName()
-                        + ": " + statisticList.get(5) + ".\n");
-            }
+            view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getDoubleFileName()
+                    + ": " + statisticList.get(5) + ".");
 
-            if (model.getStatisticsCode() == 2) {
-                view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getDoubleFileName()
-                        + ": " + statisticList.get(5) + ".");
+            if (model.getStatisticsCode() == fullStatisticCode) {
                 view.printMessage("Сумма записанных элементов в файл " + model.getDoubleFileName()
                         + ": " + statisticList.get(6) + ".");
                 view.printMessage("Среднее значение записанных элементов в файл " + model.getDoubleFileName()
@@ -278,24 +274,24 @@ public class UtilityController implements Controller { // TODO: заменить
                 view.printMessage("Минимальное записанное значение элемента в файл " + model.getDoubleFileName()
                         + ": " + statisticList.get(8) + ".");
                 view.printMessage("Максимальное записанное значение элемента в файл " + model.getDoubleFileName()
-                        + ": " + statisticList.get(9) + ".\n");
+                        + ": " + statisticList.get(9) + ".");
             }
+
+            view.printMessage("");
         }
 
         if (model.getHasStringsFile()) {
-            if (model.getStatisticsCode() == 1) {
-                view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getStringFileName()
-                        + ": " + statisticList.get(10) + ".\n");
-            }
+            view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getStringFileName()
+                    + ": " + statisticList.get(10) + ".");
 
-            if (model.getStatisticsCode() == 2) {
-                view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getStringFileName()
-                        + ": " + statisticList.get(10) + ".");
+            if (model.getStatisticsCode() == fullStatisticCode) {
                 view.printMessage("Длина минимальной строки записанной в файл " + model.getStringFileName()
                         + ": " + statisticList.get(11) + ".");
                 view.printMessage("Длина максимальной строки записанной в файл " + model.getStringFileName()
-                        + ": " + statisticList.get(12) + ".\n");
+                        + ": " + statisticList.get(12) + ".");
             }
+
+            view.printMessage("");
         }
     }
 }
