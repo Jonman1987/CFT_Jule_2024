@@ -133,8 +133,8 @@ public class CheckAndSetArgs {
     }
 
     public boolean setStatisticParameter(String[] inputArgs, View view, Model model) {
-        for (int i = 0; i < inputArgs.length; i++) { // TODO: Возможно нужен рефакторинг, так как есть повтор сообщения
-            if (inputArgs[i].equals("-f") || inputArgs[i].equals("-F")) {
+        for (String inputArg : inputArgs) { // TODO: Возможно нужен рефакторинг, так как есть повтор сообщения
+            if (inputArg.equals("-f") || inputArg.equals("-F")) {
                 if (model.getStatisticsCode() == 0) {
                     model.setStatisticsCode(2);
                 } else {
@@ -142,7 +142,7 @@ public class CheckAndSetArgs {
 
                     return false;
                 }
-            } else if (inputArgs[i].equals("-s") || inputArgs[i].equals("-S")) {
+            } else if (inputArg.equals("-s") || inputArg.equals("-S")) {
                 if (model.getStatisticsCode() == 0) {
                     model.setStatisticsCode(1);
                 } else {
@@ -157,8 +157,8 @@ public class CheckAndSetArgs {
     }
 
     public void setOptionA(String[] inputArgs, Model model) {
-        for (int i = 0; i < inputArgs.length; i++) {
-            if (inputArgs[i].equals("-a") || inputArgs[i].equals("-A")) {
+        for (String inputArg : inputArgs) {
+            if (inputArg.equals("-a") || inputArg.equals("-A")) {
                 model.setHasOptionA(true);
             }
         }
