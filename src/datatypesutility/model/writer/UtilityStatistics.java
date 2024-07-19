@@ -26,8 +26,8 @@ public class UtilityStatistics {
     private static int maxString = 0;
     private static int minString = Integer.MAX_VALUE;
 
-    public <T> void addStatistic(int varType, T data) {
-        if (varType == 1) {
+    public <T> void addStatistic(int fileCode, T data) {
+        if (fileCode == 1) {
             integerFileElementsCount++;
             integersElementsSum = integersElementsSum.add((BigInteger) data);
 
@@ -41,7 +41,7 @@ public class UtilityStatistics {
             if (((BigInteger) data).compareTo(minInteger) < 0) {
                 minInteger = (BigInteger) data;
             }
-        } else if (varType == 2) {
+        } else if (fileCode == 2) {
             doubleFileElementsCount++;
             doublesElementsSum = doublesElementsSum.add((BigDecimal) data);
 

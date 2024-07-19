@@ -136,7 +136,6 @@ public class UtilityController implements Controller { // TODO: заменить
 
     private boolean isPathAfterOFound() { // TODO: Отработать ситуацию, когда i+1 превышает length
         // TODO: Пересмотреть алгоритмы проверки вынести циклы
-        // TODO: file1.txt file2.txt -o -p file Плохо работает
         String outputPath = "";
 
         for (int i = 0; i < inputArgs.length; i++) {
@@ -243,7 +242,7 @@ public class UtilityController implements Controller { // TODO: заменить
         // TODO: сделать рефакторинг - вынести первое сообщение статистики оно применяется везде где есть статистика
         // TODO: добавить префикс файла
 
-        if (model.getHasIntegersFile()) {
+        if (model.getHasIntegersFile()) { // TODO: многократный вызов
             if (model.getStatisticsCode() == 1) {
                 view.printMessage(StatisticMessages.getStatisticElementsCountMessage()
                         + model.getIntegerFileName() + ": " + statisticList.getFirst() + ".\n");

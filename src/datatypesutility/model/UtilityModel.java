@@ -1,5 +1,6 @@
 package datatypesutility.model;
 
+import datatypesutility.messages.ExceptionMessages;
 import datatypesutility.model.reader.UtilityReader;
 import datatypesutility.model.writer.UtilityStatistics;
 import datatypesutility.model.writer.UtilityWriter;
@@ -139,15 +140,17 @@ public class UtilityModel implements Model {
     }
 
     public boolean startFilesSort() throws IOException { // TODO: Сделать декомпозицию по аналогии с UtilityWriter
+        final int integerFileCode = 1;
+        final int doubleFileCode = 2;
+        final int stringFileCode = 3;
+
         reader = new UtilityReader[inputFilesNames.size()];
 
         LinkedList<Boolean> endOfFiles = new LinkedList<>();
 
-        for (int i = 0; i < reader.length; i++) {
-            endOfFiles.add(false);
-        }
-
         for (int i = 0; i < inputFilesNames.size(); i++) {
+            endOfFiles.add(false);
+
             reader[i] = new UtilityReader();
             reader[i].setBufferedReader(inputFilesNames.get(i));
         }
@@ -172,9 +175,10 @@ public class UtilityModel implements Model {
                         continue;
                     }
                 } catch (IOException e) {
-                    throw new IOException("Ошибка считывания строки из файла "
+                    throw new IOException(ExceptionMessages.getStartFilesSortMessagePartOne()
                             + inputFilesNames.get(i) + "\n"
-                            + "Сообщение: " + e.getMessage());
+                            + ExceptionMessages.getStartFilesSortMessagePartTwo()
+                            + e.getMessage());
                 }
 
                 try {
@@ -185,31 +189,16 @@ public class UtilityModel implements Model {
                 }
 
                 if (isInteger) {
-                    try {
-                        if (hasOptionA) {
-                            File file = new File(outputPath + filesPrefix + integerFileName);
-
-                            if (!file.exists() && !file.isDirectory()) {
-                                throw new FileNotFoundException("Ошибка. Вы указали параметр -a, но файл "
-                                        + outputPath + filesPrefix + integerFileName
-                                        + ", в который нужно записать данные не найден!");
-                            }
-                        }
-
-                        if (!hasIntegersFile) {
-                            integerWriter = new UtilityWriter(hasOptionA);
-                            hasIntegersFile = true;
-                        }
-
-                        integerWriter.writeLine(1,outputPath + filesPrefix + integerFileName, hasOptionA, bigInteger);
-
-                        isInteger = false;
-
-                        continue;
-                    } catch (IOException e) {
-                        throw new IOException("Ошибка подготовки к записи данных.\n"
-                                + "Сообщение: " + e.getMessage() + ".");
+                    if (!hasIntegersFile) {
+                        integerWriter = new UtilityWriter(hasOptionA);
+                        hasIntegersFile = true;
                     }
+
+                    makeFilesAccess(integerFileCode, hasOptionA, outputPath + filesPrefix + integerFileName, integerWriter, bigInteger);
+
+                    isInteger = false;
+
+                    continue;
                 }
 
                 try {
@@ -220,55 +209,25 @@ public class UtilityModel implements Model {
                 }
 
                 if (isDouble) {
-                    try {
-                        if (hasOptionA) {
-                            File file = new File(outputPath + filesPrefix + doubleFileName);
-
-                            if (!file.exists() && !file.isDirectory()) {
-                                throw new FileNotFoundException("Ошибка. Вы указали параметр -a, но файл "
-                                        + outputPath + filesPrefix + doubleFileName
-                                        + ", в который нужно записать данные не найден!");
-                            }
-                        }
-
-                        if (!hasDoublesFile) {
-                            doubleWriter = new UtilityWriter(hasOptionA);
-                            hasDoublesFile = true;
-                        }
-
-                        doubleWriter.writeLine(2,  outputPath + filesPrefix + doubleFileName, hasOptionA, bigDecimal);
-
-                        isDouble = false;
-
-                        continue;
-                    } catch (IOException e) {
-                        throw new IOException("Ошибка подготовки к записи данных.\n"
-                                + "Сообщение: " + e.getMessage() + ".");
+                    if (!hasDoublesFile) {
+                        doubleWriter = new UtilityWriter(hasOptionA);
+                        hasDoublesFile = true;
                     }
+
+                    makeFilesAccess(doubleFileCode, hasOptionA, outputPath + filesPrefix + doubleFileName, doubleWriter, bigDecimal);
+
+                    isDouble = false;
+
+                    continue;
                 }
 
-                if(!string.isEmpty()) {
-                    try {
-                        if (hasOptionA) {
-                            File file = new File(outputPath + filesPrefix + stringFileName);
-
-                            if (!file.exists() && !file.isDirectory()) {
-                                throw new FileNotFoundException("Ошибка. Вы указали параметр -a, но файл "
-                                        + outputPath + filesPrefix + stringFileName
-                                        + ", в который нужно записать данные не найден!");
-                            }
-                        }
-
-                        if (!hasStringsFile) {
-                            stringWriter = new UtilityWriter(hasOptionA);
-                            hasStringsFile = true;
-                        }
-
-                        stringWriter.writeLine(3,outputPath + filesPrefix + stringFileName, hasOptionA, string);
-                    } catch (IOException e) {
-                        throw new IOException("Ошибка подготовки к записи данных.\n"
-                                + "Сообщение: " + e.getMessage() + ".");
+                if (!string.isEmpty()) {
+                    if (!hasStringsFile) {
+                        stringWriter = new UtilityWriter(hasOptionA);
+                        hasStringsFile = true;
                     }
+
+                    makeFilesAccess(stringFileCode, hasOptionA, outputPath + filesPrefix + stringFileName, stringWriter, string);
                 }
             }
         } while (endOfFiles.contains(false));
@@ -276,8 +235,27 @@ public class UtilityModel implements Model {
         return true;
     }
 
+    private <T> void makeFilesAccess(int fileCode, boolean hasOptionA, String outputFilesPath, UtilityWriter fileWriter, T data) throws IOException {
+        try {
+            if (hasOptionA) {
+                File file = new File(outputFilesPath);
+
+                if (!file.exists() && !file.isDirectory()) {
+                    throw new FileNotFoundException(ExceptionMessages.getMakeFilesAccessMessagePartOne()
+                            + outputFilesPath
+                            + ExceptionMessages.getMakeFilesAccessMessagePartTwo());
+                }
+            }
+
+            fileWriter.writeLine(fileCode, outputFilesPath, hasOptionA, data);
+        } catch (IOException e) {
+            throw new IOException(ExceptionMessages.getMakeFilesAccessMessagePartThree()
+                    + ExceptionMessages.getMakeFilesAccessMessagePartFour()
+                    + e.getMessage());
+        }
+    }
+
     public LinkedList<Number> getStatistic() {
-        // TODO: Подумать как упростить выборку статистики
         return UtilityStatistics.getStatistic();
     }
 }

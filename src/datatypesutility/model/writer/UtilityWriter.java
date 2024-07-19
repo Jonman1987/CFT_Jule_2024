@@ -14,16 +14,16 @@ public class UtilityWriter{
         utilityStatistics = new UtilityStatistics();
     }
 
-    public <T> void writeLine(int fileType, String outputFileName, boolean appendStatus, T data) throws IOException {
+    public <T> void writeLine(int fileCode, String outputFileName, boolean appendStatus, T data) throws IOException {
         try (FileWriter fileWriter = new FileWriter(outputFileName, isAppend)) {
             if (!appendStatus) {
                 isAppend = true;
             }
 
-            if (fileType == 1) {
+            if (fileCode == 1) {
                 fileWriter.write(String.valueOf(data));
                 fileWriter.write("\n");
-            } else if (fileType == 2) {
+            } else if (fileCode == 2) {
                 fileWriter.write(String.valueOf(data));
                 fileWriter.write("\n");
             } else {
@@ -31,7 +31,7 @@ public class UtilityWriter{
                 fileWriter.write("\n");
             }
 
-            utilityStatistics.addStatistic(fileType, data);
+            utilityStatistics.addStatistic(fileCode, data);
 
         } catch (IOException e) {
             throw new IOException("Ошибка записи строки в файл " + outputFileName + ".");
