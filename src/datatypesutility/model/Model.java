@@ -11,6 +11,7 @@ public interface Model {
     void setInputFilesNames(LinkedList<String> inputFilesNames);
 
     LinkedList<String> getInputFilesNames();
+    String getFilesPrefix();
 
     void setStatisticsCode(int statisticsCode);
 
