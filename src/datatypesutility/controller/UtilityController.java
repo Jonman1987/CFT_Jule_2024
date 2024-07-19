@@ -26,14 +26,6 @@ public class UtilityController implements Controller { // TODO: заменить
         return inputArgs;
     }
 
-    public View getView() {
-        return view;
-    }
-
-    public Model getModel() {
-        return model;
-    }
-
     public boolean isInputArgsChecked() { // TODO: переименовать в Initialization
         // TODO: Не нравится, что модель передает ресурсы view и model
         CheckAndSetArgs checkArgs = new CheckAndSetArgs();
