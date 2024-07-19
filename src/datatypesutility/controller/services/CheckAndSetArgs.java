@@ -133,4 +133,36 @@ public class CheckAndSetArgs {
 
         return true;
     }
+
+    public boolean setStatisticParameter(String[] inputArgs, View view, Model model) {
+        for (int i = 0; i < inputArgs.length; i++) { // TODO: Возможно нужен рефакторинг, так как есть повтор сообщения
+            if (inputArgs[i].equals("-f") || inputArgs[i].equals("-F")) {
+                if (model.getStatisticsCode() == 0) {
+                    model.setStatisticsCode(2);
+                } else {
+                    view.printMessage("Ошибка: Вы указали конфликтующие друг с другом параметры статистики."); // TODO: Оформить как ошибку
+
+                    return false;
+                }
+            } else if (inputArgs[i].equals("-s") || inputArgs[i].equals("-S")) {
+                if (model.getStatisticsCode() == 0) {
+                    model.setStatisticsCode(1);
+                } else {
+                    view.printMessage("Вы указали конфликтующие друг с другом параметры статистики."); // TODO: Оформить как ошибку
+
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public void setOptionA(String[] inputArgs, Model model) {
+        for (int i = 0; i < inputArgs.length; i++) {
+            if (inputArgs[i].equals("-a") || inputArgs[i].equals("-A")) {
+                model.setHasOptionA(true);
+            }
+        }
+    }
 }
