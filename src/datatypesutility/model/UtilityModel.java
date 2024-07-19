@@ -146,8 +146,9 @@ public class UtilityModel implements Model {
                         hasIntegersFile = true;
                     }
 
+                    File file = new File(outputPath + filesPrefix + integerFileName);
                     makeFilesAccess(integerFileCode, hasOptionA, outputPath + filesPrefix + integerFileName,
-                            integerWriter, bigInteger);
+                            integerWriter, bigInteger, file);
 
                     isInteger = false;
 
@@ -167,9 +168,9 @@ public class UtilityModel implements Model {
                         doubleWriter.setFileWriter(outputPath + filesPrefix + doubleFileName);
                         hasDoublesFile = true;
                     }
-
+                    File file = new File(outputPath + filesPrefix + doubleFileName);
                     makeFilesAccess(doubleFileCode, hasOptionA, outputPath + filesPrefix + doubleFileName,
-                            doubleWriter, bigDecimal);
+                            doubleWriter, bigDecimal, file);
 
                     isDouble = false;
 
@@ -183,8 +184,9 @@ public class UtilityModel implements Model {
                         hasStringsFile = true;
                     }
 
+                    File file = new File(outputPath + filesPrefix + stringFileName);
                     makeFilesAccess(stringFileCode, hasOptionA, outputPath + filesPrefix + stringFileName,
-                            stringWriter, string);
+                            stringWriter, string, file);
                 }
             }
         } while (endOfFiles.contains(false));
@@ -195,10 +197,10 @@ public class UtilityModel implements Model {
     }
 
     private <T> void makeFilesAccess(int fileCode, boolean hasOptionA, String outputFilesPath, UtilityWriter fileWriter,
-                                     T data) throws IOException {
+                                     T data, File file) throws IOException {
         try {
             if (hasOptionA) {
-                File file = new File(outputFilesPath);
+
 
                 if (!file.exists() && !file.isDirectory()) { // TODO: Опять не работает
                     throw new FileNotFoundException(ExceptionMessages.getMakeFilesAccessMessagePartOne()
