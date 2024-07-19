@@ -81,7 +81,6 @@ public class CheckAndSetArgs {
                 }
 
                 model.setFilesPrefix(inputArgs[i + 1]);
-                model.setHasOptionP(true);
             }
         }
     }
@@ -125,7 +124,6 @@ public class CheckAndSetArgs {
                 }
 
                 model.setOutputPath(outputPath);
-                model.setHasOptionO(true);
 
                 return true;
             }

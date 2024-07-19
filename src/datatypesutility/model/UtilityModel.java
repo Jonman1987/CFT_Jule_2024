@@ -21,14 +21,12 @@ public class UtilityModel implements Model {
 
     private LinkedList<String> inputFilesNames;
 
-    private String integerFileName = "Integers.txt";
-    private String doubleFileName = "Floats.txt";
-    private String stringFileName = "Strings.txt";
+    private final String integerFileName = "Integers.txt";
+    private final String doubleFileName = "Floats.txt";
+    private final String stringFileName = "Strings.txt";
     private String outputPath = "";
     private String filesPrefix = "";
 
-    private boolean hasOptionO = false;
-    private boolean hasOptionP = false;
     private boolean hasOptionA = false;
 
     private boolean hasIntegersFile = false;
@@ -51,24 +49,12 @@ public class UtilityModel implements Model {
         return statisticsCode;
     }
 
-    public void setIntegerFilename(String integerFilename) {
-        this.integerFileName = integerFilename;
-    }
-
     public String getIntegerFileName() {
         return integerFileName;
     }
 
-    public void setDoubleFileName(String doubleFileName) {
-        this.doubleFileName = doubleFileName;
-    }
-
     public String getDoubleFileName() {
         return doubleFileName;
-    }
-
-    public void setStringFileName(String stringFileName) {
-        this.stringFileName = stringFileName;
     }
 
     public String getStringFileName() {
@@ -79,10 +65,6 @@ public class UtilityModel implements Model {
         this.outputPath = outputPath;
     }
 
-    public String getOutputPath() {
-        return outputPath;
-    }
-
     public void setFilesPrefix(String filesPrefix) {
         this.filesPrefix = filesPrefix;
     }
@@ -91,48 +73,16 @@ public class UtilityModel implements Model {
         return filesPrefix;
     }
 
-    public void setHasOptionO(boolean hasOptionO) {
-        this.hasOptionO = hasOptionO;
-    }
-
-    public boolean getOptionO() {
-        return hasOptionO;
-    }
-
-    public void setHasOptionP(boolean hasOptionP) {
-        this.hasOptionP = hasOptionP;
-    }
-
-    public boolean getOptionP() {
-        return hasOptionP;
-    }
-
     public void setHasOptionA(boolean hasOptionA) {
         this.hasOptionA = hasOptionA;
-    }
-
-    public boolean getOptionA() {
-        return hasOptionA;
-    }
-
-    public void setHasIntegersFile(boolean hasIntegersFile) {
-        this.hasIntegersFile = hasIntegersFile;
     }
 
     public boolean getHasIntegersFile() {
         return hasIntegersFile;
     }
 
-    public void setHasDoublesFile(boolean hasDoublesFile) {
-        this.hasDoublesFile = hasDoublesFile;
-    }
-
     public boolean getHasDoublesFile() {
         return hasDoublesFile;
-    }
-
-    public void setHasStringsFile(boolean hasStringsFile) {
-        this.hasStringsFile = hasStringsFile;
     }
 
     public boolean getHasStringsFile() {

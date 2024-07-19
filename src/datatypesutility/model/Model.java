@@ -19,10 +19,6 @@ public interface Model {
 
     void setFilesPrefix(String filesPrefix);
 
-    void setHasOptionO(boolean hasOptionO);
-
-    void setHasOptionP(boolean hasOptionP);
-
     void setHasOptionA(boolean hasOptionA);
 
     LinkedList<Number> getStatistic();
