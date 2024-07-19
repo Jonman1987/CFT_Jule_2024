@@ -120,7 +120,8 @@ public class UtilityModel implements Model {
 
                     if (string == null) {
                         endOfFiles.set(i, true);
-                        reader[i].CloseBufferReader();
+                        //TODO: Вот тут был косяк со стримом
+                      //  reader[i].CloseBufferReader();
 
                         continue;
                     }
@@ -199,7 +200,7 @@ public class UtilityModel implements Model {
             if (hasOptionA) {
                 File file = new File(outputFilesPath);
 
-                if (!file.exists() && !file.isDirectory()) {
+                if (!file.exists() && !file.isDirectory()) { // TODO: Опять не работает
                     throw new FileNotFoundException(ExceptionMessages.getMakeFilesAccessMessagePartOne()
                             + outputFilesPath
                             + ExceptionMessages.getMakeFilesAccessMessagePartTwo());
