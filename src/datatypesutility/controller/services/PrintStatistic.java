@@ -14,68 +14,101 @@ public class PrintStatistic {
 
         int statisticCode = model.getStatisticsCode();
 
-        // TODO: сделать рефакторинг - вынести первое сообщение статистики оно применяется везде где есть статистика
-        // TODO: добавить префикс файла
-
-        if (model.getHasIntegersFile()) {
+        if (model.getHasIntegersFile()) { // TODO: Декомпозировать
             view.printMessage(StatisticMessages.getStatisticElementsCountMessage()
                     + model.getFilesPrefix()
                     + model.getIntegerFileName()
-                    + ": " + statisticList.getFirst() + ".");
+                    + StatisticMessages.getPrintMessageColon()
+                    + statisticList.getFirst()
+                    + StatisticMessages.getPrintMessageDot());
 
             if (statisticCode == fullStatisticCode) {
-                view.printMessage("Сумма записанных элементов в файл " + model.getFilesPrefix()
+                view.printMessage(StatisticMessages.getStatisticElementsSumMessage()
+                        + model.getFilesPrefix()
                         + model.getIntegerFileName()
-                        + ": " + statisticList.get(1) + ".");
-                view.printMessage("Среднее значение записанных элементов в файл " + model.getFilesPrefix()
+                        + StatisticMessages.getPrintMessageColon()
+                        + statisticList.get(1)
+                        + StatisticMessages.getPrintMessageDot());
+                view.printMessage(StatisticMessages.getStatisticElementsAverageMessage()
+                        + model.getFilesPrefix()
                         + model.getIntegerFileName()
-                        + ": " + statisticList.get(2) + ".");
-                view.printMessage("Минимальное записанное значение элемента в файл " + model.getFilesPrefix()
+                        + StatisticMessages.getPrintMessageColon()
+                        + statisticList.get(2)
+                        + StatisticMessages.getPrintMessageDot());
+                view.printMessage(StatisticMessages.getStatisticElementsMinMessage()
+                        + model.getFilesPrefix()
                         + model.getIntegerFileName()
-                        + ": " + statisticList.get(3) + ".");
-                view.printMessage("Максимальное записанное значение элемента в файл " + model.getFilesPrefix()
+                        + StatisticMessages.getPrintMessageColon()
+                        + statisticList.get(3)
+                        + StatisticMessages.getPrintMessageDot());
+                view.printMessage(StatisticMessages.getStatisticElementsMaxMessage()
+                        + model.getFilesPrefix()
                         + model.getIntegerFileName()
-                        + ": " + statisticList.get(4) + ".");
+                        + StatisticMessages.getPrintMessageColon()
+                        + statisticList.get(4)
+                        + StatisticMessages.getPrintMessageDot());
             }
 
             view.printMessage("");
         }
 
         if (model.getHasDoublesFile()) {
-            view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getFilesPrefix()
+            view.printMessage(StatisticMessages.getStatisticElementsCountMessage()
+                    + model.getFilesPrefix()
                     + model.getDoubleFileName()
-                    + ": " + statisticList.get(5) + ".");
+                    + StatisticMessages.getPrintMessageColon()
+                    + statisticList.get(5)
+                    + StatisticMessages.getPrintMessageDot());
 
             if (statisticCode == fullStatisticCode) {
-                view.printMessage("Сумма записанных элементов в файл " + model.getFilesPrefix()
+                view.printMessage(StatisticMessages.getStatisticElementsSumMessage()
+                        + model.getFilesPrefix()
                         + model.getDoubleFileName()
-                        + ": " + statisticList.get(6) + ".");
-                view.printMessage("Среднее значение записанных элементов в файл " + model.getFilesPrefix()
+                        + StatisticMessages.getPrintMessageColon()
+                        + statisticList.get(6)
+                        + StatisticMessages.getPrintMessageDot());
+                view.printMessage(StatisticMessages.getStatisticElementsAverageMessage()
+                        + model.getFilesPrefix()
                         + model.getDoubleFileName()
-                        + ": " + statisticList.get(7) + ".");
-                view.printMessage("Минимальное записанное значение элемента в файл " + model.getFilesPrefix()
+                        + StatisticMessages.getPrintMessageColon()
+                        + statisticList.get(7)
+                        + StatisticMessages.getPrintMessageDot());
+                view.printMessage(StatisticMessages.getStatisticElementsMinMessage()
+                        + model.getFilesPrefix()
                         + model.getDoubleFileName()
-                        + ": " + statisticList.get(8) + ".");
-                view.printMessage("Максимальное записанное значение элемента в файл " + model.getFilesPrefix()
+                        + StatisticMessages.getPrintMessageColon()
+                        + statisticList.get(8)
+                        + StatisticMessages.getPrintMessageDot());
+                view.printMessage(StatisticMessages.getStatisticElementsMaxMessage()
+                        + model.getFilesPrefix()
                         + model.getDoubleFileName()
-                        + ": " + statisticList.get(9) + ".");
+                        + StatisticMessages.getPrintMessageColon()
+                        + statisticList.get(9)
+                        + StatisticMessages.getPrintMessageDot());
             }
 
             view.printMessage("");
         }
 
         if (model.getHasStringsFile()) {
-            view.printMessage(StatisticMessages.getStatisticElementsCountMessage() + model.getFilesPrefix()
+            view.printMessage(StatisticMessages.getStatisticElementsCountMessage()
+                    + model.getFilesPrefix()
                     + model.getStringFileName()
-                    + ": " + statisticList.get(10) + ".");
+                    + StatisticMessages.getPrintMessageColon()
+                    + statisticList.get(10)
+                    + StatisticMessages.getPrintMessageDot());
 
             if (statisticCode == fullStatisticCode) {
-                view.printMessage("Длина минимальной строки записанной в файл " + model.getFilesPrefix()
+                view.printMessage(StatisticMessages.getStatisticStringMinLengthMessage() + model.getFilesPrefix()
                         + model.getStringFileName()
-                        + ": " + statisticList.get(11) + ".");
-                view.printMessage("Длина максимальной строки записанной в файл " + model.getFilesPrefix()
+                        + StatisticMessages.getPrintMessageColon()
+                        + statisticList.get(11)
+                        + StatisticMessages.getPrintMessageDot());
+                view.printMessage(StatisticMessages.getStatisticStringMaxLengthMessage() + model.getFilesPrefix()
                         + model.getStringFileName()
-                        + ": " + statisticList.get(12) + ".");
+                        + StatisticMessages.getPrintMessageColon()
+                        + statisticList.get(12)
+                        + StatisticMessages.getPrintMessageDot());
             }
 
             view.printMessage("");

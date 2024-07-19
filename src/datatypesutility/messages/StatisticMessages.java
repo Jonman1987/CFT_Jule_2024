@@ -28,4 +28,12 @@ public class StatisticMessages {
     public static String getStatisticStringMaxLengthMessage(){
         return "Длина максимальной строки записанной в файл ";
     }
+
+    public static String getPrintMessageDot(){
+        return ".";
+    }
+
+    public static String getPrintMessageColon(){
+        return ": ";
+    }
 }
