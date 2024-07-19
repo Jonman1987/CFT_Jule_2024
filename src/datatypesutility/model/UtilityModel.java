@@ -152,7 +152,6 @@ public class UtilityModel implements Model {
             reader[i].setBufferedReader(inputFilesNames.get(i));
         }
 
-        boolean appendsStatus = hasOptionA;
         boolean isInteger = false;
         boolean isDouble = false;
 
@@ -161,13 +160,14 @@ public class UtilityModel implements Model {
         BigInteger bigInteger = new BigInteger(String.valueOf(0));
         BigDecimal bigDecimal = new BigDecimal(0);
 
-        do { // TODO: прочитать про закрытие ресурсов BufferReader
+        do {
             for (int i = 0; i < reader.length; i++) {
                 try {
                     string = reader[i].getLine();
 
                     if (string == null) {
                         endOfFiles.set(i, true);
+                        reader[i].CloseBufferReader();
 
                         continue;
                     }
@@ -197,11 +197,11 @@ public class UtilityModel implements Model {
                         }
 
                         if (!hasIntegersFile) {
-                            integerWriter = new UtilityWriter(appendsStatus);
+                            integerWriter = new UtilityWriter(hasOptionA);
                             hasIntegersFile = true;
                         }
 
-                        integerWriter.writeLine(outputPath + filesPrefix + integerFileName, bigInteger);
+                        integerWriter.writeLine(1,outputPath + filesPrefix + integerFileName, hasOptionA, bigInteger);
 
                         isInteger = false;
 
@@ -232,11 +232,11 @@ public class UtilityModel implements Model {
                         }
 
                         if (!hasDoublesFile) {
-                            doubleWriter = new UtilityWriter(appendsStatus);
+                            doubleWriter = new UtilityWriter(hasOptionA);
                             hasDoublesFile = true;
                         }
 
-                        doubleWriter.writeLine(outputPath + filesPrefix + doubleFileName, bigDecimal);
+                        doubleWriter.writeLine(2,  outputPath + filesPrefix + doubleFileName, hasOptionA, bigDecimal);
 
                         isDouble = false;
 
@@ -260,11 +260,11 @@ public class UtilityModel implements Model {
                         }
 
                         if (!hasStringsFile) {
-                            stringWriter = new UtilityWriter(appendsStatus);
+                            stringWriter = new UtilityWriter(hasOptionA);
                             hasStringsFile = true;
                         }
 
-                        stringWriter.writeLine(outputPath + filesPrefix + stringFileName, string);
+                        stringWriter.writeLine(3,outputPath + filesPrefix + stringFileName, hasOptionA, string);
                     } catch (IOException e) {
                         throw new IOException("Ошибка подготовки к записи данных.\n"
                                 + "Сообщение: " + e.getMessage() + ".");

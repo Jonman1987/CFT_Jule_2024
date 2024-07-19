@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.util.LinkedList;
+import java.util.List;
 
-public class UtilityStatistics { // TODO: Декомпозицию как в UtilityWriter
+public class UtilityStatistics {
     private static int integerFileElementsCount = 0;
     private static int doubleFileElementsCount = 0;
     private static int stringFileElementsCount = 0;
@@ -25,70 +26,62 @@ public class UtilityStatistics { // TODO: Декомпозицию как в Uti
     private static int maxString = 0;
     private static int minString = Integer.MAX_VALUE;
 
-    public void addStatistic(BigInteger bigInteger) {
-        integerFileElementsCount++;
-        integersElementsSum = integersElementsSum.add(bigInteger);
+    public <T> void addStatistic(int varType, T data) {
+        if (varType == 1) {
+            integerFileElementsCount++;
+            integersElementsSum = integersElementsSum.add((BigInteger) data);
 
-        integersElementsAverage = new BigDecimal(integersElementsSum)
-                .divide(new BigDecimal(integerFileElementsCount), MathContext.DECIMAL128);
+            integersElementsAverage = new BigDecimal(integersElementsSum)
+                    .divide(new BigDecimal(integerFileElementsCount), MathContext.DECIMAL128);
 
-        if (bigInteger.compareTo(maxInteger) > 0) {
-            maxInteger = bigInteger;
-        }
+            if (((BigInteger) data).compareTo(maxInteger) > 0) {
+                maxInteger = (BigInteger) data;
+            }
 
-        if (bigInteger.compareTo(minInteger) < 0) {
-            minInteger = bigInteger;
-        }
-    }
+            if (((BigInteger) data).compareTo(minInteger) < 0) {
+                minInteger = (BigInteger) data;
+            }
+        } else if (varType == 2) {
+            doubleFileElementsCount++;
+            doublesElementsSum = doublesElementsSum.add((BigDecimal) data);
 
-    public void addStatistic(BigDecimal bigDecimal) {
-        doubleFileElementsCount++;
-        doublesElementsSum = doublesElementsSum.add(bigDecimal);
+            doublesElementsAverage = doublesElementsSum
+                    .divide(new BigDecimal(doubleFileElementsCount), MathContext.DECIMAL128);
 
-        doublesElementsAverage = doublesElementsSum
-                .divide(new BigDecimal(doubleFileElementsCount), MathContext.DECIMAL128);
+            if (((BigDecimal) data).compareTo(maxDouble) > 0) {
+                maxDouble = (BigDecimal) data;
+            }
 
-        if (bigDecimal.compareTo(maxDouble) > 0) {
-            maxDouble = bigDecimal;
-        }
+            if (((BigDecimal) data).compareTo(minDouble) < 0) {
+                minDouble = (BigDecimal) data;
+            }
+        } else {
+            stringFileElementsCount++;
 
-        if (bigDecimal.compareTo(minDouble) < 0) {
-            minDouble = bigDecimal;
-        }
-    }
+            if (((String) data).length() > maxString) {
+                maxString = ((String) data).length();
+            }
 
-    public void addStatistic(String string) {
-        stringFileElementsCount++;
-
-        if (string.length() > maxString) {
-            maxString = string.length();
-        }
-
-        if (string.length() < minString) {
-            minString = string.length();
+            if (((String) data).length() < minString) {
+                minString = ((String) data).length();
+            }
         }
     }
 
     public static LinkedList<Number> getStatistic() {
-        // TODO: Подумать как упростить выборку статистики
-        LinkedList<Number> statisticList = new LinkedList<>();
-
-        statisticList.add(integerFileElementsCount);
-        statisticList.add(integersElementsSum);
-        statisticList.add(integersElementsAverage);
-        statisticList.add(minInteger);
-        statisticList.add(maxInteger);
-
-        statisticList.add(doubleFileElementsCount);
-        statisticList.add(doublesElementsSum);
-        statisticList.add(doublesElementsAverage);
-        statisticList.add(minDouble);
-        statisticList.add(maxDouble);
-
-        statisticList.add(stringFileElementsCount);
-        statisticList.add(minString);
-        statisticList.add(maxString);
-
-        return statisticList;
+        return new LinkedList<>(List.of(
+                integerFileElementsCount,
+                integersElementsSum,
+                integersElementsAverage,
+                minInteger,
+                maxInteger,
+                doubleFileElementsCount,
+                doublesElementsSum,
+                doublesElementsAverage,
+                minDouble,
+                maxDouble,
+                stringFileElementsCount,
+                minString,
+                maxString));
     }
 }

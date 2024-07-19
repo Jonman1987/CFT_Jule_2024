@@ -135,7 +135,7 @@ public class UtilityController implements Controller { // TODO: заменить
     }
 
     private boolean isPathAfterOFound() { // TODO: Отработать ситуацию, когда i+1 превышает length
-        // TODO: Пересмотреть алгоритмы проверки
+        // TODO: Пересмотреть алгоритмы проверки вынести циклы
         // TODO: file1.txt file2.txt -o -p file Плохо работает
         String outputPath = "";
 
