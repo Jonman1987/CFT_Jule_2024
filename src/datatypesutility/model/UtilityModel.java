@@ -191,10 +191,12 @@ public class UtilityModel implements Model {
                 if (isInteger) {
                     if (!hasIntegersFile) {
                         integerWriter = new UtilityWriter(hasOptionA);
+                        integerWriter.setFileWriter(outputPath + filesPrefix + integerFileName);
                         hasIntegersFile = true;
                     }
 
-                    makeFilesAccess(integerFileCode, hasOptionA, outputPath + filesPrefix + integerFileName, integerWriter, bigInteger);
+                    makeFilesAccess(integerFileCode, hasOptionA, outputPath + filesPrefix + integerFileName,
+                            integerWriter, bigInteger);
 
                     isInteger = false;
 
@@ -211,10 +213,12 @@ public class UtilityModel implements Model {
                 if (isDouble) {
                     if (!hasDoublesFile) {
                         doubleWriter = new UtilityWriter(hasOptionA);
+                        doubleWriter.setFileWriter(outputPath + filesPrefix + doubleFileName);
                         hasDoublesFile = true;
                     }
 
-                    makeFilesAccess(doubleFileCode, hasOptionA, outputPath + filesPrefix + doubleFileName, doubleWriter, bigDecimal);
+                    makeFilesAccess(doubleFileCode, hasOptionA, outputPath + filesPrefix + doubleFileName,
+                            doubleWriter, bigDecimal);
 
                     isDouble = false;
 
@@ -224,18 +228,23 @@ public class UtilityModel implements Model {
                 if (!string.isEmpty()) {
                     if (!hasStringsFile) {
                         stringWriter = new UtilityWriter(hasOptionA);
+                        stringWriter.setFileWriter(outputPath + filesPrefix + stringFileName);
                         hasStringsFile = true;
                     }
 
-                    makeFilesAccess(stringFileCode, hasOptionA, outputPath + filesPrefix + stringFileName, stringWriter, string);
+                    makeFilesAccess(stringFileCode, hasOptionA, outputPath + filesPrefix + stringFileName,
+                            stringWriter, string);
                 }
             }
         } while (endOfFiles.contains(false));
 
+        closeFileWriterResources();
+
         return true;
     }
 
-    private <T> void makeFilesAccess(int fileCode, boolean hasOptionA, String outputFilesPath, UtilityWriter fileWriter, T data) throws IOException {
+    private <T> void makeFilesAccess(int fileCode, boolean hasOptionA, String outputFilesPath, UtilityWriter fileWriter,
+                                     T data) throws IOException {
         try {
             if (hasOptionA) {
                 File file = new File(outputFilesPath);
@@ -252,6 +261,20 @@ public class UtilityModel implements Model {
             throw new IOException(ExceptionMessages.getMakeFilesAccessMessagePartThree()
                     + ExceptionMessages.getMakeFilesAccessMessagePartFour()
                     + e.getMessage());
+        }
+    }
+
+    private void closeFileWriterResources() throws IOException {
+        if(hasIntegersFile){
+            integerWriter.closeFileWriter();
+        }
+
+        if(hasDoublesFile){
+            doubleWriter.closeFileWriter();
+        }
+
+        if(hasStringsFile){
+            stringWriter.closeFileWriter();
         }
     }
 

@@ -3,8 +3,10 @@ package datatypesutility.model.writer;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class UtilityWriter{
+public class UtilityWriter {
     private boolean isAppend;
+
+    private FileWriter fileWriter;
 
     private final UtilityStatistics utilityStatistics;
 
@@ -14,8 +16,12 @@ public class UtilityWriter{
         utilityStatistics = new UtilityStatistics();
     }
 
+    public void setFileWriter(String outputFileName) throws IOException {
+        fileWriter = new FileWriter(outputFileName, isAppend);
+    }
+
     public <T> void writeLine(int fileCode, String outputFileName, boolean appendStatus, T data) throws IOException {
-        try (FileWriter fileWriter = new FileWriter(outputFileName, isAppend)) {
+        try {
             if (!appendStatus) {
                 isAppend = true;
             }
@@ -36,5 +42,9 @@ public class UtilityWriter{
         } catch (IOException e) {
             throw new IOException("Ошибка записи строки в файл " + outputFileName + ".");
         }
+    }
+
+    public void closeFileWriter() throws IOException {
+        fileWriter.close();
     }
 }
