@@ -200,8 +200,6 @@ public class UtilityModel implements Model {
                                      T data, File file) throws IOException {
         try {
             if (hasOptionA) {
-
-
                 if (!file.exists() && !file.isDirectory()) { // TODO: Опять не работает
                     throw new FileNotFoundException(ExceptionMessages.getMakeFilesAccessMessagePartOne()
                             + outputFilesPath
@@ -218,6 +216,10 @@ public class UtilityModel implements Model {
     }
 
     private void closeFileWriterResources() throws IOException {
+        for (UtilityReader utilityReader : reader) {
+            utilityReader.CloseBufferReader();
+        }
+
         if(hasIntegersFile){
             integerWriter.closeFileWriter();
         }

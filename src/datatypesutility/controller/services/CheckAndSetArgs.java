@@ -14,9 +14,17 @@ public class CheckAndSetArgs {
         LinkedList<String> inputFilesNames = new LinkedList<>();
 
         for (String arg : inputArgs) {
-            if (arg.toLowerCase().contains(".txt")) { // TODO: Добавить если первый символ точка
-                inputFilesNames.add(arg);
+            if (!arg.toLowerCase().contains(".txt")) {
+                break;
             }
+
+            if (arg.charAt(0) == '.') {
+                view.printMessage("Ошибка: В имени входного файла указано только расширение");
+
+                return false;
+            }
+
+            inputFilesNames.add(arg);
         }
 
         if (inputFilesNames.isEmpty()) {
@@ -30,7 +38,7 @@ public class CheckAndSetArgs {
         return true;
     }
 
-    public boolean isFileFound(Model model, View view) { // TODO: Совместить с isFileParametersFound()
+    public boolean isFileFound(Model model, View view) {
         LinkedList<String> filesNamesList = model.getInputFilesNames();
         File[] filesArray = new File[filesNamesList.size()];
 
@@ -47,7 +55,7 @@ public class CheckAndSetArgs {
         return true;
     }
 
-    public void isPrefixAfterPFound(String[] inputArgs, View view, Model model) { // TODO: Отработать ситуацию, когда i+1 превышает length
+    public void isPrefixAfterPFound(String[] inputArgs, View view, Model model) {
         // TODO: Пересмотреть алгоритмы проверки
         // TODO: Названия не очень
         for (int i = 0; i < inputArgs.length; i++) {
@@ -85,7 +93,7 @@ public class CheckAndSetArgs {
         }
     }
 
-    public boolean isPathAfterOFound(String[] inputArgs, View view, Model model) { // TODO: Отработать ситуацию, когда i+1 превышает length
+    public boolean isPathAfterOFound(String[] inputArgs, View view, Model model) {
         // TODO: Пересмотреть алгоритмы проверки вынести циклы
         String outputPath = "";
 
@@ -94,7 +102,6 @@ public class CheckAndSetArgs {
                 if (i == (inputArgs.length - 1)) {
                     view.printMessage("Внимание: Вы не указали путь после команды -o. Файлы сохранены в текущую папку.");
                     model.setOutputPath(outputPath);
-                    // model.setHasOptionO(true);
 
                     return true;
                 }
@@ -102,11 +109,19 @@ public class CheckAndSetArgs {
                 outputPath = inputArgs[i + 1];
 
                 if (outputPath.charAt(0) != '-') {
-                    /*if (outputPath.charAt(0) == '/') {
-                        StringBuilder stringBuilder = new StringBuilder(outputPath);
-                        stringBuilder.deleteCharAt(0);
-                        outputPath = stringBuilder.toString();
-                    }*/
+                    if (outputPath.contains("*")
+                            || outputPath.contains("*")
+                            || outputPath.contains("/")
+                            || outputPath.contains("?")
+                            || outputPath.contains(":")
+                            || outputPath.contains("|")
+                            || outputPath.contains("\"")
+                            || outputPath.contains("<")
+                            || outputPath.contains(">")) {
+                        view.printMessage("Внимание: Вы указали путь для исходящих файлов с использованием спецсимвола. Файлы сохранены в текущую папку.");
+                        model.setOutputPath("");
+                        return true;
+                    }
 
                     // TODO: Подумать о проверке на спецсимволы file1.txt -o file2.txt -p file
 
@@ -114,7 +129,7 @@ public class CheckAndSetArgs {
                         outputPath += '/';
                     }
 
-                    if(!Files.exists(Path.of(outputPath))){
+                    if (!Files.exists(Path.of(outputPath))) {
                         new File(outputPath).mkdirs();
                     }
                 } else {
