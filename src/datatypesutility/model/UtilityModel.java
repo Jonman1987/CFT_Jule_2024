@@ -120,8 +120,6 @@ public class UtilityModel implements Model {
 
                     if (string == null) {
                         endOfFiles.set(i, true);
-                        //TODO: Вот тут был косяк со стримом
-                      //  reader[i].CloseBufferReader();
 
                         continue;
                     }
@@ -146,7 +144,12 @@ public class UtilityModel implements Model {
                         hasIntegersFile = true;
                     }
 
-                    integerWriter.writeLine(integerFileCode, outputPath + filesPrefix + integerFileName, hasOptionA, bigInteger);
+                    integerWriter.writeLine(
+                            integerFileCode,
+                            outputPath + filesPrefix + integerFileName,
+                            hasOptionA,
+                            bigInteger
+                    );
 
                     isInteger = false;
 
@@ -167,7 +170,11 @@ public class UtilityModel implements Model {
                         hasDoublesFile = true;
                     }
 
-                    doubleWriter.writeLine(doubleFileCode, outputPath + filesPrefix + doubleFileName, hasOptionA, bigDecimal);
+                    doubleWriter.writeLine(doubleFileCode,
+                            outputPath + filesPrefix + doubleFileName,
+                            hasOptionA,
+                            bigDecimal
+                    );
 
                     isDouble = false;
 
@@ -181,7 +188,11 @@ public class UtilityModel implements Model {
                         hasStringsFile = true;
                     }
 
-                    stringWriter.writeLine(stringFileCode, outputPath + filesPrefix + stringFileName, hasOptionA, string);
+                    stringWriter.writeLine(stringFileCode,
+                            outputPath + filesPrefix + stringFileName,
+                            hasOptionA,
+                            string
+                    );
                 }
             }
         } while (endOfFiles.contains(false));
@@ -190,25 +201,6 @@ public class UtilityModel implements Model {
 
         return true;
     }
-
-    /*private <T> void makeFilesAccess(int fileCode, boolean hasOptionA, String outputFilesPath, UtilityWriter fileWriter,
-                                     T data, File file) throws IOException {
-        try {
-            if (hasOptionA) {
-                if (!file.exists() && !file.isDirectory()) { // TODO: Опять не работает
-                    throw new FileNotFoundException(ExceptionMessages.getMakeFilesAccessMessagePartOne()
-                            + outputFilesPath
-                            + ExceptionMessages.getMakeFilesAccessMessagePartTwo());
-                }
-            }
-
-            fileWriter.writeLine(fileCode, outputFilesPath, hasOptionA, data);
-        } catch (IOException e) {
-            throw new IOException(ExceptionMessages.getMakeFilesAccessMessagePartThree()
-                    + ExceptionMessages.getMakeFilesAccessMessagePartFour()
-                    + e.getMessage());
-        }
-    }*/
 
     private void closeFileWriterResources() throws IOException {
         for (UtilityReader utilityReader : reader) {

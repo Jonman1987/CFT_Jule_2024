@@ -40,9 +40,7 @@ public class UtilityController implements Controller { // TODO: заменить
 
         checkArgs.isPrefixAfterPFound(inputArgs, view, model);
 
-        if (!checkArgs.isPathAfterOFound(inputArgs, view, model)) {
-            return false;
-        }
+        checkArgs.controlPathAfterO(inputArgs, view, model);
 
         checkArgs.setOptionA(inputArgs, model);
 
