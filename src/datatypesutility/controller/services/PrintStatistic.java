@@ -1,6 +1,6 @@
 package datatypesutility.controller.services;
 
-import datatypesutility.messages.StatisticMessages;
+import datatypesutility.strings.StatisticMessages;
 import datatypesutility.model.Model;
 import datatypesutility.view.View;
 

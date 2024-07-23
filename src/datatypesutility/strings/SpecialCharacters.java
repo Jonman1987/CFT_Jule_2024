@@ -1,4 +1,4 @@
-package datatypesutility.messages;
+package datatypesutility.strings;
 
 public class SpecialCharacters {
     public static String asterisk(){
@@ -7,6 +7,10 @@ public class SpecialCharacters {
 
     public static String forwardSlash(){
         return "/";
+    }
+
+    public static String backwardSlash(){
+        return "\\";
     }
 
     public static String questionMark(){

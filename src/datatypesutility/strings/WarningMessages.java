@@ -1,4 +1,4 @@
-package datatypesutility.messages;
+package datatypesutility.strings;
 
 public class WarningMessages {
     public static String getIsPathAfterOFoundMessage(){

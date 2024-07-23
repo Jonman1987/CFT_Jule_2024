@@ -1,6 +1,6 @@
 package datatypesutility.model.writer;
 
-import datatypesutility.messages.ExceptionMessages;
+import datatypesutility.strings.ExceptionMessages;
 
 import java.io.FileWriter;
 import java.io.IOException;

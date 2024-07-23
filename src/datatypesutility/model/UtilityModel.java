@@ -1,6 +1,6 @@
 package datatypesutility.model;
 
-import datatypesutility.messages.ExceptionMessages;
+import datatypesutility.strings.ExceptionMessages;
 import datatypesutility.model.reader.UtilityReader;
 import datatypesutility.model.writer.UtilityStatistics;
 import datatypesutility.model.writer.UtilityWriter;

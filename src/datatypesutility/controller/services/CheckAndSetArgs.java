@@ -1,8 +1,8 @@
 package datatypesutility.controller.services;
 
-import datatypesutility.messages.ArgumentsKeys;
-import datatypesutility.messages.ExceptionMessages;
-import datatypesutility.messages.SpecialCharacters;
+import datatypesutility.strings.ArgumentsKeys;
+import datatypesutility.strings.ExceptionMessages;
+import datatypesutility.strings.SpecialCharacters;
 import datatypesutility.model.Model;
 import datatypesutility.view.View;
 
@@ -80,6 +80,7 @@ public class CheckAndSetArgs {
 
                 if (inputArgs[i + 1].contains(SpecialCharacters.asterisk())
                         || inputArgs[i + 1].contains(SpecialCharacters.forwardSlash())
+                        || inputArgs[i + 1].contains(SpecialCharacters.backwardSlash())
                         || inputArgs[i + 1].contains(SpecialCharacters.questionMark())
                         || inputArgs[i + 1].contains(SpecialCharacters.colon())
                         || inputArgs[i + 1].contains(SpecialCharacters.pipe())
