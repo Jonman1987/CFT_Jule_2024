@@ -146,9 +146,7 @@ public class UtilityModel implements Model {
                         hasIntegersFile = true;
                     }
 
-                    File file = new File(outputPath + filesPrefix + integerFileName);
-                    makeFilesAccess(integerFileCode, hasOptionA, outputPath + filesPrefix + integerFileName,
-                            integerWriter, bigInteger, file);
+                    integerWriter.writeLine(integerFileCode, outputPath + filesPrefix + integerFileName, hasOptionA, bigInteger);
 
                     isInteger = false;
 
@@ -168,9 +166,8 @@ public class UtilityModel implements Model {
                         doubleWriter.setFileWriter(outputPath + filesPrefix + doubleFileName);
                         hasDoublesFile = true;
                     }
-                    File file = new File(outputPath + filesPrefix + doubleFileName);
-                    makeFilesAccess(doubleFileCode, hasOptionA, outputPath + filesPrefix + doubleFileName,
-                            doubleWriter, bigDecimal, file);
+
+                    doubleWriter.writeLine(doubleFileCode, outputPath + filesPrefix + doubleFileName, hasOptionA, bigDecimal);
 
                     isDouble = false;
 
@@ -184,9 +181,7 @@ public class UtilityModel implements Model {
                         hasStringsFile = true;
                     }
 
-                    File file = new File(outputPath + filesPrefix + stringFileName);
-                    makeFilesAccess(stringFileCode, hasOptionA, outputPath + filesPrefix + stringFileName,
-                            stringWriter, string, file);
+                    stringWriter.writeLine(stringFileCode, outputPath + filesPrefix + stringFileName, hasOptionA, string);
                 }
             }
         } while (endOfFiles.contains(false));
@@ -196,7 +191,7 @@ public class UtilityModel implements Model {
         return true;
     }
 
-    private <T> void makeFilesAccess(int fileCode, boolean hasOptionA, String outputFilesPath, UtilityWriter fileWriter,
+    /*private <T> void makeFilesAccess(int fileCode, boolean hasOptionA, String outputFilesPath, UtilityWriter fileWriter,
                                      T data, File file) throws IOException {
         try {
             if (hasOptionA) {
@@ -213,7 +208,7 @@ public class UtilityModel implements Model {
                     + ExceptionMessages.getMakeFilesAccessMessagePartFour()
                     + e.getMessage());
         }
-    }
+    }*/
 
     private void closeFileWriterResources() throws IOException {
         for (UtilityReader utilityReader : reader) {
