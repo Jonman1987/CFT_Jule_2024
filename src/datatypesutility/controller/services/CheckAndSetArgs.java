@@ -4,6 +4,7 @@ import datatypesutility.strings.ArgumentsKeys;
 import datatypesutility.strings.ExceptionMessages;
 import datatypesutility.strings.SpecialCharacters;
 import datatypesutility.model.Model;
+import datatypesutility.strings.WarningMessages;
 import datatypesutility.view.View;
 
 import java.io.File;
@@ -21,7 +22,7 @@ public class CheckAndSetArgs {
             }
 
             if (arg.charAt(0) == '.') {
-                view.printMessage("Ошибка: В имени входного файла указано только расширение");
+                view.printMessage(ExceptionMessages.getIsFileParametersFoundMessageTwo());
 
                 return false;
             }
@@ -48,7 +49,8 @@ public class CheckAndSetArgs {
             filesArray[i] = new File(filesNamesList.get(i));
 
             if (!filesArray[i].exists() && !filesArray[i].isDirectory()) {
-                view.printMessage("Ошибка. Файл " + filesNamesList.get(i) + " не найден!");
+                view.printMessage(ExceptionMessages.getIsFileFoundMessageOne()
+                        + filesNamesList.get(i) + ExceptionMessages.getIsFileFoundMessageTwo());
 
                 return false;
             }
@@ -58,23 +60,21 @@ public class CheckAndSetArgs {
     }
 
     public void isPrefixAfterPFound(String[] inputArgs, View view, Model model) {
-        // TODO: Пересмотреть алгоритмы проверки
-        // TODO: Названия не очень
         for (int i = 0; i < inputArgs.length; i++) {
             if (inputArgs[i].equals(ArgumentsKeys.prefixKeyToLowerCase())
                     || inputArgs[i].equals(ArgumentsKeys.prefixKeyToUpperCase())) {
                 if (i == (inputArgs.length - 1)) {
-                    view.printMessage("Внимание: Вы не указали префикс названия файла после команды -p. Файлы сохранены с именем по умолчанию\n"); // TODO: Вывести сообщения в отдельный класс
+                    view.printMessage(WarningMessages.getIsPrefixAfterPFoundMessageOne());
                     return;
                 }
 
-                if (inputArgs[i + 1].charAt(0) == '-') { // TODO: Сделать через или
-                    view.printMessage("Внимание: Вы не указали префикс названия файла после команды -p. Файлы сохранены с именем по умолчанию\n");
+                if (inputArgs[i + 1].charAt(0) == '-') {
+                    view.printMessage(WarningMessages.getIsPrefixAfterPFoundMessageOne());
                     return;
                 }
 
                 if (inputArgs[i + 1].toLowerCase().contains(".txt")) {
-                    view.printMessage("Внимание: Вы указали название файла вместо префикса. Файлы сохранены с именем по умолчанию\n");
+                    view.printMessage(WarningMessages.getIsPrefixAfterPFoundMessageTwo());
                     return;
                 }
 
@@ -87,7 +87,7 @@ public class CheckAndSetArgs {
                         || inputArgs[i + 1].contains(SpecialCharacters.quotationMark())
                         || inputArgs[i + 1].contains(SpecialCharacters.leftAngleBracket())
                         || inputArgs[i + 1].contains(SpecialCharacters.rightAngleBracket())) {
-                    view.printMessage("Внимание: Вы указали префикс названия файла с использованием спецсимвола. Файлы сохранены с именем по умолчанию\n");
+                    view.printMessage(WarningMessages.getIsPrefixAfterPFoundMessageThree());
                     return;
                 }
 
@@ -97,14 +97,13 @@ public class CheckAndSetArgs {
     }
 
     public void controlPathAfterO(String[] inputArgs, View view, Model model) {
-        // TODO: Пересмотреть алгоритмы проверки вынести циклы
         String outputPath = "";
 
         for (int i = 0; i < inputArgs.length; i++) {
             if (inputArgs[i].equals(ArgumentsKeys.outputPathKeyToLowerCase())
                     || inputArgs[i].equals(ArgumentsKeys.outputPathKeyToUpperCase())) {
                 if (i == (inputArgs.length - 1)) {
-                    view.printMessage("Внимание: Вы не указали путь после команды -o. Файлы сохранены в текущую папку.");
+                    view.printMessage(WarningMessages.getControlPathAfterOMessageOne());
                     model.setOutputPath(outputPath);
                     return;
                 }
@@ -119,12 +118,10 @@ public class CheckAndSetArgs {
                             || outputPath.contains(SpecialCharacters.quotationMark())
                             || outputPath.contains(SpecialCharacters.leftAngleBracket())
                             || outputPath.contains(SpecialCharacters.rightAngleBracket())) {
-                        view.printMessage("Внимание: Вы указали путь для исходящих файлов с использованием спецсимвола. Файлы сохранены в текущую папку.");
+                        view.printMessage(WarningMessages.getControlPathAfterOMessageTwo());
                         model.setOutputPath("");
                         return;
                     }
-
-                    // TODO: Подумать о проверке на спецсимволы file1.txt -o file2.txt -p file
 
                     if (outputPath.charAt(outputPath.length() - 1) != '/') {
                         outputPath += '/';
@@ -134,7 +131,7 @@ public class CheckAndSetArgs {
                         new File(outputPath).mkdirs();
                     }
                 } else {
-                    view.printMessage("Внимание: Вы не указали путь после команды -o. Файлы сохранены в текущую папку.");
+                    view.printMessage(WarningMessages.getControlPathAfterOMessageOne());
                     return;
                 }
 
@@ -144,22 +141,25 @@ public class CheckAndSetArgs {
     }
 
     public boolean setStatisticParameter(String[] inputArgs, View view, Model model) {
-        for (String inputArg : inputArgs) { // TODO: Возможно нужен рефакторинг, так как есть повтор сообщения
+        for (String inputArg : inputArgs) {
+            int shortStatisticCode = 1;
+            int fullStatisticCode = 2;
+
             if (inputArg.equals(ArgumentsKeys.fullStatisticKeyToLowerCase())
                     || inputArg.equals(ArgumentsKeys.fullStatisticKeyToUpperCase())) {
                 if (model.getStatisticsCode() == 0) {
-                    model.setStatisticsCode(2);
+                    model.setStatisticsCode(fullStatisticCode);
                 } else {
-                    view.printMessage("Ошибка: Вы указали конфликтующие друг с другом параметры статистики."); // TODO: Оформить как ошибку
+                    view.printMessage(ExceptionMessages.getSetStatisticMessage());
 
                     return false;
                 }
             } else if (inputArg.equals(ArgumentsKeys.shortStatisticKeyToLowerCase())
                     || inputArg.equals(ArgumentsKeys.shortStatisticKeyToUpperCase())) {
                 if (model.getStatisticsCode() == 0) {
-                    model.setStatisticsCode(1);
+                    model.setStatisticsCode(shortStatisticCode);
                 } else {
-                    view.printMessage("Вы указали конфликтующие друг с другом параметры статистики."); // TODO: Оформить как ошибку
+                    view.printMessage(ExceptionMessages.getSetStatisticMessage());
 
                     return false;
                 }

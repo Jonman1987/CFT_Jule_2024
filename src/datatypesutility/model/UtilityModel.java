@@ -33,63 +33,78 @@ public class UtilityModel implements Model {
     private boolean hasDoublesFile = false;
     private boolean hasStringsFile = false;
 
+    @Override
     public void setInputFilesNames(LinkedList<String> inputFilesNames) {
         this.inputFilesNames = inputFilesNames;
     }
 
+    @Override
     public LinkedList<String> getInputFilesNames() {
         return inputFilesNames;
     }
 
+    @Override
     public void setStatisticsCode(int statisticsCode) {
         this.statisticsCode = statisticsCode;
     }
 
+    @Override
     public int getStatisticsCode() {
         return statisticsCode;
     }
 
+    @Override
     public String getIntegerFileName() {
         return integerFileName;
     }
 
+    @Override
     public String getDoubleFileName() {
         return doubleFileName;
     }
 
+    @Override
     public String getStringFileName() {
         return stringFileName;
     }
 
+    @Override
     public void setOutputPath(String outputPath) {
         this.outputPath = outputPath;
     }
 
+    @Override
     public void setFilesPrefix(String filesPrefix) {
         this.filesPrefix = filesPrefix;
     }
 
+    @Override
     public String getFilesPrefix() {
         return filesPrefix;
     }
 
+    @Override
     public void setHasOptionA(boolean hasOptionA) {
         this.hasOptionA = hasOptionA;
     }
 
+    @Override
     public boolean getHasIntegersFile() {
         return hasIntegersFile;
     }
 
+    @Override
     public boolean getHasDoublesFile() {
         return hasDoublesFile;
     }
 
+    @Override
     public boolean getHasStringsFile() {
         return hasStringsFile;
     }
 
-    public boolean startFilesSort() throws IOException { // TODO: Сделать декомпозицию по аналогии с UtilityWriter
+    @Override
+    public void startFilesSort() throws IOException {
         final int integerFileCode = 1;
         final int doubleFileCode = 2;
         final int stringFileCode = 3;
@@ -199,7 +214,6 @@ public class UtilityModel implements Model {
 
         closeFileWriterResources();
 
-        return true;
     }
 
     private void closeFileWriterResources() throws IOException {
@@ -207,19 +221,20 @@ public class UtilityModel implements Model {
             utilityReader.CloseBufferReader();
         }
 
-        if(hasIntegersFile){
+        if (hasIntegersFile) {
             integerWriter.closeFileWriter();
         }
 
-        if(hasDoublesFile){
+        if (hasDoublesFile) {
             doubleWriter.closeFileWriter();
         }
 
-        if(hasStringsFile){
+        if (hasStringsFile) {
             stringWriter.closeFileWriter();
         }
     }
 
+    @Override
     public LinkedList<Number> getStatistic() {
         return UtilityStatistics.getStatistic();
     }

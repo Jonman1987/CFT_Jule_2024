@@ -1,43 +1,43 @@
 package datatypesutility.strings;
 
 public class ArgumentsKeys {
-    public static String prefixKeyToLowerCase(){
+    public static String prefixKeyToLowerCase() {
         return "-p";
     }
 
-    public static String prefixKeyToUpperCase(){
+    public static String prefixKeyToUpperCase() {
         return prefixKeyToLowerCase().toUpperCase();
     }
 
-    public static String outputPathKeyToLowerCase(){
+    public static String outputPathKeyToLowerCase() {
         return "-o";
     }
 
-    public static String outputPathKeyToUpperCase(){
+    public static String outputPathKeyToUpperCase() {
         return outputPathKeyToLowerCase().toUpperCase();
     }
 
-    public static String fullStatisticKeyToLowerCase(){
+    public static String fullStatisticKeyToLowerCase() {
         return "-f";
     }
 
-    public static String fullStatisticKeyToUpperCase(){
+    public static String fullStatisticKeyToUpperCase() {
         return fullStatisticKeyToLowerCase().toUpperCase();
     }
 
-    public static String shortStatisticKeyToLowerCase(){
+    public static String shortStatisticKeyToLowerCase() {
         return "-s";
     }
 
-    public static String shortStatisticKeyToUpperCase(){
+    public static String shortStatisticKeyToUpperCase() {
         return shortStatisticKeyToLowerCase().toUpperCase();
     }
 
-    public static String overwritingKeyToLowerCase(){
+    public static String overwritingKeyToLowerCase() {
         return "-a";
     }
 
-    public static String overwritingKeyToUpperCase(){
+    public static String overwritingKeyToUpperCase() {
         return overwritingKeyToLowerCase().toUpperCase();
     }
 }

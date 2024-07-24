@@ -1,43 +1,35 @@
 package datatypesutility.strings;
 
 public class ExceptionMessages {
-    public static String getSetStatisticMessage(){
+    public static String getSetStatisticMessage() {
         return "Ошибка: Вы указали конфликтующие друг с другом параметры статистики.";
     }
 
-    public static String getIsModelWorkResultMessage(){
-        return "Ошибка.";
+    public static String getIsFileFoundMessageOne() {
+        return "Ошибка. Файл ";
     }
 
-    public static String getIsFileParametersFoundMessage(){
+    public static String getIsFileFoundMessageTwo() {
+        return " не найден!";
+    }
+
+    public static String getIsFileParametersFoundMessage() {
         return "Ошибка: Вы не указали ни одного имени исходного файла в формате .txt";
     }
 
-    public static String getMakeFilesAccessMessagePartOne(){
-        return "Ошибка. Вы указали параметр -a, но файл ";
+    public static String getIsFileParametersFoundMessageTwo() {
+        return "Ошибка: В имени входного файла указано только расширение";
     }
 
-    public static String getMakeFilesAccessMessagePartTwo(){
-        return ", в который нужно записать данные не найден!";
-    }
-
-    public static String getMakeFilesAccessMessagePartThree(){
-        return "Ошибка подготовки к записи данных.\n";
-    }
-
-    public static String getMakeFilesAccessMessagePartFour(){
-        return "Сообщение: ";
-    }
-
-    public static String getStartFilesSortMessagePartOne(){
+    public static String getStartFilesSortMessagePartOne() {
         return "Ошибка считывания строки из файла ";
     }
 
-    public static String getStartFilesSortMessagePartTwo(){
+    public static String getStartFilesSortMessagePartTwo() {
         return "Сообщение: ";
     }
 
-    public static String getWriteLineMessage(){
+    public static String getWriteLineMessage() {
         return "Ошибка записи строки в файл ";
     }
 }

@@ -3,9 +3,10 @@ package datatypesutility.controller;
 import datatypesutility.controller.services.CheckAndSetArgs;
 import datatypesutility.controller.services.PrintStatistic;
 import datatypesutility.model.Model;
+import datatypesutility.strings.WarningMessages;
 import datatypesutility.view.View;
 
-public class UtilityController implements Controller { // TODO: заменить массивы LinkedList и итератором
+public class UtilityController implements Controller {
     private String[] inputArgs;
     private final View view;
     private final Model model;
@@ -26,8 +27,8 @@ public class UtilityController implements Controller { // TODO: заменить
         return inputArgs;
     }
 
-    public boolean isInputArgsChecked() { // TODO: переименовать в Initialization
-        // TODO: Не нравится, что модель передает ресурсы view и model
+    @Override
+    public boolean isInputArgsChecked() {
         CheckAndSetArgs checkArgs = new CheckAndSetArgs();
 
         if (!checkArgs.isFileParametersFound(inputArgs, model, view)) {
@@ -47,12 +48,13 @@ public class UtilityController implements Controller { // TODO: заменить
         return checkArgs.setStatisticParameter(inputArgs, view, model);
     }
 
-    public boolean isModelWorkResult() {
+    @Override
+    public void isModelWorkResult() {
         final int defaultStatisticCode = 0;
 
         try {
             if (!isInputArgsChecked()) {
-                return false;
+                return;
             }
 
             model.startFilesSort();
@@ -61,13 +63,11 @@ public class UtilityController implements Controller { // TODO: заменить
                 printStatistics();
             }
 
-            return true;
         } catch (Exception e) {
             view.printMessage(e.getMessage());
-            view.printMessage("Внимание! Работа программы принудительно завершена!"); // TODO: Переделать
+            view.printMessage(WarningMessages.getIsModelWorkResultMessage());
         }
 
-        return false;
     }
 
     private void printStatistics() {
